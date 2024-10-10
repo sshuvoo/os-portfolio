@@ -2,26 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  cursor:
+    url('/assets/cursor/cursor-red.png') 0 0,
+    auto !important;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea[type='text'] {
+  cursor:
+    url('/assets/cursor/text.png') 0 0,
+    text !important;
+}
+
+button,
+a {
+  cursor:
+    url('/assets/cursor/pointer.png') 0 0,
+    pointer !important;
 }
