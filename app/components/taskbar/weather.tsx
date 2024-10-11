@@ -33,10 +33,7 @@ export function Weather() {
 
   return (
     <div className="px-4 text-xs font-medium">
-      <p>
-        {condition && condition.Temperature.toFixed(1)}
-        {' °C'}
-      </p>
+      <p>{condition && condition.Temperature.toFixed(1) + ' °C'}</p>
       <p>{condition && condition.WeatherText}</p>
     </div>
   )

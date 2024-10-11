@@ -16,6 +16,7 @@ import { Folder } from './components/folder'
 import { WindowFrame } from './components/window-frame'
 import { useDispatch, useSelector } from './store'
 import { closeFolder, minimizeFolder } from './features/window-slice'
+import { Skill } from './components/skill'
 
 gsap.registerPlugin(
   useGSAP,
@@ -35,7 +36,7 @@ gsap.registerPlugin(
 
 export default function Home() {
   const folders = useSelector((state) => state.windowFrame)
-  const frames = folders.filter((folder) => folder.status === 'open')
+  const frames = folders.filter((folder) => folder.status !== 'close')
   const dispatch = useDispatch()
 
   return (
@@ -45,6 +46,8 @@ export default function Home() {
       ))}
       {frames.map((frame) => (
         <WindowFrame
+          status={frame.status}
+          frameName={frame.name}
           key={frame.id}
           onClose={() => {
             dispatch(closeFolder(frame.id))
@@ -54,7 +57,7 @@ export default function Home() {
             dispatch(minimizeFolder(frame.id))
           }}
         >
-          <div>Hello</div>
+          {frame.id === 'skills' && <Skill />}
         </WindowFrame>
       ))}
     </div>

@@ -3,9 +3,9 @@
 import { openFolder } from '@/app/features/window-slice'
 import { useDispatch } from '@/app/store'
 import { useGSAP } from '@gsap/react'
-import { IconFolder } from '@tabler/icons-react'
 import { Draggable } from 'gsap/Draggable'
 import { useRef } from 'react'
+import { RandomFolder } from './random-folder'
 
 export function Folder({ id, name }: { id: string; name: string }) {
   const folderRef = useRef<HTMLButtonElement>(null)
@@ -24,9 +24,9 @@ export function Folder({ id, name }: { id: string; name: string }) {
       }}
       type="button"
       ref={folderRef}
-      className="flex w-fit flex-col items-center p-4"
+      className="flex size-28 flex-col items-center p-4"
     >
-      <IconFolder className="size-16 text-orange-400" stroke={1.2} />
+      <RandomFolder />
       <span className="text-[#dfdfdf]">{name}</span>
     </button>
   )
