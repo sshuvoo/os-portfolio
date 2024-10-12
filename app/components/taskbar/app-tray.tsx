@@ -1,6 +1,6 @@
 'use client'
 
-import { openFolder } from '@/app/features/window-slice'
+import { minimizeFolder, openFolder } from '@/app/features/window-slice'
 import { useDispatch, useSelector } from '@/app/store'
 import { IconFolderUp } from '@tabler/icons-react'
 import Image from 'next/image'
@@ -34,12 +34,18 @@ export default function AppTray() {
           <button
             className="group relative"
             onClick={() => {
-              dispatch(openFolder(folder.id))
+              if (folder.status === 'open') dispatch(minimizeFolder(folder.id))
+              else {
+                dispatch(openFolder(folder.id))
+                if (folder.onMinimizeRestore) {
+                  folder.onMinimizeRestore()
+                }
+              }
             }}
             key={folder.id}
           >
             <IconFolderUp className="size-11 text-orange-400" stroke={1.2} />
-            <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 shadow-md group-hover:inline-block">
+            <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">
               {folder.name}
             </span>
           </button>

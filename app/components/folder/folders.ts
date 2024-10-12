@@ -28,7 +28,7 @@ export const folders: Folder[] = [
   },
   {
     id: 'services',
-    name: 'services',
+    name: 'Services',
     status: 'close',
   },
   {
