@@ -12,29 +12,29 @@ import {
 } from '@tabler/icons-react'
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
-import { ReactNode, useRef } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 import { Status } from '../folder/folders'
+import { useDispatch } from '@/app/store'
+import { closeFolder, minimizeFolder } from '@/app/features/window-slice'
 
 export function WindowFrame({
   children,
-  onClose,
-  onMinimize,
-  onFullScreen,
   frameName,
+  frame_id,
   status,
 }: {
   children: ReactNode
   frameName: string
-  onClose: () => void
-  onMinimize: () => void
-  onFullScreen: () => void
+  frame_id: string
   status: Status
 }) {
   const timeline = useRef<gsap.core.Timeline>(gsap.timeline())
   const frame = useRef<HTMLDivElement>(null)
   const frameHeader = useRef<HTMLDivElement>(null)
+  const dispatch = useDispatch()
+  const minimizeTL = useRef<gsap.core.Timeline>(gsap.timeline())
 
-  useGSAP(() => {
+  const { contextSafe } = useGSAP(() => {
     timeline.current.fromTo(
       frame.current,
       {
@@ -66,10 +66,46 @@ export function WindowFrame({
     })
   })
 
+  const onClose = contextSafe(() => {
+    timeline.current.reverse()
+    timeline.current.eventCallback('onReverseComplete', () => {
+      dispatch(closeFolder(frame_id))
+    })
+  })
+
+  const onMinimize = contextSafe(() => {
+    minimizeTL.current.to(frame.current, {
+      yPercent: 100,
+      scale: 0.3,
+      xPercent: -50,
+      left: '50%',
+      ease: 'expo.in',
+    })
+    minimizeTL.current.eventCallback('onComplete', () => {
+      dispatch(
+        minimizeFolder({
+          id: frame_id,
+          onRestore: () => {
+            minimizeTL.current.reverse()
+            minimizeTL.current.eventCallback('onReverseComplete', () => {
+              minimizeTL.current = gsap.timeline()
+            })
+          },
+        })
+      )
+    })
+  })
+
+  useEffect(() => {
+    if (frameHeader.current instanceof HTMLDivElement) {
+      frameHeader.current.click()
+    }
+  }, [])
+
   return (
     <div
       ref={frame}
-      className={`h-3/4 w-9/12 bg-white/20 shadow-xl backdrop-blur-md ${status === 'minimize' ? 'hidden' : ''}`}
+      className={`h-3/4 max-h-[500px] w-9/12 max-w-6xl bg-white/20 shadow-xl backdrop-blur-md ${status === 'minimize' ? 'hidden' : ''}`}
     >
       <div className="grid grid-cols-[250px,1fr]">
         <div className="group flex items-center bg-[#282828] p-3">
@@ -91,11 +127,7 @@ export function WindowFrame({
               <IconMinus className="size-full opacity-0 group-hover:opacity-100" />
             </div>
           </button>
-          <button
-            onClick={onFullScreen}
-            className="!cursor-custom-auto p-1"
-            type="button"
-          >
+          <button className="!cursor-custom-auto p-1" type="button">
             <div className="size-3 rounded-full bg-green-500">
               <IconBracketsAngle className="size-full -rotate-45 opacity-0 group-hover:opacity-100" />
             </div>

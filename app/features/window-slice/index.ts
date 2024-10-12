@@ -1,7 +1,11 @@
 import { Folder, folders } from '@/app/components/folder/folders'
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState: Folder[] = folders
+export interface FolderControler extends Folder {
+  onMinimizeRestore?: () => void
+}
+
+const initialState: FolderControler[] = folders
 
 const windowSlice = createSlice({
   name: 'window-frame',
@@ -20,9 +24,10 @@ const windowSlice = createSlice({
       }
     },
     minimizeFolder: (state, action) => {
-      const folder = state.find((f) => f.id === action.payload)
+      const folder = state.find((f) => f.id === action.payload.id)
       if (folder) {
         folder.status = 'minimize'
+        folder.onMinimizeRestore = action.payload.onRestore
       }
     },
   },

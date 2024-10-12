@@ -9,6 +9,10 @@ import {
 import gsap from 'gsap'
 import { useRef, useState } from 'react'
 import { Languages } from './languages'
+import { Frontend } from './frontend'
+import { Backend } from './backend'
+import { Database } from './database'
+import { Tools } from './tools'
 
 export function Skill() {
   const menuContainer = useRef<HTMLDivElement>(null)
@@ -43,6 +47,7 @@ export function Skill() {
         <div ref={menuContainer} className="mt-2 space-y-2">
           <button
             onClick={() => {
+              childTimeline.current = gsap.timeline()
               setTab('languages')
             }}
             className={`menuItem flex w-full items-center gap-2 rounded-md px-2 py-1 ${tab === 'languages' ? 'bg-[#383838]' : 'hover:bg-[#383838]'}`}
@@ -52,6 +57,7 @@ export function Skill() {
           </button>
           <button
             onClick={() => {
+              childTimeline.current = gsap.timeline()
               setTab('frontend')
             }}
             className={`menuItem flex w-full items-center gap-2 rounded-md px-2 py-1 ${tab === 'frontend' ? 'bg-[#383838]' : 'hover:bg-[#383838]'}`}
@@ -61,6 +67,7 @@ export function Skill() {
           </button>
           <button
             onClick={() => {
+              childTimeline.current = gsap.timeline()
               setTab('backend')
             }}
             className={`menuItem flex w-full items-center gap-2 rounded-md px-2 py-1 ${tab === 'backend' ? 'bg-[#383838]' : 'hover:bg-[#383838]'}`}
@@ -70,6 +77,7 @@ export function Skill() {
           </button>
           <button
             onClick={() => {
+              childTimeline.current = gsap.timeline()
               setTab('databases')
             }}
             className={`menuItem flex w-full items-center gap-2 rounded-md px-2 py-1 ${tab === 'databases' ? 'bg-[#383838]' : 'hover:bg-[#383838]'}`}
@@ -79,6 +87,7 @@ export function Skill() {
           </button>
           <button
             onClick={() => {
+              childTimeline.current = gsap.timeline()
               setTab('tools')
             }}
             className={`menuItem flex w-full items-center gap-2 rounded-md px-2 py-1 ${tab === 'tools' ? 'bg-[#383838]' : 'hover:bg-[#383838]'}`}
@@ -90,6 +99,10 @@ export function Skill() {
       </div>
       <div className="bg-[#212121] p-4">
         {tab === 'languages' && <Languages timeline={childTimeline.current} />}
+        {tab === 'frontend' && <Frontend />}
+        {tab === 'backend' && <Backend />}
+        {tab === 'databases' && <Database />}
+        {tab === 'tools' && <Tools />}
       </div>
     </div>
   )

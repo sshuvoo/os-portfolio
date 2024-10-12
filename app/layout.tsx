@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Taskbar } from './components/taskbar'
 import { ReduxProvider } from './providers/redux-provider'
+import { Topbar } from './components/topbar'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,8 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-primary h-screen overflow-hidden bg-cover bg-no-repeat">
+      <body className="h-screen overflow-hidden bg-primary bg-cover bg-no-repeat">
         <ReduxProvider>
+          <Topbar />
           {children}
           <Taskbar />
         </ReduxProvider>

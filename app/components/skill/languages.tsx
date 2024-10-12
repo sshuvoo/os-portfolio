@@ -17,21 +17,22 @@ export function Languages({ timeline }: { timeline: gsap.core.Timeline }) {
         opacity: 0,
         stagger: 0.2,
         ease: 'power1.inOut',
+        duration: 0.5,
       })
-      // timeline.add(() => {
-      //   gsap.to('.html5', { width: '85%', duration: 1.5, ease: 'circ.inOut' })
-      //   gsap.to('.css3', { width: '80%', duration: 1.5, ease: 'circ.inOut' })
-      //   gsap.to('.javascript', {
-      //     width: '75%',
-      //     duration: 1.5,
-      //     ease: 'circ.inOut',
-      //   })
-      //   gsap.to('.typescript', {
-      //     width: '90%',
-      //     duration: 1.5,
-      //     ease: 'circ.inOut',
-      //   })
-      // })
+      timeline.eventCallback('onComplete', () => {
+        gsap.to('.html5', { width: '85%', duration: 1.5, ease: 'back.inOut' })
+        gsap.to('.css3', { width: '80%', duration: 1.5, ease: 'back.inOut' })
+        gsap.to('.javascript', {
+          width: '75%',
+          duration: 1.5,
+          ease: 'back.inOut',
+        })
+        gsap.to('.typescript', {
+          width: '90%',
+          duration: 1.5,
+          ease: 'back.inOut',
+        })
+      })
     },
     { scope: skillContainer }
   )

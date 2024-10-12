@@ -6,9 +6,20 @@ import { useGSAP } from '@gsap/react'
 import { Draggable } from 'gsap/Draggable'
 import { useRef } from 'react'
 import { RandomFolder } from './random-folder'
+import { Status } from './folders'
 
-export function Folder({ id, name }: { id: string; name: string }) {
-  const folderRef = useRef<HTMLButtonElement>(null)
+export function Folder({
+  id,
+  name,
+  status,
+  onMinimizeRestore,
+}: {
+  id: string
+  name: string
+  status: Status
+  onMinimizeRestore?: () => void
+}) {
+  const folderRef = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch()
 
   useGSAP(() => {
@@ -18,16 +29,18 @@ export function Folder({ id, name }: { id: string; name: string }) {
   })
 
   return (
-    <button
+    <div
       onDoubleClick={() => {
         dispatch(openFolder(id))
+        if (status === 'minimize' && onMinimizeRestore) {
+          onMinimizeRestore()
+        }
       }}
-      type="button"
       ref={folderRef}
       className="flex size-28 flex-col items-center p-4"
     >
       <RandomFolder />
       <span className="text-[#dfdfdf]">{name}</span>
-    </button>
+    </div>
   )
 }

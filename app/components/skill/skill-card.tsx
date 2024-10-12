@@ -14,7 +14,7 @@ export default function SkillCard({
         <h2 className="text-xl font-medium text-[#dcdcdc]">{title}</h2>
         <div className="h-2 rounded-md bg-[#4e4e4e]">
           <div
-            className={`h-full w-0 rounded-md bg-green-500 ${className}`}
+            className={`h-full w-0 rounded-md bg-green-600 ${className}`}
           ></div>
         </div>
       </div>
