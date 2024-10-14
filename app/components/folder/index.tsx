@@ -37,7 +37,7 @@ export function Folder({
         }
       }}
       ref={folderRef}
-      className="flex size-28 flex-col items-center p-4"
+      className="flex size-28 flex-col items-center p-4 !cursor-custom-auto"
     >
       <RandomFolder />
       <span className="text-[#dfdfdf]">{name}</span>

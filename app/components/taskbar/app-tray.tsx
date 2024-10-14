@@ -1,8 +1,12 @@
 'use client'
 
-import { minimizeFolder, openFolder } from '@/app/features/window-slice'
+import {
+  addFolder,
+  minimizeFolder,
+  openFolder,
+} from '@/app/features/window-slice'
 import { useDispatch, useSelector } from '@/app/store'
-import { IconFolderUp } from '@tabler/icons-react'
+import { IconBrandPowershell, IconFolderUp } from '@tabler/icons-react'
 import Image from 'next/image'
 import finder from '@/public/assets/icons/finder.svg'
 import messageIcon from '@/public/assets/icons/Messages.svg'
@@ -12,7 +16,10 @@ import reminderIcon from '@/public/assets/icons/Reminders.svg'
 
 export default function AppTray() {
   const folders = useSelector((state) => state.windowFrame)
-  const minimizeFolders = folders.filter((folder) => folder.status !== 'close')
+  const minimizeFolders = folders.filter(
+    (folder) => folder.status !== 'close' && folder.placement === 'desktop'
+  )
+  const terminal = folders.find((folder) => folder.id === 'terminal')
   const dispatch = useDispatch()
 
   return (
@@ -30,6 +37,37 @@ export default function AppTray() {
         <Image alt="" src={contactIcon} width={44} height={44} />
         <Image alt="" src={photoIcon} width={44} height={44} />
         <Image alt="" src={reminderIcon} width={44} height={44} />
+        <button
+          onClick={() => {
+            if (terminal) {
+              if (terminal.status === 'open') {
+                dispatch(minimizeFolder('terminal'))
+              } else {
+                dispatch(openFolder('terminal'))
+                if (terminal.onMinimizeRestore) {
+                  terminal.onMinimizeRestore()
+                }
+              }
+            } else
+              dispatch(
+                addFolder({
+                  id: 'terminal',
+                  name: 'Terminal',
+                  status: 'open',
+                  placement: 'taskbar',
+                })
+              )
+          }}
+          className="group relative"
+        >
+          <IconBrandPowershell
+            className="size-11 text-green-500"
+            stroke={1.2}
+          />
+          <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">
+            Terminal
+          </span>
+        </button>
         {minimizeFolders.map((folder) => (
           <button
             className="group relative"

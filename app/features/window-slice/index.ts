@@ -1,5 +1,5 @@
 import { Folder, folders } from '@/app/components/folder/folders'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface FolderControler extends Folder {
   onMinimizeRestore?: () => void
@@ -11,13 +11,13 @@ const windowSlice = createSlice({
   name: 'window-frame',
   initialState,
   reducers: {
-    openFolder: (state, action) => {
+    openFolder: (state, action: PayloadAction<string>) => {
       const folder = state.find((f) => f.id === action.payload)
       if (folder) {
         folder.status = 'open'
       }
     },
-    closeFolder: (state, action) => {
+    closeFolder: (state, action: PayloadAction<string>) => {
       const folder = state.find((f) => f.id === action.payload)
       if (folder) {
         folder.status = 'close'
@@ -30,8 +30,15 @@ const windowSlice = createSlice({
         folder.onMinimizeRestore = action.payload.onRestore
       }
     },
+    addFolder: (state, action: PayloadAction<Folder>) => {
+      const folder = state.find((f) => f.id === action.payload.id)
+      if (folder) {
+        folder.status = 'open'
+      } else state.push(action.payload)
+    },
   },
 })
 
-export const { openFolder, closeFolder, minimizeFolder } = windowSlice.actions
+export const { openFolder, closeFolder, minimizeFolder, addFolder } =
+  windowSlice.actions
 export const frameReducer = windowSlice.reducer
