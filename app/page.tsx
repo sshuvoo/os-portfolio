@@ -16,6 +16,7 @@ import { Folder } from './components/folder'
 import { Skill } from './components/skill'
 import { WindowFrame } from './components/window-frame'
 import { useSelector } from './store'
+import { Terminal } from './components/terminal'
 
 gsap.registerPlugin(
   useGSAP,
@@ -35,12 +36,13 @@ gsap.registerPlugin(
 
 export default function Home() {
   const folders = useSelector((state) => state.windowFrame)
+  const destopFolders = folders.filter((f) => f.placement === 'desktop')
   const frames = folders.filter((folder) => folder.status !== 'close')
 
   return (
     <div className="h-screen">
-      <div className="flex flex-wrap flex-col">
-        {folders.map((folder) => (
+      <div className="flex flex-col flex-wrap">
+        {destopFolders.map((folder) => (
           <Folder
             status={folder.status}
             onMinimizeRestore={folder.onMinimizeRestore}
@@ -58,6 +60,7 @@ export default function Home() {
           key={frame.id}
         >
           {frame.id === 'skills' && <Skill />}
+          {frame.id === 'terminal' && <Terminal />}
         </WindowFrame>
       ))}
     </div>

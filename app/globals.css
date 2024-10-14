@@ -11,7 +11,7 @@ body {
 input[type='text'],
 input[type='email'],
 input[type='password'],
-textarea[type='text'] {
+textarea {
   cursor:
     url('/assets/cursor/text.png') 0 0,
     text !important;
@@ -22,4 +22,25 @@ a {
   cursor:
     url('/assets/cursor/pointer.png') 0 0,
     pointer !important;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #212121;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
