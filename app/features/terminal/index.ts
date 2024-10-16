@@ -114,6 +114,8 @@ const terminalSlice = createSlice({
             error: null,
             mode: 'node',
           })
+        } else if (action.payload === 'clear') {
+          state.history = []
         }
       }
     },
