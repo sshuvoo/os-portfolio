@@ -13,10 +13,11 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TextPlugin } from 'gsap/TextPlugin'
 import { Folder } from './components/folder'
+import { PDFViewer } from './components/pdf-viewer'
 import { Skill } from './components/skill'
+import { Terminal } from './components/terminal'
 import { WindowFrame } from './components/window-frame'
 import { useSelector } from './store'
-import { Terminal } from './components/terminal'
 
 gsap.registerPlugin(
   useGSAP,
@@ -40,8 +41,8 @@ export default function Home() {
   const frames = folders.filter((folder) => folder.status !== 'close')
 
   return (
-    <div className="h-screen">
-      <div className="flex flex-col flex-wrap">
+    <div className="h-[calc(100vh-24px)]">
+      <div className="flex h-full w-fit flex-col flex-wrap">
         {destopFolders.map((folder) => (
           <Folder
             status={folder.status}
@@ -49,9 +50,13 @@ export default function Home() {
             id={folder.id}
             name={folder.name}
             key={folder.id}
+            type={folder.type}
           />
         ))}
       </div>
+      <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl text-white -z-10">
+        Under Developing...
+      </h1>
       {frames.map((frame) => (
         <WindowFrame
           frame_id={frame.id}
@@ -61,6 +66,7 @@ export default function Home() {
         >
           {frame.id === 'skills' && <Skill />}
           {frame.id === 'terminal' && <Terminal />}
+          {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
         </WindowFrame>
       ))}
     </div>

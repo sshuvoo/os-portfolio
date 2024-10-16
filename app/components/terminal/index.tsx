@@ -2,7 +2,6 @@ import { runNode, runPrompt } from '@/app/features/terminal'
 import { useDispatch, useSelector } from '@/app/store'
 import { IconBrandNodejs, IconTerminal } from '@tabler/icons-react'
 import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
-import { folders } from '../folder/folders'
 import { commandsHelp } from '@/app/features/terminal/terminal-commands'
 import { closeFolder, openFolder } from '@/app/features/window-slice'
 
@@ -13,6 +12,7 @@ export function Terminal() {
   const [prompt, setPrompt] = useState('')
   const [nodePrompt, setNodePrompt] = useState('')
   const terminal = useSelector((state) => state.terminal)
+  const folders = useSelector((state) => state.windowFrame)
 
   useEffect(() => {
     if (inputRef.current instanceof HTMLInputElement) {
@@ -32,6 +32,9 @@ export function Terminal() {
         const isFound = folders.find(({ id }) => id === directory.toLowerCase())
         if (isFound) {
           dispatch(openFolder(isFound.id))
+          if (isFound.status === 'minimize' && isFound.onMinimizeRestore) {
+            isFound.onMinimizeRestore()
+          }
         }
       }
     } else if (prompt.trim() === 'exit') {
@@ -43,8 +46,9 @@ export function Terminal() {
   const handleNodeSubmit = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       if (e.shiftKey) return
-      if (nodePrompt.trim() === 'exit') {
+      if (nodePrompt.trim() === 'exit' || nodePrompt.trim() === 'clear') {
         dispatch(runPrompt(nodePrompt))
+        setNodePrompt("")
       } else if (nodePrompt) {
         try {
           const res = await fetch('/api/execute', {
@@ -52,30 +56,28 @@ export function Terminal() {
             method: 'POST',
           })
           const json = await res.json()
-          if (!res.ok) throw new Error(json.message)
           dispatch(
             runNode({
               command: nodePrompt,
               console: json?.console || '',
-              error: json?.error || '',
+              error: json?.error
+                ? json?.error
+                : json?.message
+                  ? json?.message
+                  : '',
             })
           )
-          setNodePrompt('')
         } catch (error) {
-          dispatch(
-            runNode({
-              command: nodePrompt,
-              console: '',
-              error: 'Server error',
-            })
-          )
+          console.log(error)
+        } finally {
+          setNodePrompt('')
         }
       }
     }
   }
 
   return (
-    <div className="max-h-[calc(100%-44px)] overflow-y-auto p-4">
+    <div className="p-4">
       {terminal.history.map((command) => {
         return command.mode === 'directory' ? (
           <div key={command.id}>
@@ -98,7 +100,8 @@ export function Terminal() {
               <ul>
                 {folders.map((folder) => (
                   <li className="font-medium text-green-500" key={folder.id}>
-                    /{folder.name}
+                    {folder.type === 'folder' && `/${folder.name}`}
+                    {folder.type === 'pdf' && `${folder.name}.pdf`}
                   </li>
                 ))}
               </ul>

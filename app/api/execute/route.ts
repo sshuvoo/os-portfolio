@@ -20,5 +20,13 @@ export async function POST(req: NextRequest) {
   }
 
   console.log = originalConsoleLog
-  return NextResponse.json({ console: consoleOutput.trim(), error: result })
+  console.log({ console: consoleOutput.trim(), error: result })
+  return NextResponse.json({
+    console: consoleOutput.trim() || '',
+    error: result
+      ? typeof result === 'string'
+        ? result
+        : 'Sorry, We are unable to run this code'
+      : '',
+  })
 }

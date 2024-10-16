@@ -13,6 +13,7 @@ import messageIcon from '@/public/assets/icons/Messages.svg'
 import contactIcon from '@/public/assets/icons/Contacts.svg'
 import photoIcon from '@/public/assets/icons/Photos.svg'
 import reminderIcon from '@/public/assets/icons/Reminders.svg'
+import { FiSearch } from 'react-icons/fi'
 
 export default function AppTray() {
   const folders = useSelector((state) => state.windowFrame)
@@ -28,15 +29,18 @@ export default function AppTray() {
         <button>
           <Image alt="" src={finder} width={44} height={44} />
         </button>
+        <div className="flex size-11 items-center justify-center md:hidden">
+          <FiSearch className="size-9" />
+        </div>
         <input
           type="text"
           placeholder="Search"
-          className="rounded-2xl border-2 border-[#191919] bg-[#1d1d1d] px-3 py-[5px] text-sm focus:border-[#858585] focus:outline-none"
+          className="hidden rounded-2xl border-2 border-[#191919] bg-[#1d1d1d] px-3 py-[5px] text-sm focus:border-[#858585] focus:outline-none md:inline-block"
         />
-        <Image alt="" src={messageIcon} width={44} height={44} />
-        <Image alt="" src={contactIcon} width={44} height={44} />
-        <Image alt="" src={photoIcon} width={44} height={44} />
-        <Image alt="" src={reminderIcon} width={44} height={44} />
+        <Image className="" alt="" src={messageIcon} width={44} height={44} />
+        <Image className="" alt="" src={contactIcon} width={44} height={44} />
+        <Image className="" alt="" src={photoIcon} width={44} height={44} />
+        <Image className="" alt="" src={reminderIcon} width={44} height={44} />
         <button
           onClick={() => {
             if (terminal) {
@@ -55,6 +59,7 @@ export default function AppTray() {
                   name: 'Terminal',
                   status: 'open',
                   placement: 'taskbar',
+                  type: 'folder',
                 })
               )
           }}
