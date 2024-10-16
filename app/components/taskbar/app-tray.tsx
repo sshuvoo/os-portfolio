@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from '@/app/store'
 import { IconBrandPowershell, IconFolderUp } from '@tabler/icons-react'
 import Image from 'next/image'
-import finder from '@/public/assets/icons/finder.svg'
+import finder from '@/public/assets/icons/Finder.svg'
 import messageIcon from '@/public/assets/icons/Messages.svg'
 import contactIcon from '@/public/assets/icons/Contacts.svg'
 import photoIcon from '@/public/assets/icons/Photos.svg'
