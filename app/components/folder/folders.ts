@@ -37,13 +37,6 @@ export const folders: Folder[] = [
     type: 'folder',
   },
   {
-    id: 'services',
-    name: 'Services',
-    status: 'close',
-    placement: 'desktop',
-    type: 'folder',
-  },
-  {
     id: 'pricing',
     name: 'Pricing',
     status: 'close',

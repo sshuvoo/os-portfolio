@@ -24,8 +24,8 @@ export default function AppTray() {
   const dispatch = useDispatch()
 
   return (
-    <div>
-      <div className="flex items-center gap-2">
+    <div className="rounded-xl bg-white/20 p-1 px-2 backdrop-blur">
+      <div className="flex items-center gap-2 pb-[5px]">
         <button>
           <Image alt="" src={finder} width={44} height={44} />
         </button>
@@ -66,12 +66,15 @@ export default function AppTray() {
           className="group relative"
         >
           <IconBrandPowershell
-            className="size-11 text-green-500"
+            className="size-11 fill-black text-[#ddd]"
             stroke={1.2}
           />
           <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">
             Terminal
           </span>
+          {(terminal?.status === 'open' || terminal?.status === 'minimize') && (
+            <span className="absolute -bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-green-400"></span>
+          )}
         </button>
         {minimizeFolders.map((folder) => (
           <button
@@ -91,6 +94,7 @@ export default function AppTray() {
             <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">
               {folder.name}
             </span>
+            <span className="absolute -bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-green-400"></span>
           </button>
         ))}
       </div>

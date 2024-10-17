@@ -18,6 +18,7 @@ import { Skill } from './components/skill'
 import { Terminal } from './components/terminal'
 import { WindowFrame } from './components/window-frame'
 import { useSelector } from './store'
+import { Projects } from './components/projects'
 
 gsap.registerPlugin(
   useGSAP,
@@ -42,7 +43,7 @@ export default function Home() {
 
   return (
     <div className="h-[calc(100vh-24px)]">
-      <div className="flex h-full w-fit flex-col flex-wrap">
+      <div className="flex h-full w-fit flex-col flex-wrap pb-10">
         {destopFolders.map((folder) => (
           <Folder
             status={folder.status}
@@ -54,7 +55,7 @@ export default function Home() {
           />
         ))}
       </div>
-      <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl text-white -z-10">
+      <h1 className="absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 text-5xl text-white">
         Under Developing...
       </h1>
       {frames.map((frame) => (
@@ -66,6 +67,7 @@ export default function Home() {
         >
           {frame.id === 'skills' && <Skill />}
           {frame.id === 'terminal' && <Terminal />}
+          {frame.id === 'projects' && <Projects />}
           {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
         </WindowFrame>
       ))}
