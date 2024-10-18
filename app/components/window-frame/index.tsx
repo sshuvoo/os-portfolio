@@ -65,7 +65,7 @@ export function WindowFrame({
       }
     )
     Draggable.create(frame.current, {
-      bounds: 'body',
+      // bounds: 'body',
       trigger: frameHeader.current,
     })
   })

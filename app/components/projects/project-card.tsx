@@ -1,7 +1,11 @@
+import { openUrlTab } from '@/app/features/chrome'
+import { openFolder } from '@/app/features/window-slice'
+import { useDispatch } from '@/app/store'
 import { useGSAP } from '@gsap/react'
 import { IconBrandChrome, IconBrandGithub } from '@tabler/icons-react'
 import gsap from 'gsap'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRef } from 'react'
 import { Projects } from './projects'
 
@@ -12,6 +16,7 @@ export function ProjectCard({ project }: { project: Projects }) {
   const headingRef = useRef<HTMLHeadingElement>(null)
   const paraRef = useRef<HTMLParagraphElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
+  const dispatch = useDispatch()
 
   const { contextSafe } = useGSAP()
 
@@ -46,6 +51,11 @@ export function ProjectCard({ project }: { project: Projects }) {
       { opacity: 1, y: 0, stagger: 0.2 }
     )
   })
+
+  const handleOpen = () => {
+    dispatch(openFolder('chrome'))
+    dispatch(openUrlTab({ title: project.title, live_url: project.live_url }))
+  }
 
   return (
     <div
@@ -83,11 +93,18 @@ export function ProjectCard({ project }: { project: Projects }) {
           {project.description}
         </p>
         <div ref={buttonRef} className="flex items-center justify-between">
-          <button className="flex items-center gap-1 bg-black px-4 py-1 text-sm font-medium">
+          <Link
+            target="_blank"
+            href={project.github}
+            className="flex items-center gap-1 bg-black px-4 py-1 text-sm font-medium"
+          >
             <IconBrandGithub stroke={2} className="size-4" />
             <span>Code</span>
-          </button>
-          <button className="flex items-center gap-1 bg-orange-500 px-4 py-1 text-xs font-medium text-black">
+          </Link>
+          <button
+            onClick={handleOpen}
+            className="flex items-center gap-1 bg-orange-500 px-4 py-1 text-xs font-medium text-black"
+          >
             <IconBrandChrome stroke={2} className="size-4" />
             <span>Open</span>
           </button>
