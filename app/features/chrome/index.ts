@@ -26,7 +26,7 @@ const chromeSlice = createSlice({
   initialState,
   reducers: {
     addNewtab: (state) => {
-      if (state.tabs.length < 4) {
+      if (state.tabs.length < 8) {
         const newid = crypto.randomUUID()
         state.tabs.push({
           id: newid,
@@ -37,10 +37,27 @@ const chromeSlice = createSlice({
         state.focusedTab = newid
       }
     },
+    openUrlTab: (
+      state,
+      action: PayloadAction<{ title: string; live_url: string }>
+    ) => {
+      if (state.tabs.length < 8) {
+        const newid = crypto.randomUUID()
+        state.tabs.push({
+          id: newid,
+          title: action.payload.title,
+          url: action.payload.live_url,
+          iframe_url: action.payload.live_url,
+        })
+        state.focusedTab = newid
+      }
+    },
     removeTab: (state, action: PayloadAction<string>) => {
       if (state.tabs.length >= 2) {
         state.tabs = state.tabs.filter((tab) => tab.id !== action.payload)
-        state.focusedTab = state.tabs[state.tabs.length - 1].id
+        if (state.focusedTab !== action.payload) {
+          state.focusedTab = state.tabs[state.tabs.length - 1].id
+        }
       }
     },
     focusTab: (state, action: PayloadAction<string>) => {
@@ -63,7 +80,7 @@ const chromeSlice = createSlice({
       state.focusedTab = id
       state.tabs = [
         {
-          id: uuid,
+          id: id,
           title: 'New Tab',
           url: '',
           iframe_url: '',
@@ -73,6 +90,12 @@ const chromeSlice = createSlice({
   },
 })
 
-export const { addNewtab, removeTab, focusTab, resetChrome, updateTab } =
-  chromeSlice.actions
+export const {
+  addNewtab,
+  removeTab,
+  focusTab,
+  resetChrome,
+  updateTab,
+  openUrlTab,
+} = chromeSlice.actions
 export const chromeReducer = chromeSlice.reducer

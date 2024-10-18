@@ -70,7 +70,7 @@ export function BrowserFrame({
       }
     )
     Draggable.create(frame.current, {
-      bounds: 'body',
+      // bounds: 'body',
       trigger: frameHeader.current,
     })
   })
@@ -191,7 +191,7 @@ export function BrowserFrame({
         <div
           ref={frameHeader}
           onDoubleClick={onFullScreen}
-          className="grid cursor-custom-auto grid-cols-[auto,1fr] bg-[#202124] py-2 pb-1"
+          className="grid !cursor-custom-auto grid-cols-[auto,1fr] bg-[#202124] py-2 pb-1"
         >
           <div className="group flex items-center px-2">
             <button
@@ -233,9 +233,9 @@ export function BrowserFrame({
                   setUrl(tab.url)
                 }}
                 key={tab.id}
-                className="relative flex min-w-40 items-center justify-between rounded-t-md bg-[#35363A] px-3 py-[6px]"
+                className="relative flex w-full max-w-40 items-center justify-between rounded-t-md bg-[#35363A] px-3 py-[6px]"
               >
-                <span>New Tab</span>
+                <span className="line-clamp-1">{tab.title}</span>
                 <IconX
                   onClick={() => {
                     dispatch(removeTab(tab.id))
