@@ -19,7 +19,7 @@ export function Folder({
   name: string
   status: Status
   onMinimizeRestore?: () => void
-  type: 'folder' | 'pdf'
+  type: 'folder' | 'pdf' | 'browser'
 }) {
   const folderRef = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch()
@@ -41,7 +41,7 @@ export function Folder({
       ref={folderRef}
       className="flex size-28 !cursor-custom-auto flex-col items-center p-4"
     >
-      <RandomFolder type={type}/>
+      <RandomFolder type={type} />
       <span className="text-[#dfdfdf]">{name}</span>
     </div>
   )

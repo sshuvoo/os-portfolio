@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-screen overflow-hidden bg-primary bg-cover bg-no-repeat">
+      <body className="h-screen overflow-hidden bg-primary bg-center bg-cover bg-no-repeat">
         <ReduxProvider>
           <Topbar />
           {children}

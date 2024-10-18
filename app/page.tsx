@@ -19,6 +19,7 @@ import { Terminal } from './components/terminal'
 import { WindowFrame } from './components/window-frame'
 import { useSelector } from './store'
 import { Projects } from './components/projects'
+import { BrowserFrame } from './components/window-frame/browser-frame'
 
 gsap.registerPlugin(
   useGSAP,
@@ -58,19 +59,30 @@ export default function Home() {
       <h1 className="absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 text-5xl text-white">
         Under Developing...
       </h1>
-      {frames.map((frame) => (
-        <WindowFrame
-          frame_id={frame.id}
-          status={frame.status}
-          frameName={frame.name}
-          key={frame.id}
-        >
-          {frame.id === 'skills' && <Skill />}
-          {frame.id === 'terminal' && <Terminal />}
-          {frame.id === 'projects' && <Projects />}
-          {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
-        </WindowFrame>
-      ))}
+      {frames.map((frame) => {
+        if (frame.type === 'browser') {
+          return (
+            <BrowserFrame
+              frame_id={frame.id}
+              frameName={frame.name}
+              status={frame.status}
+            />
+          )
+        }
+        return (
+          <WindowFrame
+            frame_id={frame.id}
+            status={frame.status}
+            frameName={frame.name}
+            key={frame.id}
+          >
+            {frame.id === 'skills' && <Skill />}
+            {frame.id === 'terminal' && <Terminal />}
+            {frame.id === 'projects' && <Projects />}
+            {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
+          </WindowFrame>
+        )
+      })}
     </div>
   )
 }

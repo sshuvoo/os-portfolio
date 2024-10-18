@@ -6,8 +6,10 @@ import folderOrange from '@/public/assets/icons/folder-orange.svg'
 import folderRed from '@/public/assets/icons/folder-red.svg'
 import Image from 'next/image'
 import acrobat from '@/public/assets/icons/Acrobat.svg'
+import chrome from '@/public/assets/icons/Chrome.svg'
 
 import { useState } from 'react'
+import { Frame } from './folders'
 const folders = [
   folderBlack,
   folderBlue,
@@ -17,12 +19,15 @@ const folders = [
   folderRed,
 ]
 
-export function RandomFolder({ type }: { type: 'folder' | 'pdf' }) {
+export function RandomFolder({ type }: { type: Frame }) {
   const [randomIndex] = useState(Math.floor(Math.random() * folders.length))
 
   if (type === 'pdf') {
     return <Image alt="pdf" src={acrobat} width={50} height={50} />
+  } else if (type === 'browser') {
+    return <Image alt="browser" src={chrome} width={50} height={50} />
   }
+
   return (
     <Image alt="folder" src={folders[randomIndex]} width={60} height={60} />
   )
