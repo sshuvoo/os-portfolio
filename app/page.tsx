@@ -63,8 +63,8 @@ export default function Home() {
         if (frame.type === 'browser') {
           return (
             <BrowserFrame
+              key={frame.id}
               frame_id={frame.id}
-              frameName={frame.name}
               status={frame.status}
             />
           )

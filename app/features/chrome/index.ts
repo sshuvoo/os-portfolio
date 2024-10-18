@@ -46,9 +46,17 @@ const chromeSlice = createSlice({
     focusTab: (state, action: PayloadAction<string>) => {
       state.focusedTab = action.payload
     },
-    updateTab: (state, action: PayloadAction<string>) => {
+    updateTab: (
+      state,
+      action: PayloadAction<{ url?: string; iframe_url?: string }>
+    ) => {
       const tab = state.tabs.find((tab) => tab.id === state.focusedTab)
-      if (tab) tab.url = action.payload
+      if (tab && action.payload.url) {
+        tab.url = action.payload.url
+      }
+      if (tab && action.payload.iframe_url) {
+        tab.iframe_url = action.payload.iframe_url
+      }
     },
     resetChrome: (state) => {
       const id = crypto.randomUUID()

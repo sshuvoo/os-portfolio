@@ -1,29 +1,5 @@
 'use client'
 
-import { useGSAP } from '@gsap/react'
-import {
-  IconArrowLeft,
-  IconArrowRight,
-  IconBracketsAngle,
-  IconChevronLeft,
-  IconChevronRight,
-  IconDotsVertical,
-  IconHome,
-  IconLayoutBoard,
-  IconListDetails,
-  IconMinus,
-  IconPlus,
-  IconReload,
-  IconX,
-} from '@tabler/icons-react'
-import gsap from 'gsap'
-import { Draggable } from 'gsap/Draggable'
-import { FormEvent, ReactNode, useRef, useState } from 'react'
-import { Status } from '../folder/folders'
-import { useDispatch, useSelector } from '@/app/store'
-import { closeFolder, minimizeFolder } from '@/app/features/window-slice'
-import { Size, useResize } from '@/app/hooks/use-resize'
-import { setuid } from 'process'
 import {
   addNewtab,
   focusTab,
@@ -31,14 +7,31 @@ import {
   resetChrome,
   updateTab,
 } from '@/app/features/chrome'
+import { closeFolder, minimizeFolder } from '@/app/features/window-slice'
+import { Size, useResize } from '@/app/hooks/use-resize'
+import { useDispatch, useSelector } from '@/app/store'
+import { useGSAP } from '@gsap/react'
+import {
+  IconArrowLeft,
+  IconArrowRight,
+  IconBracketsAngle,
+  IconDotsVertical,
+  IconHome,
+  IconMinus,
+  IconPlus,
+  IconReload,
+  IconX,
+} from '@tabler/icons-react'
+import gsap from 'gsap'
+import { Draggable } from 'gsap/Draggable'
+import { FormEvent, useRef, useState } from 'react'
+import { Status } from '../folder/folders'
 const size: Size = { minW: 750, minH: 300 }
 
 export function BrowserFrame({
-  frameName,
   frame_id,
   status,
 }: {
-  frameName: string
   frame_id: string
   status: Status
 }) {
@@ -141,7 +134,6 @@ export function BrowserFrame({
   const br = useResize({ frame, place: 'br', size })
 
   const [url, setUrl] = useState('')
-  const [iframeUrl, setIframeUrl] = useState('')
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -150,7 +142,7 @@ export function BrowserFrame({
         url.startsWith('http://') || url.startsWith('https://')
           ? url
           : `https://${url}`
-      setIframeUrl(formattedUrl)
+      dispatch(updateTab({ iframe_url: formattedUrl }))
     }
   }
 
@@ -282,7 +274,7 @@ export function BrowserFrame({
                 value={url}
                 onChange={(e) => {
                   setUrl(e.target.value)
-                  dispatch(updateTab(e.target.value))
+                  dispatch(updateTab({ url: e.target.value }))
                 }}
                 type="text"
                 placeholder="Search"
