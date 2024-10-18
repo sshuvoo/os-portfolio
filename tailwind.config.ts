@@ -14,6 +14,7 @@ const config: Config = {
       },
       backgroundImage: {
         primary: "url('/assets/background/sebastiaan-stam.jpg')",
+        macos_1: "url('/assets/background/ventura-5.webp')",
       },
       colors: {
         light: '#F7F7F7',
