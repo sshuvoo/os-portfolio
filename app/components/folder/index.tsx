@@ -19,7 +19,7 @@ export function Folder({
   name: string
   status: Status
   onMinimizeRestore?: () => void
-  type: 'folder' | 'pdf' | 'browser'
+  type: 'folder' | 'pdf' | 'browser' | 'calculator'
 }) {
   const folderRef = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch()

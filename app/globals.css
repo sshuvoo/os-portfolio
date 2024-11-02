@@ -8,6 +8,13 @@ body {
     auto !important;
 }
 
+*,
+*::after,
+*::before,
+body {
+  user-select: none;
+}
+
 input[type='text'],
 input[type='email'],
 input[type='password'],
