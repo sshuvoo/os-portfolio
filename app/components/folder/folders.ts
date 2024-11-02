@@ -1,5 +1,5 @@
 export type Status = 'close' | 'open' | 'minimize'
-export type Frame = 'folder' | 'pdf' | 'browser'
+export type Frame = 'folder' | 'pdf' | 'browser' | 'calculator'
 export type Folder = {
   id: string
   name: string
@@ -23,7 +23,13 @@ export const folders: Folder[] = [
     placement: 'desktop',
     type: 'pdf',
   },
-
+  {
+    id: 'calculator',
+    name: 'Calculator',
+    status: 'close',
+    placement: 'desktop',
+    type: 'calculator',
+  },
   {
     id: 'projects',
     name: 'Projects',
@@ -48,13 +54,6 @@ export const folders: Folder[] = [
   {
     id: 'contacts',
     name: 'Contacts',
-    status: 'close',
-    placement: 'desktop',
-    type: 'folder',
-  },
-  {
-    id: 'pricing',
-    name: 'Pricing',
     status: 'close',
     placement: 'desktop',
     type: 'folder',

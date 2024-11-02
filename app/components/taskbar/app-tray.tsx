@@ -16,6 +16,7 @@ import reminderIcon from '@/public/assets/icons/Reminders.svg'
 import { FiSearch } from 'react-icons/fi'
 import acrobat from '@/public/assets/icons/Acrobat.svg'
 import chrome from '@/public/assets/icons/Chrome.svg'
+import calculator from '@/public/assets/icons/calculator.png'
 
 export default function AppTray() {
   const folders = useSelector((state) => state.windowFrame)
@@ -103,6 +104,11 @@ export default function AppTray() {
             {folder.type === 'browser' && (
               <div className="flex size-11 items-center justify-center">
                 <Image alt="pdf" src={chrome} width={35} height={35} />
+              </div>
+            )}
+            {folder.type === 'calculator' && (
+              <div className="flex size-11 items-center justify-center">
+                <Image alt="calculator" src={calculator} width={44} height={44} />
               </div>
             )}
             <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">

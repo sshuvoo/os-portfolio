@@ -20,6 +20,7 @@ import { WindowFrame } from './components/window-frame'
 import { useSelector } from './store'
 import { Projects } from './components/projects'
 import { BrowserFrame } from './components/window-frame/browser-frame'
+import { CalculatorFrame } from './components/window-frame/calculator-frame'
 
 gsap.registerPlugin(
   useGSAP,
@@ -63,6 +64,15 @@ export default function Home() {
         if (frame.type === 'browser') {
           return (
             <BrowserFrame
+              key={frame.id}
+              frame_id={frame.id}
+              status={frame.status}
+            />
+          )
+        }
+        if (frame.type === 'calculator') {
+          return (
+            <CalculatorFrame
               key={frame.id}
               frame_id={frame.id}
               status={frame.status}
