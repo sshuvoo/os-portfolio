@@ -4,7 +4,7 @@
 
 body {
   cursor:
-    url('/assets/cursor/cursor-red.png') 0 0,
+    url('/assets/cursor/Normal.png') 0 0,
     auto !important;
 }
 
@@ -20,14 +20,14 @@ input[type='email'],
 input[type='password'],
 textarea {
   cursor:
-    url('/assets/cursor/text.png') 0 0,
+    url('/assets/cursor/Text.png') 0 0,
     text !important;
 }
 
 button,
 a {
   cursor:
-    url('/assets/cursor/pointer.png') 0 0,
+    url('/assets/cursor/Link.png') 0 0,
     pointer !important;
 }
 

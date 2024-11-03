@@ -6,8 +6,6 @@ import folderOrange from '@/public/assets/icons/folder-orange.svg'
 import folderRed from '@/public/assets/icons/folder-red.svg'
 import Image from 'next/image'
 import acrobat from '@/public/assets/icons/Acrobat.svg'
-import chrome from '@/public/assets/icons/Chrome.svg'
-import calculator from "@/public/assets/icons/Calculator.png"
 
 import { useState } from 'react'
 import { Frame } from './folders'
@@ -25,10 +23,6 @@ export function RandomFolder({ type }: { type: Frame }) {
 
   if (type === 'pdf') {
     return <Image alt="pdf" src={acrobat} width={50} height={50} />
-  } else if (type === 'browser') {
-    return <Image alt="browser" src={chrome} width={50} height={50} />
-  } else if (type === 'calculator') {
-    return <Image alt="browser" src={calculator} width={50} height={50} />
   }
 
   return (

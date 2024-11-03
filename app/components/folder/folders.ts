@@ -10,10 +10,17 @@ export type Folder = {
 
 export const folders: Folder[] = [
   {
+    id: 'inotes',
+    name: 'iNotes',
+    status: 'close',
+    placement: 'taskbar',
+    type: 'folder',
+  },
+  {
     id: 'chrome',
     name: 'Chrome',
     status: 'close',
-    placement: 'desktop',
+    placement: 'taskbar',
     type: 'browser',
   },
   {
@@ -27,7 +34,7 @@ export const folders: Folder[] = [
     id: 'calculator',
     name: 'Calculator',
     status: 'close',
-    placement: 'desktop',
+    placement: 'taskbar',
     type: 'calculator',
   },
   {
@@ -52,10 +59,17 @@ export const folders: Folder[] = [
     type: 'folder',
   },
   {
-    id: 'contacts',
-    name: 'Contacts',
+    id: 'terminal',
+    name: 'Terminal',
     status: 'close',
-    placement: 'desktop',
+    placement: 'taskbar',
+    type: 'folder',
+  },
+  {
+    id: 'settings',
+    name: 'Settings',
+    status: 'close',
+    placement: 'taskbar',
     type: 'folder',
   },
 ]

@@ -21,6 +21,8 @@ import { useSelector } from './store'
 import { Projects } from './components/projects'
 import { BrowserFrame } from './components/window-frame/browser-frame'
 import { CalculatorFrame } from './components/window-frame/calculator-frame'
+import { Settings } from './components/settings'
+import { INotes } from './components/inotes'
 
 gsap.registerPlugin(
   useGSAP,
@@ -57,9 +59,6 @@ export default function Home() {
           />
         ))}
       </div>
-      <h1 className="absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 text-5xl text-gray-500">
-        Under Construction...
-      </h1>
       {frames.map((frame) => {
         if (frame.type === 'browser') {
           return (
@@ -87,6 +86,8 @@ export default function Home() {
             key={frame.id}
           >
             {frame.id === 'skills' && <Skill />}
+            {frame.id === 'inotes' && <INotes />}
+            {frame.id === 'settings' && <Settings />}
             {frame.id === 'terminal' && <Terminal />}
             {frame.id === 'projects' && <Projects />}
             {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
