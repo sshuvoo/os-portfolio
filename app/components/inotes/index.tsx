@@ -7,7 +7,6 @@ export function INotes() {
   const inotes = useSelector((state) => state.iNotes.notes)
   const [tab, setTab] = useState<string>('')
   const activeNote = inotes.find((note) => note.id === tab)
-  console.log(activeNote)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const dispatch = useDispatch()
 
@@ -55,6 +54,7 @@ export function INotes() {
         <div className="mt-2 space-y-2">
           {inotes.map((note) => (
             <button
+              key={note.id}
               onClick={() => {
                 setTab(note.id)
               }}
