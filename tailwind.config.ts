@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss'
-import scrollbarHide from 'tailwind-scrollbar-hide'
 
 const config: Config = {
   content: [
@@ -9,18 +8,23 @@ const config: Config = {
   theme: {
     extend: {
       cursor: {
-        'custom-pointer': "url('/assets/cursor/pointer.png') 0 0, pointer",
-        'custom-auto': "url('/assets/cursor/cursor-red.png') 0 0, auto",
-      },
-      backgroundImage: {
-        primary: "url('/assets/background/sebastiaan-stam.jpg')",
-        macos_1: "url('/assets/background/ventura-5.webp')",
+        'custom-pointer': "url('/assets/cursor/Link.png') 0 0, pointer",
+        'custom-auto': "url('/assets/cursor/Normal.png') 0 0, auto",
       },
       colors: {
         light: '#F7F7F7',
       },
+      animation: {
+        'wallpaper-fade': 'fadeInOut 5s linear infinite',
+      },
+      keyframes: {
+        fadeInOut: {
+          '0%, 100%': { transform: 'scale(1.2)' },
+          '50%': { transform: 'scale(1)' },
+        },
+      },
     },
   },
-  plugins: [scrollbarHide],
+  plugins: [],
 }
 export default config

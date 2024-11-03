@@ -3,6 +3,7 @@ import './globals.css'
 import { Taskbar } from './components/taskbar'
 import { ReduxProvider } from './providers/redux-provider'
 import { Topbar } from './components/topbar'
+import { WalpaperProvider } from './components/walpaper-wraper'
 
 export const metadata: Metadata = {
   title: 'Don’t panic.',
@@ -16,8 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-screen overflow-hidden bg-primary bg-center bg-cover bg-no-repeat">
+      <body className="h-screen overflow-hidden">
         <ReduxProvider>
+          <WalpaperProvider />
           <Topbar />
           {children}
           <Taskbar />
