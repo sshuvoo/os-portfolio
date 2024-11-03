@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface INote {
+export interface INote {
   id: string
   content: string
   updatedAt: string
@@ -10,12 +10,8 @@ interface InitialState {
   notes: INote[]
 }
 
-const localNotes = window.localStorage.getItem('iNotes')
-
-const parseNotes: INote[] | null = JSON.parse(localNotes || 'null')
-
 const initialState: InitialState = {
-  notes: parseNotes || [
+  notes: [
     {
       id: crypto.randomUUID(),
       content: 'This is demo note',
@@ -42,8 +38,11 @@ const notesSlice = createSlice({
         } else return note
       })
     },
+    loadNotes: (state, actions: PayloadAction<INote[]>) => {
+      state.notes = actions.payload
+    },
   },
 })
 
-export const { addNewNote, updateNote } = notesSlice.actions
+export const { addNewNote, updateNote, loadNotes } = notesSlice.actions
 export const notesReducer = notesSlice.reducer

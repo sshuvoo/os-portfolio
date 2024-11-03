@@ -1,4 +1,4 @@
-import { addNewNote, updateNote } from '@/app/features/notes'
+import { addNewNote, INote, loadNotes, updateNote } from '@/app/features/notes'
 import { useDispatch, useSelector } from '@/app/store'
 import { IconNotes, IconPlus } from '@tabler/icons-react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
@@ -15,6 +15,14 @@ export function INotes() {
       textareaRef.current.focus()
     }
   }, [tab])
+
+  useEffect(() => {
+    const localNotes = localStorage.getItem('iNotes')
+    const parseNotes: INote[] | null = JSON.parse(localNotes || 'null')
+    if (parseNotes) {
+      dispatch(loadNotes(parseNotes))
+    }
+  }, [])
 
   const onNewNote = () => {
     const id = crypto.randomUUID()
