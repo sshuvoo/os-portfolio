@@ -77,7 +77,7 @@ export function Terminal() {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-[#2f2f2f] h-full">
       {terminal.history.map((command) => {
         return command.mode === 'directory' ? (
           <div key={command.id}>

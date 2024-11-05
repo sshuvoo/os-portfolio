@@ -42,34 +42,33 @@ export function BrowserFrame({
   const minimizeTL = useRef<gsap.core.Timeline>(gsap.timeline())
   const fullscreenTL = useRef<gsap.core.Timeline>(gsap.timeline())
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const dragRef = useRef<globalThis.Draggable[]>()
 
   const { contextSafe } = useGSAP(() => {
+    const position_x = Math.floor(
+      Math.random() * (innerWidth - innerWidth / 2 - 50)
+    )
+    const position_y = Math.floor(
+      Math.random() * (innerHeight - innerHeight / 2 - 80)
+    )
+
     timeline.current.fromTo(
       frame.current,
       {
-        y: '100vh',
-        xPercent: -50,
-        left: '50%',
-        position: 'absolute',
+        left: `${position_x}px`,
+        top: `${position_y}px`,
         opacity: 0,
-        ease: 'back.inOut',
+        scale: 0.8,
+        ease: 'back.inOut(1.7)',
+        duration: 0.5,
       },
       {
-        y: '-50%',
-        top: '50%',
-        opacity: 1,
-        ease: 'back.inOut',
-      }
-    )
-    timeline.current.fromTo(
-      frame.current,
-      { scale: 0.5, ease: 'back.inOut' },
-      {
         scale: 1,
-        ease: 'back.inOut',
+        opacity: 1,
+        ease: 'back.inOut(1.7)',
       }
     )
-    Draggable.create(frame.current, {
+    dragRef.current = Draggable.create(frame.current, {
       // bounds: 'body',
       trigger: frameHeader.current,
     })
@@ -111,19 +110,25 @@ export function BrowserFrame({
         fullscreenTL.current.reverse()
         fullscreenTL.current.eventCallback('onReverseComplete', () => {
           fullscreenTL.current = gsap.timeline()
+          if (dragRef.current) {
+            dragRef.current[0].enable()
+          }
         })
         setIsFullscreen(false)
       } else {
         fullscreenTL.current.to(frame.current, {
           width: '100vw',
-          height: '100vh',
-          top: 0,
-          left: '50%',
+          height: `${innerHeight - 28}px`,
           x: 0,
           y: 0,
+          left: '0px',
+          top: '28px',
           duration: 0.5,
           ease: 'expo.inOut',
         })
+        if (dragRef.current) {
+          dragRef.current[0].kill()
+        }
         setIsFullscreen(true)
       }
     }

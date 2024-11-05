@@ -24,29 +24,23 @@ export function CalculatorFrame({
   const minimizeTL = useRef<gsap.core.Timeline>(gsap.timeline())
 
   const { contextSafe } = useGSAP(() => {
+    const position_x = Math.floor(Math.random() * (innerWidth - 300))
+    const position_y = Math.floor(Math.random() * (innerHeight - 500))
+
     timeline.current.fromTo(
       frame.current,
       {
-        y: '100vh',
-        xPercent: -50,
-        left: '50%',
-        position: 'absolute',
+        left: `${position_x}px`,
+        top: `${position_y}px`,
         opacity: 0,
-        ease: 'back.inOut',
+        scale: 0.8,
+        ease: 'back.inOut(1.7)',
+        duration: 0.5,
       },
       {
-        y: '-50%',
-        top: '50%',
-        opacity: 1,
-        ease: 'back.inOut',
-      }
-    )
-    timeline.current.fromTo(
-      frame.current,
-      { scale: 0.5, ease: 'back.inOut' },
-      {
         scale: 1,
-        ease: 'back.inOut',
+        opacity: 1,
+        ease: 'back.inOut(1.7)',
       }
     )
     Draggable.create(frame.current, {
@@ -88,7 +82,7 @@ export function CalculatorFrame({
   return (
     <div
       ref={frame}
-      className={`absolute rounded-lg bg-[#282828] shadow-xl ${status === 'minimize' ? 'hidden' : ''}`}
+      className={`absolute rounded-lg bg-[#282828] shadow-2xl ${status === 'minimize' ? 'hidden' : ''}`}
     >
       <div className="relative h-full">
         <div ref={frameHeader} className="!cursor-custom-auto">
