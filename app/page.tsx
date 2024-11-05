@@ -46,7 +46,7 @@ export default function Home() {
   const frames = folders.filter((folder) => folder.status !== 'close')
 
   return (
-    <div className="h-[calc(100vh-24px)]">
+    <div className="h-[calc(100vh-28px)]">
       <div className="flex h-full w-fit flex-col flex-wrap pb-10">
         {destopFolders.map((folder) => (
           <Folder

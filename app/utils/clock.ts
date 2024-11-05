@@ -12,7 +12,6 @@ export class Clock {
     const dateInstance = new Date()
     const date = dateInstance.toLocaleDateString('en-US', {
       month: 'short',
-      year: 'numeric',
       day: '2-digit',
     })
     return date

@@ -1,7 +1,8 @@
 'use client'
 
-import { IconWifi, IconWifiOff } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
+import { FaWifi } from 'react-icons/fa'
+import { MdOutlineWifiOff } from 'react-icons/md'
 
 export function InternetConnection() {
   const [status, setStatus] = useState<'online' | 'offline'>('online')
@@ -22,9 +23,9 @@ export function InternetConnection() {
   return (
     <div>
       {status === 'online' ? (
-        <IconWifi className='size-5 text-green-500' stroke={2} />
+        <FaWifi className="text-base text-green-500" />
       ) : (
-        <IconWifiOff className='size-5 text-red-500' stroke={2} />
+        <MdOutlineWifiOff className="text-base text-red-500" />
       )}
     </div>
   )
