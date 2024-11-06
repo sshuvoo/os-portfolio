@@ -97,7 +97,6 @@ export function Folder({
         <FolderCtxMenu
           onDelete={onDelete}
           name={name}
-          status={status}
           type={type}
           position={ctxPosition}
           id={id}
