@@ -1,26 +1,16 @@
-import {
-  copyFolder,
-  deleteFolder,
-  openFolder,
-} from '@/app/features/window-slice'
+import { copyFolder, openFolder } from '@/app/features/window-slice'
 import { useDispatch } from '@/app/store'
 import { IoIosArrowForward } from 'react-icons/io'
-import { Status } from '../folder/folders'
-import { useState } from 'react'
-import { createPortal } from 'react-dom'
-import { Alert } from '../alert'
 
 export function FolderCtxMenu({
   position,
   id,
   name,
-  status,
   type,
   onDelete,
 }: {
   id: string
   name: string
-  status: Status
   type: 'folder' | 'pdf' | 'browser' | 'calculator'
   position: { x: number; y: number }
   onDelete: () => void
@@ -84,7 +74,6 @@ export function FolderCtxMenu({
           <IoIosArrowForward />
         </li>
       </ul>
-     
     </div>
   )
 }

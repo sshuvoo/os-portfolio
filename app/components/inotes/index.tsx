@@ -22,7 +22,7 @@ export function INotes() {
     if (parseNotes) {
       dispatch(loadNotes(parseNotes))
     }
-  }, [])
+  }, [dispatch])
 
   const onNewNote = () => {
     const id = crypto.randomUUID()
