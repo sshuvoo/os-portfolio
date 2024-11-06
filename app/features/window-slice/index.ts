@@ -31,14 +31,33 @@ const windowSlice = createSlice({
       }
     },
     addFolder: (state, action: PayloadAction<Folder>) => {
-      const folder = state.find((f) => f.id === action.payload.id)
-      if (folder) {
-        folder.status = 'open'
-      } else state.push(action.payload)
+      let uniqueName = action.payload.name
+      let index = 1
+      while (1) {
+        uniqueName = action.payload.name + '-' + index++
+        const folder = state.find((f) => f.name === uniqueName)
+        if (!folder) break
+      }
+      state.push({
+        ...action.payload,
+        name: uniqueName,
+      })
+    },
+    copyFolder: (state, action: PayloadAction<Folder>) => {
+      state.push(action.payload)
+    },
+    deleteFolder: (state, action: PayloadAction<string>) => {
+      return state.filter((f) => f.name !== action.payload)
     },
   },
 })
 
-export const { openFolder, closeFolder, minimizeFolder, addFolder } =
-  windowSlice.actions
+export const {
+  openFolder,
+  closeFolder,
+  minimizeFolder,
+  addFolder,
+  copyFolder,
+  deleteFolder,
+} = windowSlice.actions
 export const frameReducer = windowSlice.reducer

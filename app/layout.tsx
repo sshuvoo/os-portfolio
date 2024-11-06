@@ -23,6 +23,7 @@ export default function RootLayout({
           <Topbar />
           {children}
           <Taskbar />
+          <div id="modal" />
         </ReduxProvider>
       </body>
     </html>

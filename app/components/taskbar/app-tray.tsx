@@ -3,16 +3,18 @@
 import { minimizeFolder, openFolder } from '@/app/features/window-slice'
 import { useDispatch, useSelector } from '@/app/store'
 import acrobat from '@/public/assets/icons/Acrobat.svg'
-import safari from '@/public/assets/icons/Safari.png'
-import contactIcon from '@/public/assets/icons/Contacts.svg'
+import contactIcon from '@/public/assets/icons/Contacts.png'
+import trashEmpty from '@/public/assets/icons/TrashEmpty.png'
+// import trashFull from '@/public/assets/icons/TrashFull.png'
 import finder from '@/public/assets/icons/Finder.png'
-import settings from '@/public/assets/icons/Settings.png'
+import messageIcon from '@/public/assets/icons/Messages.png'
 import notes from '@/public/assets/icons/Notes.png'
+import photoIcon from '@/public/assets/icons/Photos.png'
+import safari from '@/public/assets/icons/Safari.png'
+import settings from '@/public/assets/icons/Settings.png'
 import terminalIcon from '@/public/assets/icons/Terminal.png'
-import messageIcon from '@/public/assets/icons/Messages.svg'
-import photoIcon from '@/public/assets/icons/Photos.svg'
 import calculator from '@/public/assets/icons/calculator.png'
-import { IconFolderUp } from '@tabler/icons-react'
+import folderIcon from '@/public/assets/icons/Folder.png'
 import Image from 'next/image'
 
 export default function AppTray() {
@@ -24,7 +26,7 @@ export default function AppTray() {
   const taskbarApps = folders.filter((f) => f.placement === 'taskbar')
 
   return (
-    <div className="rounded-xl bg-white/20 p-1 px-2 backdrop-blur">
+    <div className="pointer-events-auto rounded-xl bg-white/20 p-1 px-2 backdrop-blur">
       <div className="flex items-center gap-2 pb-[5px]">
         <button>
           <Image alt="" src={finder} width={50} height={50} />
@@ -84,26 +86,11 @@ export default function AppTray() {
             key={folder.id}
           >
             {folder.type === 'folder' && (
-              <IconFolderUp className="size-11 text-orange-400" stroke={1.2} />
+              <Image alt="" src={folderIcon} width={50} height={50} />
             )}
             {folder.type === 'pdf' && (
               <div className="flex size-11 items-center justify-center">
                 <Image alt="pdf" src={acrobat} width={35} height={35} />
-              </div>
-            )}
-            {folder.type === 'browser' && (
-              <div className="flex size-11 items-center justify-center">
-                <Image alt="pdf" src={safari} width={35} height={35} />
-              </div>
-            )}
-            {folder.type === 'calculator' && (
-              <div className="flex size-11 items-center justify-center">
-                <Image
-                  alt="calculator"
-                  src={calculator}
-                  width={50}
-                  height={50}
-                />
               </div>
             )}
             <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">
@@ -112,6 +99,8 @@ export default function AppTray() {
             <span className="absolute -bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-green-400"></span>
           </button>
         ))}
+        <Image className="" alt="" src={trashEmpty} width={50} height={50} />
+        {/* <Image className="" alt="" src={trashFull} width={50} height={50} /> */}
       </div>
     </div>
   )
