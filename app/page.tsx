@@ -23,6 +23,8 @@ import { BrowserFrame } from './components/window-frame/browser-frame'
 import { CalculatorFrame } from './components/window-frame/calculator-frame'
 import { Settings } from './components/settings'
 import { INotes } from './components/inotes'
+import { MouseEvent, useEffect, useRef, useState } from 'react'
+import { ContextMenu } from './components/context-menu'
 
 gsap.registerPlugin(
   useGSAP,
@@ -44,9 +46,47 @@ export default function Home() {
   const folders = useSelector((state) => state.windowFrame)
   const destopFolders = folders.filter((f) => f.placement === 'desktop')
   const frames = folders.filter((folder) => folder.status !== 'close')
+  const [ctxPosition, setCtxPosition] = useState<{
+    x: number
+    y: number
+  } | null>(null)
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  const handleContextMenu = (
+    event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
+    event.preventDefault()
+    const coX =
+      innerWidth - event.clientX > 256 ? event.clientX : event.clientX - 256
+    const coY =
+      innerHeight - event.clientY > 294 ? event.clientY : event.clientY - 294
+    setCtxPosition({ x: coX, y: coY })
+  }
+
+  useEffect(() => {
+    const onCloseCtx = (event: globalThis.MouseEvent) => {
+      if (bodyRef.current && !bodyRef.current.contains(event.target as Node)) {
+        setCtxPosition(null)
+      }
+    }
+    const onReset = () => void setCtxPosition(null)
+
+    document.addEventListener('contextmenu', onCloseCtx)
+    document.addEventListener('click', onReset)
+    document.addEventListener('dblclick', onReset)
+    return () => {
+      document.removeEventListener('contextmenu', onCloseCtx)
+      document.removeEventListener('click', onReset)
+      document.removeEventListener('dblclick', onReset)
+    }
+  }, [])
 
   return (
-    <div className="h-[calc(100vh-28px)]">
+    <div
+      ref={bodyRef}
+      onContextMenu={handleContextMenu}
+      className="h-[calc(100vh-28px)]"
+    >
       <div className="flex h-full w-fit flex-col flex-wrap pb-10">
         {destopFolders.map((folder) => (
           <Folder
@@ -59,6 +99,7 @@ export default function Home() {
           />
         ))}
       </div>
+      {ctxPosition && <ContextMenu position={ctxPosition} />}
       {frames.map((frame) => {
         if (frame.type === 'browser') {
           return (

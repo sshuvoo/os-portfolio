@@ -23,7 +23,7 @@ export function InternetConnection() {
   return (
     <div>
       {status === 'online' ? (
-        <FaWifi className="text-base text-green-500" />
+        <FaWifi className="text-base" />
       ) : (
         <MdOutlineWifiOff className="text-base text-red-500" />
       )}
