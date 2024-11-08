@@ -25,6 +25,8 @@ import { Settings } from './components/settings'
 import { INotes } from './components/inotes'
 import { MouseEvent, useEffect, useRef, useState } from 'react'
 import { ContextMenu } from './components/context-menu'
+import { FaApple } from 'react-icons/fa'
+import { LockScreen } from './components/lock-screen'
 
 gsap.registerPlugin(
   useGSAP,
@@ -51,6 +53,7 @@ export default function Home() {
     y: number
   } | null>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
+  const loaderRef = useRef<HTMLDivElement>(null)
 
   const handleContextMenu = (
     event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -81,60 +84,91 @@ export default function Home() {
     }
   }, [])
 
+  const [screen, setScreen] = useState<'loading' | 'desktop' | 'lock'>('loading')
+
+  useGSAP(() => {
+    gsap.to(loaderRef.current, {
+      width: '100%',
+      duration: 2,
+      onComplete: () => {
+        setScreen('lock')
+      },
+    })
+  })
+
   return (
-    <div
-      ref={bodyRef}
-      onContextMenu={handleContextMenu}
-      className="h-[calc(100vh-28px)]"
-    >
-      <div className="flex h-full w-fit flex-col flex-wrap pb-10">
-        {destopFolders.map((folder) => (
-          <Folder
-            status={folder.status}
-            onMinimizeRestore={folder.onMinimizeRestore}
-            id={folder.id}
-            name={folder.name}
-            key={folder.id}
-            type={folder.type}
-          />
-        ))}
-      </div>
-      {ctxPosition && <ContextMenu position={ctxPosition} />}
-      {frames.map((frame) => {
-        if (frame.type === 'browser') {
-          return (
-            <BrowserFrame
-              key={frame.id}
-              frame_id={frame.id}
-              status={frame.status}
-            />
-          )
-        }
-        if (frame.type === 'calculator') {
-          return (
-            <CalculatorFrame
-              key={frame.id}
-              frame_id={frame.id}
-              status={frame.status}
-            />
-          )
-        }
-        return (
-          <WindowFrame
-            frame_id={frame.id}
-            status={frame.status}
-            frameName={frame.name}
-            key={frame.id}
-          >
-            {frame.id === 'skills' && <Skill />}
-            {frame.id === 'inotes' && <INotes />}
-            {frame.id === 'settings' && <Settings />}
-            {frame.id === 'terminal' && <Terminal />}
-            {frame.id === 'projects' && <Projects />}
-            {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
-          </WindowFrame>
-        )
-      })}
-    </div>
+    <>
+      {screen === 'loading' && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-5 bg-black">
+          <FaApple className="text-8xl text-white" />
+          <div className="h-[5px] w-44 rounded-full bg-[#414141]">
+            <div ref={loaderRef} className="h-full w-0 rounded-full bg-white" />
+          </div>
+        </div>
+      )}
+      {screen === 'lock' && (
+        <LockScreen
+          next={() => {
+            setScreen('desktop')
+          }}
+        />
+      )}
+      {screen === 'desktop' && (
+        <div
+          ref={bodyRef}
+          onContextMenu={handleContextMenu}
+          className="h-[calc(100vh-28px)]"
+        >
+          <div className="flex h-full w-fit flex-col flex-wrap pb-10">
+            {destopFolders.map((folder) => (
+              <Folder
+                status={folder.status}
+                onMinimizeRestore={folder.onMinimizeRestore}
+                id={folder.id}
+                name={folder.name}
+                key={folder.name}
+                type={folder.type}
+              />
+            ))}
+          </div>
+          {ctxPosition && <ContextMenu position={ctxPosition} />}
+          {frames.map((frame) => {
+            if (frame.type === 'browser') {
+              return (
+                <BrowserFrame
+                  key={frame.id}
+                  frame_id={frame.id}
+                  status={frame.status}
+                />
+              )
+            }
+            if (frame.type === 'calculator') {
+              return (
+                <CalculatorFrame
+                  key={frame.id}
+                  frame_id={frame.id}
+                  status={frame.status}
+                />
+              )
+            }
+            return (
+              <WindowFrame
+                frame_id={frame.id}
+                status={frame.status}
+                frameName={frame.name}
+                key={frame.id}
+              >
+                {frame.id === 'skills' && <Skill />}
+                {frame.id === 'inotes' && <INotes />}
+                {frame.id === 'settings' && <Settings />}
+                {frame.id === 'terminal' && <Terminal />}
+                {frame.id === 'projects' && <Projects />}
+                {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
+              </WindowFrame>
+            )
+          })}
+        </div>
+      )}
+    </>
   )
 }

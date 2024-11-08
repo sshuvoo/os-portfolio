@@ -10,6 +10,8 @@ import { Status } from './folders'
 import { FolderCtxMenu } from '../context-menu/folder-menu'
 import { createPortal } from 'react-dom'
 import { Alert } from '../alert'
+import { FolderRename } from './folder-rename'
+import { useClickOutside } from '@/app/hooks/use-click-outside'
 
 export function Folder({
   id,
@@ -25,16 +27,21 @@ export function Folder({
   type: 'folder' | 'pdf' | 'browser' | 'calculator'
 }) {
   const folderRef = useRef<HTMLDivElement>(null)
+  const dragRef = useRef<globalThis.Draggable[]>()
   const dispatch = useDispatch()
   const [ctxPosition, setCtxPosition] = useState<{
     x: number
     y: number
   } | null>(null)
 
+  const [mode, setMode] = useState<'rename' | 'idle'>('idle')
+  const [isSelected, setIsSelected] = useState(false)
+
   useGSAP(() => {
-    Draggable.create(folderRef.current, {
+    dragRef.current = Draggable.create(folderRef.current, {
       bounds: 'body',
       allowContextMenu: true,
+      dragClickables: false,
     })
   })
 
@@ -77,27 +84,67 @@ export function Folder({
     setIsAlertOpen(true)
   }
 
+  const onOpenFolder = () => {
+    dispatch(openFolder(id))
+    if (status === 'minimize' && onMinimizeRestore) {
+      onMinimizeRestore()
+    }
+  }
+
+  useClickOutside(() => {
+    if (isSelected) {
+      setIsSelected(false)
+    }
+  }, folderRef)
+  console.log(mode, isSelected)
   return (
     <>
       <div
-        onContextMenu={handleContextMenu}
-        onDoubleClick={() => {
-          dispatch(openFolder(id))
-          if (status === 'minimize' && onMinimizeRestore) {
-            onMinimizeRestore()
-          }
+        onClick={() => {
+          setIsSelected(true)
         }}
+        onContextMenu={handleContextMenu}
+        onDoubleClick={onOpenFolder}
         ref={folderRef}
-        className={`flex size-28 !cursor-custom-auto flex-col items-center p-4 ${ctxPosition ? 'border border-[#18779fe0] bg-[#18779f63]' : ''}`}
+        className={`flex w-28 !cursor-custom-auto flex-col items-center border p-4 ${ctxPosition || mode === 'rename' || isSelected ? 'border-[#18779fe0] bg-[#18779f63]' : 'border-transparent'}`}
       >
         <RandomFolder type={type} />
-        <span className="text-[#dfdfdf]">{name}</span>
+        {mode === 'rename' ? (
+          <FolderRename
+            name={name}
+            id={id}
+            onClose={() => {
+              setMode('idle')
+              if (dragRef.current) {
+                dragRef.current[0].enable()
+              }
+            }}
+          />
+        ) : (
+          <p
+            onClick={() => {
+              if (isSelected) {
+                setMode('rename')
+              }
+            }}
+            className="line-clamp-2 w-full text-center text-[#dfdfdf]"
+          >
+            {name}
+          </p>
+        )}
       </div>
       {ctxPosition && (
         <FolderCtxMenu
           onDelete={onDelete}
+          onOpenFolder={onOpenFolder}
           name={name}
           type={type}
+          onRename={() => {
+            setMode('rename')
+            if (dragRef.current) {
+              dragRef.current[0].kill()
+            }
+          }}
           position={ctxPosition}
           id={id}
         />
@@ -109,7 +156,7 @@ export function Folder({
             message={
               id === 'resume'
                 ? 'Why are you deleting my resume? \n আমরা কি এই স্বাধীনতা চেয়েছিলাম!'
-                : undefined
+                : `${name} will be deleted immediately. \n You can't undo this action`
             }
             onClose={() => void setIsAlertOpen(false)}
             onConfirm={() => {

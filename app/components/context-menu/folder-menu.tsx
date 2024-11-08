@@ -1,4 +1,4 @@
-import { copyFolder, openFolder } from '@/app/features/window-slice'
+import { copyFolder } from '@/app/features/window-slice'
 import { useDispatch } from '@/app/store'
 import { IoIosArrowForward } from 'react-icons/io'
 
@@ -8,12 +8,16 @@ export function FolderCtxMenu({
   name,
   type,
   onDelete,
+  onRename,
+  onOpenFolder,
 }: {
   id: string
   name: string
   type: 'folder' | 'pdf' | 'browser' | 'calculator'
   position: { x: number; y: number }
   onDelete: () => void
+  onRename: () => void
+  onOpenFolder: () => void
 }) {
   const dispatch = useDispatch()
 
@@ -30,9 +34,7 @@ export function FolderCtxMenu({
     >
       <ul className="space-y-1 p-2 [&>li:hover]:bg-[#222222] [&>li]:rounded-md [&>li]:p-[3px] [&>li]:px-2 [&>li]:text-[#e0e0e0]">
         <li
-          onClick={() => {
-            dispatch(openFolder(id))
-          }}
+          onClick={onOpenFolder}
           className="relative !mb-2 after:absolute after:bottom-[-4px] after:left-0 after:h-[1px] after:w-full after:bg-[#5a5a5a] after:content-['']"
         >
           Open
@@ -47,14 +49,14 @@ export function FolderCtxMenu({
           <span>Get Info</span>
           <IoIosArrowForward />
         </li>
-        <li>Rename</li>
+        <li onClick={onRename}>Rename</li>
         <li className="!text-[#888888]">Use Stacks</li>
         <li
           onClick={() => {
             dispatch(
               copyFolder({
                 id,
-                name: name + '-copy',
+                name,
                 placement: 'desktop',
                 status: 'close',
                 type,

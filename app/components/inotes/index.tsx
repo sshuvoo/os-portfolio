@@ -66,17 +66,21 @@ export function INotes() {
               onClick={() => {
                 setTab(note.id)
               }}
-              className={`flex w-full gap-2 rounded-md px-2 py-1 ${tab === note.id ? 'bg-[#383838]' : 'hover:bg-[#383838]'}`}
+              className={`grid w-full grid-cols-[auto,1fr] gap-2 rounded-md px-2 py-1 ${tab === note.id ? 'bg-[#383838]' : 'hover:bg-[#383838]'}`}
             >
-              <IconNotes
-                stroke={2}
-                className="translate-y-1 text-emerald-500"
-              />
+              <div className='size-6'>
+                <IconNotes
+                  stroke={2}
+                  className="translate-y-[2px] text-emerald-500 size-full"
+                />
+              </div>
               <div className="flex flex-col text-start">
-                <h2 className="line-clamp-1 font-medium text-[#c6c6c6]">
-                  {note.content.trim()}
+                <h2 className="line-clamp-1 font-medium text-[#c6c6c6] text-sm">
+                  {note.content.trim().length > 2
+                    ? note.content.trim()
+                    : 'My New Note'}
                 </h2>
-                <h2 className="text-xs text-[#c6c6c6]">
+                <h2 className="text-[10px] text-[#c6c6c6]">
                   {new Date(note.updatedAt).toLocaleDateString('en-US', {
                     day: '2-digit',
                     month: 'short',

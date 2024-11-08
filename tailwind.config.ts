@@ -7,6 +7,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        lock: "url('/assets/background/helios-light.jpg')",
+      },
       cursor: {
         'custom-pointer': "url('/assets/cursor/Link.png') 0 0, pointer",
         'custom-auto': "url('/assets/cursor/Normal.png') 0 0, auto",
