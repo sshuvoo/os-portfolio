@@ -44,10 +44,32 @@ const windowSlice = createSlice({
       })
     },
     copyFolder: (state, action: PayloadAction<Folder>) => {
-      state.push(action.payload)
+      let uniqueName = action.payload.name + '-copy1'
+      let index = 1
+      while (1) {
+        const folder = state.find((f) => f.name === uniqueName)
+        if (!folder) break
+        else {
+          uniqueName = action.payload.name + '-copy' + index++
+        }
+      }
+      state.push({ ...action.payload, name: uniqueName })
     },
     deleteFolder: (state, action: PayloadAction<string>) => {
       return state.filter((f) => f.name !== action.payload)
+    },
+    renameFolder: (
+      state,
+      action: PayloadAction<{ id: string; name: string }>
+    ) => {
+      const folder = state.find((f) => f.name === action.payload.name)
+      if (!folder) {
+        return state.map((f) => {
+          if (f.id === action.payload.id) {
+            return { ...f, name: action.payload.name }
+          } else return f
+        })
+      }
     },
   },
 })
@@ -59,5 +81,6 @@ export const {
   addFolder,
   copyFolder,
   deleteFolder,
+  renameFolder,
 } = windowSlice.actions
 export const frameReducer = windowSlice.reducer

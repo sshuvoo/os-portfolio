@@ -69,8 +69,8 @@ export function ProjectCard({ project }: { project: Projects }) {
       key={project.id}
       className="relative h-fit overflow-y-hidden rounded-md bg-[#252525] p-4 shadow-2xl"
     >
-      <div ref={initialRef}>
-        <div className="relative h-44 rounded-md">
+      <div ref={initialRef} className="h-full">
+        <div className="relative h-60 rounded-md">
           <Image
             alt="thumb-project"
             fill
@@ -92,7 +92,7 @@ export function ProjectCard({ project }: { project: Projects }) {
         <p ref={paraRef} className="line-clamp-4">
           {project.description}
         </p>
-        <div ref={buttonRef} className="flex items-center justify-between">
+        <div ref={buttonRef} className="flex items-center justify-end gap-4">
           <Link
             target="_blank"
             href={project.github}
