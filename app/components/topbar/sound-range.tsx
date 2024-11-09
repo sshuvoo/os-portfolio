@@ -5,12 +5,15 @@ import { HiMiniSpeakerWave, HiMiniSpeakerXMark } from 'react-icons/hi2'
 import musicIcon from '@/public/assets/icons/Music.png'
 import Image from 'next/image'
 import { FaForward, FaPause, FaPlay } from 'react-icons/fa'
-const audio = new Audio('/assets/music/pehle_bhi_main.mp3')
 
 export function SoundRange() {
   const soundThumb = useRef<HTMLButtonElement>(null)
   const soundLabel = useRef<HTMLDivElement>(null)
   const soundTrack = useRef<HTMLDivElement>(null)
+  const audio = useRef<HTMLAudioElement>(
+    new Audio('/assets/music/pehle_bhi_main.mp3')
+  )
+
   const dispatch = useDispatch()
   const { volume, music_status } = useSelector((state) => state.settings)
 
@@ -29,7 +32,8 @@ export function SoundRange() {
             : 70
         const sound = ((range - 25) / (rect.width - 27)) * 100
         dispatch(setVolume(sound))
-        audio.volume = sound / 100 >= 1 ? 1 : sound / 100 <= 0 ? 0 : sound / 100
+        audio.current.volume =
+          sound / 100 >= 1 ? 1 : sound / 100 <= 0 ? 0 : sound / 100
       }
     }
 
@@ -58,10 +62,10 @@ export function SoundRange() {
   }, [dispatch])
 
   const handlePlay = () => {
-    if (music_status === 'playing') audio.pause()
+    if (music_status === 'playing') audio.current.pause()
     else {
-      audio.volume = volume / 100
-      audio.play()
+      audio.current.volume = volume / 100
+      audio.current.play()
     }
   }
 
@@ -72,13 +76,13 @@ export function SoundRange() {
     const handlePause = () => {
       dispatch(setMusicStatus('paused'))
     }
-    audio.addEventListener('play', handlePlay)
-    audio.addEventListener('pause', handlePause)
-    audio.addEventListener('ended', handlePause)
+    audio.current.addEventListener('play', handlePlay)
+    audio.current.addEventListener('pause', handlePause)
+    audio.current.addEventListener('ended', handlePause)
     return () => {
-      audio.removeEventListener('play', handlePlay)
-      audio.removeEventListener('pause', handlePause)
-      audio.removeEventListener('ended', handlePause)
+      audio.current.removeEventListener('play', handlePlay)
+      audio.current.removeEventListener('pause', handlePause)
+      audio.current.removeEventListener('ended', handlePause)
     }
   }, [dispatch])
 
