@@ -1,6 +1,6 @@
 import { setMusicStatus, setVolume } from '@/app/features/settings'
 import { useDispatch, useSelector } from '@/app/store'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { HiMiniSpeakerWave, HiMiniSpeakerXMark } from 'react-icons/hi2'
 import musicIcon from '@/public/assets/icons/Music.png'
 import Image from 'next/image'
@@ -80,7 +80,7 @@ export function SoundRange() {
       audio.removeEventListener('pause', handlePause)
       audio.removeEventListener('ended', handlePause)
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <>
