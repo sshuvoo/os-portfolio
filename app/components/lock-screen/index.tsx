@@ -23,7 +23,7 @@ export function LockScreen({ next }: { next: () => void }) {
   }, [])
 
   return (
-    <div className="bg-lock fixed inset-0 z-[9999] flex flex-col items-center justify-between gap-5 bg-black bg-cover bg-center bg-no-repeat py-20">
+    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-between gap-5 bg-black bg-lock bg-cover bg-center bg-no-repeat py-20">
       <div>
         <p className="text-center text-2xl font-medium text-[#ffffb5]">
           {clock.date}
@@ -42,6 +42,9 @@ export function LockScreen({ next }: { next: () => void }) {
           onSubmit={(e) => {
             e.preventDefault()
             if (password === '1234') {
+              if (document.body.requestFullscreen) {
+                document.body.requestFullscreen()
+              }
               next()
             } else setPassword('')
           }}
@@ -51,6 +54,7 @@ export function LockScreen({ next }: { next: () => void }) {
             className="w-36 rounded-full bg-white/35 px-2 py-1 text-xs placeholder:text-gray-500 focus:outline-none"
             placeholder="Enter Password"
             value={password}
+            type="password"
             onChange={(e) => void setPassword(e.target.value)}
           />
           <span className="absolute -right-8 top-1/2 hidden -translate-y-1/2 rounded-md bg-black/50 p-[2px] px-1 text-xs text-white/80 group-hover:inline-block">

@@ -81,6 +81,9 @@ export function CalculatorFrame({
 
   return (
     <div
+      onContextMenu={(e) => {
+        e.stopPropagation()
+      }}
       ref={frame}
       className={`absolute rounded-lg bg-[#282828] shadow-2xl ${status === 'minimize' ? 'hidden' : ''}`}
     >

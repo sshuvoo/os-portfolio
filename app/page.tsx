@@ -17,7 +17,7 @@ import { PDFViewer } from './components/pdf-viewer'
 import { Skill } from './components/skill'
 import { Terminal } from './components/terminal'
 import { WindowFrame } from './components/window-frame'
-import { useSelector } from './store'
+import { useDispatch, useSelector } from './store'
 import { Projects } from './components/projects'
 import { BrowserFrame } from './components/window-frame/browser-frame'
 import { CalculatorFrame } from './components/window-frame/calculator-frame'
@@ -27,6 +27,7 @@ import { MouseEvent, useEffect, useRef, useState } from 'react'
 import { ContextMenu } from './components/context-menu'
 import { FaApple } from 'react-icons/fa'
 import { LockScreen } from './components/lock-screen'
+import { setScreenMode } from './features/settings'
 
 gsap.registerPlugin(
   useGSAP,
@@ -54,6 +55,7 @@ export default function Home() {
   } | null>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const loaderRef = useRef<HTMLDivElement>(null)
+  const dispatch = useDispatch()
 
   const handleContextMenu = (
     event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -84,7 +86,9 @@ export default function Home() {
     }
   }, [])
 
-  const [screen, setScreen] = useState<'loading' | 'desktop' | 'lock'>('loading')
+  const [screen, setScreen] = useState<'loading' | 'desktop' | 'lock'>(
+    'loading'
+  )
 
   useGSAP(() => {
     gsap.to(loaderRef.current, {
@@ -95,6 +99,31 @@ export default function Home() {
       },
     })
   })
+
+  useEffect(() => {
+    const onFullscreen = () => {
+      if (document.fullscreenElement) {
+        dispatch(setScreenMode('fullscreen'))
+      } else {
+        dispatch(setScreenMode('default'))
+      }
+    }
+    const handleFullscreen = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() !== 'f') return
+      e.preventDefault()
+      if (document.fullscreenElement) {
+        document.exitFullscreen()
+      } else if (document.body.requestFullscreen) {
+        document.body.requestFullscreen()
+      }
+    }
+    document.addEventListener('fullscreenchange', onFullscreen)
+    window.addEventListener('keydown', handleFullscreen)
+    return () => {
+      document.removeEventListener('fullscreenchange', onFullscreen)
+      window.removeEventListener('keydown', handleFullscreen)
+    }
+  }, [dispatch])
 
   return (
     <>

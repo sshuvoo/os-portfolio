@@ -1,5 +1,5 @@
 import { addFolder, openFolder } from '@/app/features/window-slice'
-import { useDispatch } from '@/app/store'
+import { useDispatch, useSelector } from '@/app/store'
 import { IoIosArrowForward } from 'react-icons/io'
 
 export function ContextMenu({
@@ -8,6 +8,7 @@ export function ContextMenu({
   position: { x: number; y: number }
 }) {
   const dispatch = useDispatch()
+  const screenMode = useSelector((state) => state.settings.screen)
 
   return (
     <div
@@ -51,7 +52,23 @@ export function ContextMenu({
         >
           Change Desktop Background
         </li>
-        <li className="!text-[#888888]">Use Stacks</li>
+        <li
+          onClick={() => {
+            if (document.fullscreenElement) {
+              document.exitFullscreen()
+            } else if (document.body.requestFullscreen) {
+              document.body.requestFullscreen()
+            }
+          }}
+          className="flex items-center justify-between"
+        >
+          <span>
+            {screenMode === 'fullscreen'
+              ? 'Exit Fullscreen'
+              : 'Request Fullscreen'}
+          </span>
+          <span>F</span>
+        </li>
         <li className="flex items-center justify-between">
           <span>Sort By</span>
           <IoIosArrowForward />

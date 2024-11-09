@@ -96,7 +96,7 @@ export function Folder({
       setIsSelected(false)
     }
   }, folderRef)
-  console.log(mode, isSelected)
+
   return (
     <>
       <div
