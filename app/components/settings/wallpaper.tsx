@@ -26,6 +26,7 @@ import vd from '@/public/assets/background/ventura-dark.jpg'
 import vl from '@/public/assets/background/ventura-light.jpg'
 import yd from '@/public/assets/background/yellow-dark.jpg'
 import yl from '@/public/assets/background/yellow-light.jpg'
+import { useTheme } from 'next-themes'
 import Image from 'next/image'
 
 const mixWallpaper = [
@@ -49,26 +50,35 @@ const macintosh = [
 
 export function Wallpaper() {
   const dispatch = useDispatch()
-  const current = useSelector((state) => state.settings.current)
+  const wallpaper = useSelector((state) => state.settings.wallpaper)
+  const { theme, setTheme } = useTheme()
 
   return (
     <div className="p-4">
       <div className="flex gap-8 border-b border-[#5f5f5f] pb-10">
         <div className="relative h-28 w-60">
-          <Image
-            className="object-cover object-center"
-            alt="walpaper"
-            fill
-            src={current}
-            sizes="(max-width: 100px) 100vw"
-          />
+          {wallpaper && (
+            <Image
+              className="object-cover object-center"
+              alt="walpaper"
+              fill
+              src={theme === 'dark' ? wallpaper.dark : wallpaper.light}
+              sizes="(max-width: 100px) 100vw"
+            />
+          )}
         </div>
         <div className="flex items-start gap-3 text-white">
           <h3>Theme Mode</h3>
-          <select className="bg-[#212121] px-2 py-[2px] focus:outline-none">
-            <option>Automatic</option>
-            <option>Dark</option>
-            <option>Light</option>
+          <select
+            onChange={(e) => {
+              setTheme(e.target.value)
+            }}
+            value={theme}
+            className="bg-[#212121] px-2 py-[2px] focus:outline-none"
+          >
+            <option value="system">Automatic</option>
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
           </select>
         </div>
       </div>
@@ -79,7 +89,7 @@ export function Wallpaper() {
         {mixWallpaper.map((wp, i) => (
           <button
             onClick={() => {
-              dispatch(setWallpaper(wp[1]))
+              dispatch(setWallpaper({ dark: wp[0], light: wp[1] }))
             }}
             className="relative h-28"
             key={i}
@@ -88,7 +98,7 @@ export function Wallpaper() {
               className="object-cover object-center"
               alt="walpaper"
               fill
-              src={wp[1]}
+              src={theme === 'light' ? wp[1] : wp[0]}
               sizes="(max-width: 100px) 100vw"
             />
           </button>
@@ -99,7 +109,7 @@ export function Wallpaper() {
         {macintosh.map((wp, i) => (
           <button
             onClick={() => {
-              dispatch(setWallpaper(wp[1]))
+              dispatch(setWallpaper({ dark: wp[0], light: wp[1] }))
             }}
             className="relative h-28"
             key={i}
@@ -108,7 +118,7 @@ export function Wallpaper() {
               className="object-cover object-center"
               alt="walpaper"
               fill
-              src={wp[1]}
+              src={theme === 'light' ? wp[1] : wp[0]}
               sizes="(max-width: 100px) 100vw"
             />
           </button>

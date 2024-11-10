@@ -2,10 +2,10 @@
 
 import { minimizeFolder, openFolder } from '@/app/features/window-slice'
 import { useDispatch, useSelector } from '@/app/store'
-import acrobat from '@/public/assets/icons/Acrobat.svg'
+import acrobat from '@/public/assets/icons/Acrobat.png'
 import contactIcon from '@/public/assets/icons/Contacts.png'
 import trashEmpty from '@/public/assets/icons/TrashEmpty.png'
-// import trashFull from '@/public/assets/icons/TrashFull.png'
+import trashFull from '@/public/assets/icons/TrashFull.png'
 import finder from '@/public/assets/icons/Finder.png'
 import messageIcon from '@/public/assets/icons/Messages.png'
 import notes from '@/public/assets/icons/Notes.png'
@@ -24,6 +24,7 @@ export default function AppTray() {
   )
   const dispatch = useDispatch()
   const taskbarApps = folders.filter((f) => f.placement === 'taskbar')
+  const trashItems = useSelector((state) => state.trash.items).length
 
   return (
     <div className="pointer-events-auto rounded-xl bg-white/20 p-1 px-2 backdrop-blur">
@@ -50,6 +51,14 @@ export default function AppTray() {
           >
             {folder.type === 'folder' && folder.id === 'settings' && (
               <Image alt="" src={settings} width={50} height={50} />
+            )}
+            {folder.type === 'folder' && folder.id === 'trash' && (
+              <Image
+                alt=""
+                src={trashItems > 0 ? trashFull : trashEmpty}
+                width={50}
+                height={50}
+              />
             )}
             {folder.type === 'folder' && folder.id === 'inotes' && (
               <Image alt="" src={notes} width={50} height={50} />
@@ -89,9 +98,7 @@ export default function AppTray() {
               <Image alt="" src={folderIcon} width={50} height={50} />
             )}
             {folder.type === 'pdf' && (
-              <div className="flex size-11 items-center justify-center">
-                <Image alt="pdf" src={acrobat} width={35} height={35} />
-              </div>
+              <Image alt="pdf" className='p-[4px]' src={acrobat} width={50} height={50} />
             )}
             <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">
               {folder.name}
@@ -99,8 +106,6 @@ export default function AppTray() {
             <span className="absolute -bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-green-400"></span>
           </button>
         ))}
-        <Image className="" alt="" src={trashEmpty} width={50} height={50} />
-        {/* <Image className="" alt="" src={trashFull} width={50} height={50} /> */}
       </div>
     </div>
   )

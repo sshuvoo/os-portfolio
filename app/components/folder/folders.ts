@@ -65,4 +65,11 @@ export const folders: Folder[] = [
     placement: 'taskbar',
     type: 'folder',
   },
+  {
+    id: 'trash',
+    name: 'Trash',
+    status: 'close',
+    placement: 'taskbar',
+    type: 'folder',
+  },
 ]

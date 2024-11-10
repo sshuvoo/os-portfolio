@@ -85,7 +85,7 @@ export function CalculatorFrame({
         e.stopPropagation()
       }}
       ref={frame}
-      className={`absolute rounded-lg bg-[#282828] shadow-2xl ${status === 'minimize' ? 'hidden' : ''}`}
+      className={`absolute rounded-md bg-[#282828] shadow-2xl ${status === 'minimize' ? 'hidden' : ''}`}
     >
       <div className="relative h-full">
         <div ref={frameHeader} className="!cursor-custom-auto">
