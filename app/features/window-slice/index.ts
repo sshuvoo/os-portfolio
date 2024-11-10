@@ -43,6 +43,12 @@ const windowSlice = createSlice({
         name: uniqueName,
       })
     },
+    restoreFolder: (state, action: PayloadAction<Folder>) => {
+      state.push(action.payload)
+    },
+    restoreFolderAll: (state, action: PayloadAction<Folder[]>) => {
+      state.push(...action.payload)
+    },
     copyFolder: (state, action: PayloadAction<Folder>) => {
       let uniqueName = action.payload.name + '-copy1'
       let index = 1
@@ -82,5 +88,7 @@ export const {
   copyFolder,
   deleteFolder,
   renameFolder,
+  restoreFolder,
+  restoreFolderAll
 } = windowSlice.actions
 export const frameReducer = windowSlice.reducer

@@ -27,7 +27,10 @@ import { MouseEvent, useEffect, useRef, useState } from 'react'
 import { ContextMenu } from './components/context-menu'
 import { FaApple } from 'react-icons/fa'
 import { LockScreen } from './components/lock-screen'
-import { setScreenMode } from './features/settings'
+import { setScreenMode, setWallpaper } from './features/settings'
+import { TrashBin } from './components/trash-bin'
+import md from '@/public/assets/background/monterey-dark.jpg'
+import ml from '@/public/assets/background/monterey-light.jpg'
 
 gsap.registerPlugin(
   useGSAP,
@@ -56,7 +59,6 @@ export default function Home() {
   const bodyRef = useRef<HTMLDivElement>(null)
   const loaderRef = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch()
-
   const handleContextMenu = (
     event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => {
@@ -125,6 +127,10 @@ export default function Home() {
     }
   }, [dispatch])
 
+  useEffect(() => {
+    dispatch(setWallpaper({ dark: md, light: ml }))
+  }, [dispatch])
+
   return (
     <>
       {screen === 'loading' && (
@@ -188,6 +194,7 @@ export default function Home() {
                 key={frame.id}
               >
                 {frame.id === 'skills' && <Skill />}
+                {frame.id === 'trash' && <TrashBin />}
                 {frame.id === 'inotes' && <INotes />}
                 {frame.id === 'settings' && <Settings />}
                 {frame.id === 'terminal' && <Terminal />}

@@ -5,6 +5,7 @@ import { terminalReducer } from '../features/terminal'
 import { chromeReducer } from '../features/chrome'
 import { settingsReducer } from '../features/settings'
 import { notesReducer } from '../features/notes'
+import { trashReducer } from '../features/trash'
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     chrome: chromeReducer,
     settings: settingsReducer,
     iNotes: notesReducer,
+    trash: trashReducer,
   },
 })
 

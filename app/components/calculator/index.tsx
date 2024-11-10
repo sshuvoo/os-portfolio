@@ -108,7 +108,7 @@ export function Calculator() {
               if (
                 last !== '+' &&
                 last !== '-' &&
-                last !== 'x' &&
+                last !== '×' &&
                 last !== '÷'
               ) {
                 handlePress('÷')
@@ -129,10 +129,10 @@ export function Calculator() {
               if (
                 last !== '+' &&
                 last !== '-' &&
-                last !== 'x' &&
+                last !== '×' &&
                 last !== '÷'
               ) {
-                handlePress('x')
+                handlePress('×')
               }
             }
           }}
@@ -163,7 +163,7 @@ export function Calculator() {
           onPress={() => {
             if (expression) {
               const last = expression[expression.length - 1]
-              if (last !== '+' && last !== 'x' && last !== '÷') {
+              if (last !== '+' && last !== '×' && last !== '÷') {
                 handlePress('+')
               }
             }
@@ -190,7 +190,7 @@ export function Calculator() {
               if (
                 last === '+' ||
                 last === '-' ||
-                last === 'x' ||
+                last === '×' ||
                 last === '÷'
               ) {
                 handlePress('0.')

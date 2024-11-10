@@ -25,7 +25,7 @@ export function Topbar() {
   }, ccRef)
 
   return (
-    <div className="relative flex h-7 justify-between bg-white/15 px-4 text-sm text-white backdrop-blur">
+    <div className="relative flex h-7 justify-between bg-white/15 px-4 text-sm font-medium text-black backdrop-blur dark:text-white">
       <div className="flex items-center gap-4">
         <FaApple className="text-lg" />
         <button>Finder</button>
@@ -57,7 +57,7 @@ export function Topbar() {
             onClick={() => void setIsOpenCC((pre) => !pre)}
             className="flex h-full items-center rounded-md px-2 hover:bg-white/25"
           >
-            <ControlCenter className="size-4" />
+            <ControlCenter className="size-4 fill-black dark:fill-white" />
           </button>
         </div>
         <Weather />

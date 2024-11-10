@@ -12,6 +12,7 @@ import { createPortal } from 'react-dom'
 import { Alert } from '../alert'
 import { FolderRename } from './folder-rename'
 import { useClickOutside } from '@/app/hooks/use-click-outside'
+import { addToTrash } from '@/app/features/trash'
 
 export function Folder({
   id,
@@ -127,7 +128,7 @@ export function Folder({
                 setMode('rename')
               }
             }}
-            className="line-clamp-2 w-full text-center text-[#dfdfdf]"
+            className="line-clamp-2 w-full text-center dark:text-light"
           >
             {name}
           </p>
@@ -156,11 +157,20 @@ export function Folder({
             message={
               id === 'resume'
                 ? 'Why are you deleting my resume? \n আমরা কি এই স্বাধীনতা চেয়েছিলাম!'
-                : `${name} will be deleted immediately. \n You can't undo this action`
+                : `${name} will be moved to Trash. \n You can restore later`
             }
             onClose={() => void setIsAlertOpen(false)}
             onConfirm={() => {
               dispatch(deleteFolder(name))
+              dispatch(
+                addToTrash({
+                  id,
+                  name,
+                  placement: 'desktop',
+                  status,
+                  type,
+                })
+              )
             }}
           />,
           document.getElementById('modal')!

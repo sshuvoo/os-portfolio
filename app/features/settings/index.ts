@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import md from '@/public/assets/background/monterey-dark.jpg'
 import { StaticImageData } from 'next/image'
 
+interface Wallpaper {
+  dark: StaticImageData
+  light: StaticImageData
+}
+
 interface InitialState {
-  current: StaticImageData
+  wallpaper: Wallpaper | null
   screen: 'fullscreen' | 'default'
   brightness: number
   volume: number
@@ -11,7 +15,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  current: md,
+  wallpaper: null,
   screen: 'default',
   brightness: 100,
   volume: 50,
@@ -22,8 +26,8 @@ const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    setWallpaper: (state, actions: PayloadAction<StaticImageData>) => {
-      state.current = actions.payload
+    setWallpaper: (state, actions: PayloadAction<Wallpaper>) => {
+      state.wallpaper = actions.payload
     },
     setScreenMode: (
       state,

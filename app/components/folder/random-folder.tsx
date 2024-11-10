@@ -1,6 +1,6 @@
 import folderBlue from '@/public/assets/icons/Folder.png'
 import Image from 'next/image'
-import acrobat from '@/public/assets/icons/Acrobat.svg'
+import acrobat from '@/public/assets/icons/Acrobat.png'
 import { Frame } from './folders'
 
 export function RandomFolder({ type }: { type: Frame }) {

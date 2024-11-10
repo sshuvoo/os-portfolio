@@ -139,7 +139,7 @@ export function WindowFrame({
         e.stopPropagation()
       }}
       ref={frame}
-      className={`absolute h-1/2 min-h-[300px] w-2/4 min-w-[750px] bg-white/20 shadow-xl backdrop-blur-xl ${status === 'minimize' ? 'hidden' : ''}`}
+      className={`absolute h-1/2 min-h-[300px] rounded-md overflow-hidden w-2/4 min-w-[750px] bg-white/20 shadow-xl backdrop-blur-xl ${status === 'minimize' ? 'hidden' : ''}`}
     >
       <div className="relative h-full">
         {/* <div
