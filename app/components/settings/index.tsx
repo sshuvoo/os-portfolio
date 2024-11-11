@@ -10,17 +10,17 @@ export function Settings() {
   const [tab, setTab] = useState<'walpaper'>('walpaper')
 
   return (
-    <div className="grid h-full grid-cols-[250px,1fr]">
-      <div className="h-full bg-[#282828] p-4">
-        <div className="relative mb-2 text-[#ebebeb]">
+    <div className="dark:text-dark-text text-light-text grid h-full grid-cols-[250px,1fr]">
+      <div className="dark:bg-dark-foreground bg-light-foreground h-full p-4">
+        <div className="relative mb-2">
           <FiSearch className="absolute left-2 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search"
-            className="w-full rounded-md bg-[#353535] px-3 py-1 pl-8 text-sm focus:border-[#858585] focus:outline-none"
+            className="dark:bg-dark-input-bg w-full rounded-md bg-white px-3 py-1 pl-8 text-sm focus:border-[#858585] focus:outline-none"
           />
         </div>
-        <div className="my-4 grid grid-cols-[auto,1fr] items-center gap-3 font-medium text-[#c6c6c6]">
+        <div className="my-4 grid grid-cols-[auto,1fr] items-center gap-3 font-medium">
           <div className="size-10">
             <Image alt="" src={author} className="size-full rounded-full" />
           </div>
@@ -29,30 +29,32 @@ export function Settings() {
             <p className="text-xs">Apple Account</p>
           </div>
         </div>
-        <div className="mt-2 space-y-2">
+        <div className="mt-2 space-y-1">
           {sidebarData.map((item) => (
             <button
               key={item.id}
-              className={`menuItem flex w-full items-center gap-2 rounded-md px-2 py-1 ${false ? 'bg-[#383838]' : 'hover:bg-[#383838]'}`}
+              className={`menuItem flex w-full items-center gap-2 rounded-md px-2 py-1 ${false ? 'dark:bg-dark-hover-bg' : 'dark:hover:bg-dark-hover-bg hover:bg-white'}`}
             >
-              <item.Icon className="size-5 text-emerald-500" />
-              <h2 className="font-medium text-[#c6c6c6]">{item.label}</h2>
+              <div className="bg-primary flex size-5 items-center justify-center rounded-md">
+                <item.Icon className="text-white" />
+              </div>
+              <h2 className="font-medium">{item.label}</h2>
             </button>
           ))}
           <button
             onClick={() => {
               setTab('walpaper')
             }}
-            className={`menuItem flex w-full items-center gap-2 rounded-md px-2 py-1 ${tab === 'walpaper' ? 'bg-[#383838]' : 'hover:bg-[#383838]'}`}
+            className={`menuItem flex w-full items-center gap-2 rounded-md px-2 py-1 ${tab === 'walpaper' ? 'dark:bg-dark-hover-bg bg-white' : 'dark:hover:bg-dark-hover-bg hover:bg-white'}`}
           >
-            <IconGalaxy stroke={2} className="size-5 text-emerald-500" />
-            <h2 className="font-medium text-[#c6c6c6]">Wallpaper</h2>
+            <div className="bg-primary flex size-5 items-center justify-center rounded-md">
+              <IconGalaxy stroke={2} className="text-white" />
+            </div>
+            <h2 className="font-medium">Wallpaper</h2>
           </button>
         </div>
       </div>
-      <div className="bg-[#212121] p-4">
-        {tab === 'walpaper' && <Wallpaper />}
-      </div>
+      <div className="p-4">{tab === 'walpaper' && <Wallpaper />}</div>
     </div>
   )
 }

@@ -6,14 +6,14 @@ import Image from 'next/image'
 
 export function WalpaperProvider() {
   const wallpaper = useSelector((state) => state.settings.wallpaper)
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-50">
       {wallpaper && (
         <Image
           fill
-          src={theme === 'dark' ? wallpaper.dark : wallpaper.light}
+          src={resolvedTheme === 'dark' ? wallpaper.dark : wallpaper.light}
           className="object-cover object-center"
           alt=""
         />

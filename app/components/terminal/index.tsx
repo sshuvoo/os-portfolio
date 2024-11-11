@@ -48,7 +48,7 @@ export function Terminal() {
       if (e.shiftKey) return
       if (nodePrompt.trim() === 'exit' || nodePrompt.trim() === 'clear') {
         dispatch(runPrompt(nodePrompt))
-        setNodePrompt("")
+        setNodePrompt('')
       } else if (nodePrompt) {
         try {
           const res = await fetch('/api/execute', {
@@ -77,16 +77,16 @@ export function Terminal() {
   }
 
   return (
-    <div className="p-4 bg-[#2f2f2f] h-full">
+    <div className="h-full p-4">
       {terminal.history.map((command) => {
         return command.mode === 'directory' ? (
           <div key={command.id}>
             <div className="flex gap-2">
-              <h2 className="flex items-center gap-2 text-[#e8e8e8]">
+              <h2 className="flex items-center gap-2">
                 <span>desktop</span>
                 <IconTerminal stroke={2} />
               </h2>
-              <p className="w-full resize-none overflow-hidden whitespace-pre border-none bg-transparent font-mono leading-normal text-white outline-none">
+              <p className="w-full resize-none overflow-hidden whitespace-pre border-none bg-transparent font-mono leading-normal outline-none">
                 {command.command}
               </p>
             </div>
@@ -111,7 +111,9 @@ export function Terminal() {
                 {commandsHelp.map((item) => (
                   <li className="font-medium text-green-500" key={item.command}>
                     {item.command} -{' '}
-                    <span className="text-[#d7d7d7]">{item.action}</span>
+                    <span className="text-light-text dark:text-dark-text">
+                      {item.action}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -120,14 +122,14 @@ export function Terminal() {
         ) : (
           <div key={command.id}>
             <div className="flex flex-col gap-2">
-              <h2 className="flex items-center gap-2 text-[#e8e8e8]">
+              <h2 className="flex items-center gap-2">
                 <span>console</span>
                 <IconBrandNodejs
                   className="size-5 text-green-500"
                   stroke={1.5}
                 />
               </h2>
-              <p className="w-full resize-none overflow-hidden whitespace-pre border-none bg-transparent font-mono leading-normal text-white outline-none">
+              <p className="w-full resize-none overflow-hidden whitespace-pre border-none bg-transparent font-mono leading-normal outline-none">
                 {command.command}
               </p>
             </div>
@@ -144,7 +146,7 @@ export function Terminal() {
         )
       })}
       <div className={terminal.mode === 'directory' ? 'flex gap-2' : ''}>
-        <h2 className="grid grid-cols-[auto,1fr] items-center gap-2 text-[#e8e8e8]">
+        <h2 className="grid grid-cols-[auto,1fr] items-center gap-2">
           <span>{terminal.mode === 'node' ? 'console' : 'desktop'}</span>
           {terminal.mode === 'directory' ? (
             <IconTerminal stroke={2} />
@@ -160,7 +162,7 @@ export function Terminal() {
               onChange={(e) => {
                 setPrompt(e.target.value)
               }}
-              className="w-full resize-none overflow-hidden whitespace-pre border-none bg-transparent font-mono leading-normal text-white outline-none"
+              className="w-full resize-none overflow-hidden whitespace-pre border-none bg-transparent font-mono leading-normal outline-none"
             />
             <input type="submit" hidden />
           </form>
@@ -175,7 +177,7 @@ export function Terminal() {
               }}
               onKeyDown={handleNodeSubmit}
               rows={15}
-              className="w-full resize-none overflow-hidden whitespace-pre border-none bg-transparent font-mono leading-normal text-white outline-none"
+              className="w-full resize-none overflow-hidden whitespace-pre border-none bg-transparent font-mono leading-normal outline-none"
             />
           </form>
         )}

@@ -23,7 +23,7 @@ import { BrowserFrame } from './components/window-frame/browser-frame'
 import { CalculatorFrame } from './components/window-frame/calculator-frame'
 import { Settings } from './components/settings'
 import { INotes } from './components/inotes'
-import { MouseEvent, useEffect, useRef, useState } from 'react'
+import { MouseEvent, UIEvent, useEffect, useRef, useState } from 'react'
 import { ContextMenu } from './components/context-menu'
 import { FaApple } from 'react-icons/fa'
 import { LockScreen } from './components/lock-screen'
@@ -52,6 +52,9 @@ export default function Home() {
   const folders = useSelector((state) => state.windowFrame)
   const destopFolders = folders.filter((f) => f.placement === 'desktop')
   const frames = folders.filter((folder) => folder.status !== 'close')
+  const [screenSize, setScreenSize] = useState<{ w: number; h: number } | null>(
+    null
+  )
   const [ctxPosition, setCtxPosition] = useState<{
     x: number
     y: number
@@ -110,26 +113,23 @@ export default function Home() {
         dispatch(setScreenMode('default'))
       }
     }
-    const handleFullscreen = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() !== 'f') return
-      e.preventDefault()
-      if (document.fullscreenElement) {
-        document.exitFullscreen()
-      } else if (document.body.requestFullscreen) {
-        document.body.requestFullscreen()
-      }
-    }
     document.addEventListener('fullscreenchange', onFullscreen)
-    window.addEventListener('keydown', handleFullscreen)
+    dispatch(setWallpaper({ dark: md, light: ml }))
     return () => {
       document.removeEventListener('fullscreenchange', onFullscreen)
-      window.removeEventListener('keydown', handleFullscreen)
     }
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(setWallpaper({ dark: md, light: ml }))
-  }, [dispatch])
+    const trackSize = () => {
+      setScreenSize({ w: innerWidth, h: innerHeight })
+    }
+    window.addEventListener('resize', trackSize)
+    trackSize()
+    return () => {
+      window.removeEventListener('resize', trackSize)
+    }
+  }, [])
 
   return (
     <>
@@ -148,63 +148,78 @@ export default function Home() {
           }}
         />
       )}
-      {screen === 'desktop' && (
-        <div
-          ref={bodyRef}
-          onContextMenu={handleContextMenu}
-          className="h-[calc(100vh-28px)]"
-        >
-          <div className="flex h-full w-fit flex-col flex-wrap pb-10">
-            {destopFolders.map((folder) => (
-              <Folder
-                status={folder.status}
-                onMinimizeRestore={folder.onMinimizeRestore}
-                id={folder.id}
-                name={folder.name}
-                key={folder.name}
-                type={folder.type}
-              />
-            ))}
+      {screen === 'desktop' &&
+        screenSize &&
+        screenSize.w >= 900 &&
+        screenSize.h >= 600 && (
+          <div
+            ref={bodyRef}
+            onContextMenu={handleContextMenu}
+            className="h-[calc(100vh-28px)]"
+          >
+            <div className="flex h-full w-fit flex-col flex-wrap pb-10">
+              {destopFolders.map((folder) => (
+                <Folder
+                  status={folder.status}
+                  onMinimizeRestore={folder.onMinimizeRestore}
+                  id={folder.id}
+                  name={folder.name}
+                  key={folder.name}
+                  type={folder.type}
+                />
+              ))}
+            </div>
+            {ctxPosition && <ContextMenu position={ctxPosition} />}
+            {frames.map((frame) => {
+              if (frame.type === 'browser') {
+                return (
+                  <BrowserFrame
+                    key={frame.id}
+                    frame_id={frame.id}
+                    status={frame.status}
+                  />
+                )
+              }
+              if (frame.type === 'calculator') {
+                return (
+                  <CalculatorFrame
+                    key={frame.id}
+                    frame_id={frame.id}
+                    status={frame.status}
+                  />
+                )
+              }
+              return (
+                <WindowFrame
+                  frame_id={frame.id}
+                  status={frame.status}
+                  frameName={frame.name}
+                  key={frame.id}
+                >
+                  {frame.id === 'skills' && <Skill />}
+                  {frame.id === 'trash' && <TrashBin />}
+                  {frame.id === 'inotes' && <INotes />}
+                  {frame.id === 'settings' && <Settings />}
+                  {frame.id === 'terminal' && <Terminal />}
+                  {frame.id === 'projects' && <Projects />}
+                  {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
+                </WindowFrame>
+              )
+            })}
           </div>
-          {ctxPosition && <ContextMenu position={ctxPosition} />}
-          {frames.map((frame) => {
-            if (frame.type === 'browser') {
-              return (
-                <BrowserFrame
-                  key={frame.id}
-                  frame_id={frame.id}
-                  status={frame.status}
-                />
-              )
-            }
-            if (frame.type === 'calculator') {
-              return (
-                <CalculatorFrame
-                  key={frame.id}
-                  frame_id={frame.id}
-                  status={frame.status}
-                />
-              )
-            }
-            return (
-              <WindowFrame
-                frame_id={frame.id}
-                status={frame.status}
-                frameName={frame.name}
-                key={frame.id}
-              >
-                {frame.id === 'skills' && <Skill />}
-                {frame.id === 'trash' && <TrashBin />}
-                {frame.id === 'inotes' && <INotes />}
-                {frame.id === 'settings' && <Settings />}
-                {frame.id === 'terminal' && <Terminal />}
-                {frame.id === 'projects' && <Projects />}
-                {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
-              </WindowFrame>
-            )
-          })}
-        </div>
-      )}
+        )}
+      {screen === 'desktop' &&
+        screenSize &&
+        (screenSize.w < 900 || screenSize.h < 600) && (
+          <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-5 bg-black">
+            <h1 className="text-2xl font-medium text-white">
+              Required Screen Size 900 x 600
+            </h1>
+            <h1 className="text-2xl font-medium text-rose-400">
+              Current Screen Size {screenSize.w} x {screenSize.h}
+            </h1>
+          </div>
+        )}
     </>
   )
 }

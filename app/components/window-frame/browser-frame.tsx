@@ -26,6 +26,10 @@ import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 import { FormEvent, useRef, useState } from 'react'
 import { Status } from '../folder/folders'
+import Image from 'next/image'
+import googleIcon from '@/public/assets/icons/google_logo.svg'
+import { useTheme } from 'next-themes'
+
 const size: Size = { minW: 750, minH: 300 }
 
 export function BrowserFrame({
@@ -43,6 +47,7 @@ export function BrowserFrame({
   const fullscreenTL = useRef<gsap.core.Timeline>(gsap.timeline())
   const [isFullscreen, setIsFullscreen] = useState(false)
   const dragRef = useRef<globalThis.Draggable[]>()
+  const { theme } = useTheme()
 
   const { contextSafe } = useGSAP(() => {
     const position_x = Math.floor(
@@ -199,7 +204,7 @@ export function BrowserFrame({
         <div
           ref={frameHeader}
           onDoubleClick={onFullScreen}
-          className="grid !cursor-custom-auto grid-cols-[auto,1fr] bg-[#202124] py-2 pb-1"
+          className="bg-light-background dark:bg-dark-background grid !cursor-custom-auto grid-cols-[auto,1fr] py-2 pb-1"
         >
           <div className="group flex items-center px-2">
             <button
@@ -211,7 +216,7 @@ export function BrowserFrame({
               type="button"
             >
               <div className="size-3 rounded-full bg-[#FF6058]">
-                <IconX className="size-full opacity-0 group-hover:opacity-100" />
+                <IconX className="size-full text-black opacity-0 group-hover:opacity-100" />
               </div>
             </button>
             <button
@@ -220,7 +225,7 @@ export function BrowserFrame({
               type="button"
             >
               <div className="size-3 rounded-full bg-[#FFC130]">
-                <IconMinus className="size-full opacity-0 group-hover:opacity-100" />
+                <IconMinus className="size-full text-black opacity-0 group-hover:opacity-100" />
               </div>
             </button>
             <button
@@ -229,11 +234,11 @@ export function BrowserFrame({
               type="button"
             >
               <div className="size-3 rounded-full bg-[#27CA40]">
-                <IconBracketsAngle className="size-full -rotate-45 opacity-0 group-hover:opacity-100" />
+                <IconBracketsAngle className="size-full -rotate-45 text-black opacity-0 group-hover:opacity-100" />
               </div>
             </button>
           </div>
-          <div className="flex gap-1 text-sm text-[#d3d3d3]">
+          <div className="flex gap-1 text-sm">
             {tabs.map((tab) => (
               <button
                 onClick={() => {
@@ -241,7 +246,7 @@ export function BrowserFrame({
                   setUrl(tab.url)
                 }}
                 key={tab.id}
-                className="relative flex w-full max-w-40 items-center justify-between rounded-t-md bg-[#35363A] px-3 py-[6px]"
+                className="bg-light-foreground relative flex w-full max-w-40 items-center justify-between rounded-t-md px-3 py-[6px] dark:bg-[#35363A]"
               >
                 <span className="line-clamp-1">{tab.title}</span>
                 <IconX
@@ -255,7 +260,7 @@ export function BrowserFrame({
                   className="size-4"
                 />
                 {focusedTab === tab.id && (
-                  <span className="absolute -bottom-1 left-0 h-1 w-full bg-[#35363A]"></span>
+                  <span className="bg-light-foreground absolute -bottom-1 left-0 h-1 w-full dark:bg-[#35363A]"></span>
                 )}
               </button>
             ))}
@@ -271,8 +276,8 @@ export function BrowserFrame({
             </button>
           </div>
         </div>
-        <div className="h-full max-h-[calc(100%-40px)] overflow-y-auto bg-[#202124]">
-          <div className="flex items-center gap-3 bg-[#35363A] px-2 py-1 text-white">
+        <div className="bg-light-background dark:bg-dark-background h-full max-h-[calc(100%-40px)] overflow-y-auto">
+          <div className="bg-light-foreground flex items-center gap-3 px-2 py-1 dark:bg-[#35363A]">
             <IconArrowLeft stroke={2} className="text-gray-500" />
             <IconArrowRight stroke={2} className="text-gray-500" />
             <IconReload stroke={2} />
@@ -286,17 +291,37 @@ export function BrowserFrame({
                 }}
                 type="text"
                 placeholder="Search"
-                className="w-full rounded-2xl border-2 border-[#191919] bg-[#1d1d1d] px-3 py-1 text-sm focus:border-[#858585] focus:outline-none"
+                className="border-light-border bg-light-background w-full rounded-2xl border-2 px-3 py-1 text-sm focus:border-[#858585] focus:outline-none dark:border-[#191919] dark:bg-[#1d1d1d]"
               />
               <input type="submit" hidden />
             </form>
             <IconDotsVertical stroke={2} />
           </div>
-          {activeTab && (
+          {activeTab && activeTab.iframe_url ? (
             <iframe
               className="h-[calc(100%-40px)] w-full"
               src={activeTab.iframe_url}
             />
+          ) : (
+            <div className="flex h-[calc(100%-40px)] w-full flex-col items-center  gap-6 justify-center">
+              {theme === 'dark' ? (
+                <div
+                  style={{
+                    maskImage: "url('/assets/icons/google_logo.svg')",
+                    maskRepeat: 'no-repeat',
+                    maskSize: '100%',
+                  }}
+                  className="h-[92px] w-[272px] bg-white forced-color-adjust-none"
+                />
+              ) : (
+                <Image alt="" src={googleIcon} className="" />
+              )}
+              <input
+                type="text"
+                placeholder="Search Google"
+                className="border-light-border bg-light-background h-12 w-full max-w-xl rounded-full border-2 px-3 text-sm focus:border-[#858585] focus:outline-none dark:border-[#858585] dark:bg-[#1d1d1d]"
+              />
+            </div>
           )}
         </div>
       </div>
