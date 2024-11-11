@@ -67,7 +67,7 @@ export function ContextMenu({
               ? 'Exit Fullscreen'
               : 'Request Fullscreen'}
           </span>
-          <span>F</span>
+          <span>F11</span>
         </li>
         <li className="flex items-center justify-between">
           <span>Sort By</span>

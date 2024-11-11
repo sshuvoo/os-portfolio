@@ -139,7 +139,7 @@ export function WindowFrame({
         e.stopPropagation()
       }}
       ref={frame}
-      className={`absolute h-1/2 min-h-[300px] rounded-md overflow-hidden w-2/4 min-w-[750px] bg-white/20 shadow-xl backdrop-blur-xl ${status === 'minimize' ? 'hidden' : ''}`}
+      className={`absolute h-1/2 min-h-[300px] w-2/4 min-w-[750px] overflow-hidden rounded-md bg-white/20 shadow-2xl backdrop-blur-xl ${status === 'minimize' ? 'hidden' : ''}`}
     >
       <div className="relative h-full">
         {/* <div
@@ -176,17 +176,18 @@ export function WindowFrame({
         />
 
         <div
+          ref={frameHeader}
           onDoubleClick={onFullScreen}
-          className="grid grid-cols-[250px,1fr]"
+          className="grid grid-cols-[250px,1fr] !cursor-custom-auto"
         >
-          <div className="group flex items-center bg-[#282828] p-3">
+          <div className="dark:bg-dark-foreground bg-light-foreground group flex items-center p-3">
             <button
               onClick={onClose}
               className="!cursor-custom-auto p-1"
               type="button"
             >
               <div className="size-3 rounded-full bg-rose-500">
-                <IconX className="size-full opacity-0 group-hover:opacity-100" />
+                <IconX className="size-full text-black opacity-0 group-hover:opacity-100" />
               </div>
             </button>
             <button
@@ -195,7 +196,7 @@ export function WindowFrame({
               type="button"
             >
               <div className="size-3 rounded-full bg-yellow-500">
-                <IconMinus className="size-full opacity-0 group-hover:opacity-100" />
+                <IconMinus className="size-full text-black opacity-0 group-hover:opacity-100" />
               </div>
             </button>
             <button
@@ -204,15 +205,12 @@ export function WindowFrame({
               type="button"
             >
               <div className="size-3 rounded-full bg-green-500">
-                <IconBracketsAngle className="size-full -rotate-45 opacity-0 group-hover:opacity-100" />
+                <IconBracketsAngle className="size-full -rotate-45 text-black opacity-0 group-hover:opacity-100" />
               </div>
             </button>
           </div>
-          <div className="grid grid-cols-[1fr,auto] items-center justify-between bg-[#212121] px-4 text-[#d0d0d0]">
-            <div
-              ref={frameHeader}
-              className="flex !cursor-custom-pointer items-center gap-2 text-[#8d8d8d]"
-            >
+          <div className="dark:text-dark-text text-light-text dark:bg-dark-background bg-light-background grid grid-cols-[1fr,auto] items-center justify-between px-4">
+            <div className="dark:text-light-primary flex !cursor-custom-auto items-center gap-2 text-dark-primary">
               <div className="flex items-center">
                 <button>
                   <IconChevronLeft stroke={2} />
@@ -221,7 +219,7 @@ export function WindowFrame({
                   <IconChevronRight stroke={2} />
                 </button>
               </div>
-              <h3 className="font-semibold text-[#dedede]">{frameName}</h3>
+              <h3 className="font-semibold">{frameName}</h3>
             </div>
             <div className="flex items-center gap-2 text-[#8d8d8d]">
               <button>
@@ -233,12 +231,12 @@ export function WindowFrame({
               <input
                 type="text"
                 placeholder="Search"
-                className="rounded-2xl border-2 border-[#191919] bg-[#353535] px-3 py-1 text-sm focus:border-[#858585] focus:outline-none"
+                className="dark:bg-dark-input-bg bg-light-input-bg dark:border-dark-border border-light-border rounded-2xl border-2 px-3 py-1 text-sm focus:border-[#858585] focus:outline-none"
               />
             </div>
           </div>
         </div>
-        <div className="h-full max-h-[calc(100%-44px)] overflow-y-auto">
+        <div className="bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text h-full max-h-[calc(100%-44px)] overflow-y-auto">
           {children}
         </div>
       </div>

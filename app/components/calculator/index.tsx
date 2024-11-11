@@ -63,9 +63,6 @@ export function Calculator() {
     <>
       <div className="mb-2">
         <div className="flex flex-col">
-          {/* <p className="h-8 overflow-y-hidden text-right text-2xl text-gray-400">
-            {history}
-          </p> */}
           <input
             value={history || ''}
             readOnly
@@ -75,7 +72,7 @@ export function Calculator() {
             ref={inputRef}
             value={expression || 0}
             readOnly
-            className="w-[220px] !cursor-custom-auto bg-transparent text-right text-4xl text-white focus:outline-none"
+            className="w-[220px] !cursor-custom-auto bg-transparent text-right text-4xl focus:outline-none"
           />
         </div>
       </div>

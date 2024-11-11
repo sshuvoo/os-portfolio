@@ -85,7 +85,7 @@ export function CalculatorFrame({
         e.stopPropagation()
       }}
       ref={frame}
-      className={`absolute rounded-md bg-[#282828] shadow-2xl ${status === 'minimize' ? 'hidden' : ''}`}
+      className={`dark:bg-dark-foreground bg-light-background absolute rounded-md shadow-2xl ${status === 'minimize' ? 'hidden' : ''}`}
     >
       <div className="relative h-full">
         <div ref={frameHeader} className="!cursor-custom-auto">
@@ -96,7 +96,7 @@ export function CalculatorFrame({
               type="button"
             >
               <div className="size-3 rounded-full bg-rose-500">
-                <IconX className="size-full opacity-0 group-hover:opacity-100" />
+                <IconX className="size-full text-black opacity-0 group-hover:opacity-100" />
               </div>
             </button>
             <button
@@ -105,7 +105,7 @@ export function CalculatorFrame({
               type="button"
             >
               <div className="size-3 rounded-full bg-yellow-500">
-                <IconMinus className="size-full opacity-0 group-hover:opacity-100" />
+                <IconMinus className="size-full text-black opacity-0 group-hover:opacity-100" />
               </div>
             </button>
             <button className="!cursor-custom-auto p-1" type="button">

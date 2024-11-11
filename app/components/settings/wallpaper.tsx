@@ -51,30 +51,30 @@ const macintosh = [
 export function Wallpaper() {
   const dispatch = useDispatch()
   const wallpaper = useSelector((state) => state.settings.wallpaper)
-  const { theme, setTheme } = useTheme()
+  const { theme, resolvedTheme, setTheme } = useTheme()
 
   return (
     <div className="p-4">
-      <div className="flex gap-8 border-b border-[#5f5f5f] pb-10">
+      <div className="border-light-border flex gap-8 border-b pb-10 dark:border-[#4b4b4b]">
         <div className="relative h-28 w-60">
           {wallpaper && (
             <Image
               className="object-cover object-center"
               alt="walpaper"
               fill
-              src={theme === 'dark' ? wallpaper.dark : wallpaper.light}
+              src={resolvedTheme === 'dark' ? wallpaper.dark : wallpaper.light}
               sizes="(max-width: 100px) 100vw"
             />
           )}
         </div>
-        <div className="flex items-start gap-3 text-white">
+        <div className="flex h-fit items-center justify-start gap-3 font-medium">
           <h3>Theme Mode</h3>
           <select
             onChange={(e) => {
               setTheme(e.target.value)
             }}
             value={theme}
-            className="bg-[#212121] px-2 py-[2px] focus:outline-none"
+            className="bg-light-background dark:bg-dark-background px-2 py-[2px] focus:outline-none"
           >
             <option value="system">Automatic</option>
             <option value="dark">Dark</option>
@@ -82,9 +82,7 @@ export function Wallpaper() {
           </select>
         </div>
       </div>
-      <h2 className="my-4 text-xl font-medium text-white">
-        Sequoia-Monterey-Ventura
-      </h2>
+      <h2 className="my-4 text-lg font-medium">Sequoia-Monterey-Ventura</h2>
       <div className="mb-8 grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
         {mixWallpaper.map((wp, i) => (
           <button
@@ -98,13 +96,13 @@ export function Wallpaper() {
               className="object-cover object-center"
               alt="walpaper"
               fill
-              src={theme === 'light' ? wp[1] : wp[0]}
+              src={resolvedTheme === 'light' ? wp[1] : wp[0]}
               sizes="(max-width: 100px) 100vw"
             />
           </button>
         ))}
       </div>
-      <h2 className="mb-4 text-xl font-medium text-white">Macintosh</h2>
+      <h2 className="mb-4 text-lg font-medium">Macintosh</h2>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
         {macintosh.map((wp, i) => (
           <button
@@ -118,7 +116,7 @@ export function Wallpaper() {
               className="object-cover object-center"
               alt="walpaper"
               fill
-              src={theme === 'light' ? wp[1] : wp[0]}
+              src={resolvedTheme === 'light' ? wp[1] : wp[0]}
               sizes="(max-width: 100px) 100vw"
             />
           </button>

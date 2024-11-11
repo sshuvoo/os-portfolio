@@ -61,7 +61,7 @@ export function SoundRange() {
     }
   }, [dispatch])
 
-  const handlePlay = () => {
+  const handleStart = () => {
     if (music_status === 'playing') audio.current.pause()
     else {
       audio.current.volume = volume / 100
@@ -70,19 +70,20 @@ export function SoundRange() {
   }
 
   useEffect(() => {
+    const music = audio.current
     const handlePlay = () => {
       dispatch(setMusicStatus('playing'))
     }
     const handlePause = () => {
       dispatch(setMusicStatus('paused'))
     }
-    audio.current.addEventListener('play', handlePlay)
-    audio.current.addEventListener('pause', handlePause)
-    audio.current.addEventListener('ended', handlePause)
+    music.addEventListener('play', handlePlay)
+    music.addEventListener('pause', handlePause)
+    music.addEventListener('ended', handlePause)
     return () => {
-      audio.current.removeEventListener('play', handlePlay)
-      audio.current.removeEventListener('pause', handlePause)
-      audio.current.removeEventListener('ended', handlePause)
+      music.removeEventListener('play', handlePlay)
+      music.removeEventListener('pause', handlePause)
+      music.removeEventListener('ended', handlePause)
     }
   }, [dispatch])
 
@@ -121,7 +122,7 @@ export function SoundRange() {
           </h2>
         </div>
         <div className="flex items-center gap-2 text-black">
-          <button onClick={handlePlay}>
+          <button onClick={handleStart}>
             {music_status === 'playing' ? <FaPause /> : <FaPlay />}
           </button>
           <FaForward className="text-[#484848]" />
