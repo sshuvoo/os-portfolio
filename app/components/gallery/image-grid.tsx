@@ -1,8 +1,8 @@
 import { getPhotos } from '@/app/actions/get-photos'
 import { searchPhotos } from '@/app/actions/search-photos'
 import { IPhoto } from '@/app/types/unsplash.type'
-import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { ImageCard } from './image-card'
 
 export function ImageGrid({ query }: { query: string }) {
   const [photos, setPhotos] = useState<IPhoto[]>([])
@@ -18,6 +18,7 @@ export function ImageGrid({ query }: { query: string }) {
           if (!ignore) setPhotos(photos?.results || [])
         } else {
           const photos = await getPhotos()
+          console.log(photos)
           if (!ignore) setPhotos(photos || [])
         }
       } catch (error) {
@@ -67,14 +68,7 @@ export function ImageGrid({ query }: { query: string }) {
       }
     >
       {photos.map((photo) => (
-        <Image
-          key={photo.id}
-          alt={photo.alt_description}
-          src={photo.urls.regular}
-          width={400}
-          height={400}
-          className="mb-4"
-        />
+        <ImageCard key={photo.id} photo={photo} />
       ))}
     </div>
   )

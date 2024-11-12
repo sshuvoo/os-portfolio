@@ -228,11 +228,11 @@ export function WindowFrame({
               <button>
                 <IconLayoutBoard stroke={2} />
               </button>
-              <input
+              {/* <input
                 type="text"
                 placeholder="Search"
                 className="dark:bg-dark-input-bg bg-light-input-bg dark:border-dark-border border-light-border rounded-2xl border-2 px-3 py-1 text-sm focus:border-[#858585] focus:outline-none"
-              />
+              /> */}
             </div>
           </div>
         </div>

@@ -93,18 +93,18 @@ export default function Home() {
   }, [])
 
   const [screen, setScreen] = useState<'loading' | 'desktop' | 'lock'>(
-    'desktop'
+    'loading'
   )
 
-  // useGSAP(() => {
-  //   gsap.to(loaderRef.current, {
-  //     width: '100%',
-  //     duration: 2,
-  //     onComplete: () => {
-  //       setScreen('lock')
-  //     },
-  //   })
-  // })
+  useGSAP(() => {
+    gsap.to(loaderRef.current, {
+      width: '100%',
+      duration: 2,
+      onComplete: () => {
+        setScreen('lock')
+      },
+    })
+  })
 
   useEffect(() => {
     const onFullscreen = () => {
