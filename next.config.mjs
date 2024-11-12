@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'developer.accuweather.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
   },
 }

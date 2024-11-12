@@ -31,6 +31,7 @@ import { setScreenMode, setWallpaper } from './features/settings'
 import { TrashBin } from './components/trash-bin'
 import md from '@/public/assets/background/monterey-dark.jpg'
 import ml from '@/public/assets/background/monterey-light.jpg'
+import { Gallery } from './components/gallery'
 
 gsap.registerPlugin(
   useGSAP,
@@ -92,18 +93,18 @@ export default function Home() {
   }, [])
 
   const [screen, setScreen] = useState<'loading' | 'desktop' | 'lock'>(
-    'loading'
+    'desktop'
   )
 
-  useGSAP(() => {
-    gsap.to(loaderRef.current, {
-      width: '100%',
-      duration: 2,
-      onComplete: () => {
-        setScreen('lock')
-      },
-    })
-  })
+  // useGSAP(() => {
+  //   gsap.to(loaderRef.current, {
+  //     width: '100%',
+  //     duration: 2,
+  //     onComplete: () => {
+  //       setScreen('lock')
+  //     },
+  //   })
+  // })
 
   useEffect(() => {
     const onFullscreen = () => {
@@ -200,6 +201,7 @@ export default function Home() {
                   {frame.id === 'trash' && <TrashBin />}
                   {frame.id === 'inotes' && <INotes />}
                   {frame.id === 'settings' && <Settings />}
+                  {frame.id === 'gallery' && <Gallery />}
                   {frame.id === 'terminal' && <Terminal />}
                   {frame.id === 'projects' && <Projects />}
                   {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
