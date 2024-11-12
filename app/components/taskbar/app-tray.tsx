@@ -53,14 +53,6 @@ export default function AppTray() {
             className="object-cover object-center"
           />
         </button>
-        <button className="relative size-14">
-          <Image
-            alt=""
-            src={photoIcon}
-            fill
-            className="object-cover object-center"
-          />
-        </button>
         {taskbarApps.map((folder) => (
           <button
             className="group relative size-14"
@@ -79,6 +71,14 @@ export default function AppTray() {
               <Image
                 alt=""
                 src={settings}
+                fill
+                className="object-cover object-center"
+              />
+            )}
+            {folder.type === 'folder' && folder.id === 'gallery' && (
+              <Image
+                alt=""
+                src={photoIcon}
                 fill
                 className="object-cover object-center"
               />
