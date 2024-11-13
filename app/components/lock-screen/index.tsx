@@ -41,12 +41,8 @@ export function LockScreen({ next }: { next: () => void }) {
         <form
           onSubmit={(e) => {
             e.preventDefault()
-            if (password === '1234') {
-              if (document.body.requestFullscreen) {
-                document.body.requestFullscreen()
-              }
-              next()
-            } else setPassword('')
+            if (password === '1234') next()
+            else setPassword('')
           }}
           className="group relative"
         >

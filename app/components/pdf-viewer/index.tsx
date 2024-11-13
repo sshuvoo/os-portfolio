@@ -9,12 +9,12 @@ export function PDFViewer({ id }: { id: string }) {
   const { Download } = getFilePluginInstance
 
   return (
-    <div className="relative">
-      <div className="flex justify-end bg-[#313131]">
+    <div className="relative max-h-full overflow-y-auto">
+      <div className="flex justify-end dark:bg-dark-background bg-light-background">
         <Download>
           {(props: RenderDownloadProps) => (
             <button
-              className="flex items-center gap-2 px-4 py-2 text-[#e0e0e0]"
+              className="flex items-center gap-2 px-4 py-2 font-medium"
               onClick={props.onClick}
             >
               <IconDownload stroke={2} />

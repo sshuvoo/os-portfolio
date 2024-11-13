@@ -59,7 +59,7 @@ export function Backend() {
         </SkillCard>
         <SkillCard title="Express" className="express">
           <div className="size-[60px]">
-            <SiExpress className="size-full text-[#d9d9d9]" />
+            <SiExpress className="size-full text-light-text dark:text-dark-text" />
           </div>
         </SkillCard>
         <SkillCard title="NestJS" className="nestjs">
@@ -78,7 +78,7 @@ export function Backend() {
         <SkillCard title="Socket.Io" className="socketio">
           <div className="size-[60px]">
             <IconBrandSocketIo
-              className="size-full text-[#d9d9d9]"
+              className="size-full text-light-text dark:text-dark-text"
               stroke={1.5}
             />
           </div>

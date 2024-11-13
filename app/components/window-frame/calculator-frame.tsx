@@ -4,16 +4,20 @@ import { useGSAP } from '@gsap/react'
 import { IconMinus, IconX } from '@tabler/icons-react'
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Status } from '../folder/folders'
-import { useDispatch } from '@/app/store'
+import { useDispatch, useSelector } from '@/app/store'
 import { closeFolder, minimizeFolder } from '@/app/features/window-slice'
 import { Calculator } from '../calculator'
+import { useClickOutside } from '@/app/hooks/use-click-outside'
+import { setActiveApp, setZIndex } from '@/app/features/settings'
 
 export function CalculatorFrame({
+  frameName,
   frame_id,
   status,
 }: {
+  frameName: string
   frame_id: string
   status: Status
 }) {
@@ -22,6 +26,8 @@ export function CalculatorFrame({
   const frameHeader = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch()
   const minimizeTL = useRef<gsap.core.Timeline>(gsap.timeline())
+  const { zIndex } = useSelector((state) => state.settings)
+  const [isFocused, setIsFocused] = useState(false)
 
   const { contextSafe } = useGSAP(() => {
     const position_x = Math.floor(Math.random() * (innerWidth - 300))
@@ -44,12 +50,14 @@ export function CalculatorFrame({
       }
     )
     Draggable.create(frame.current, {
-      // bounds: 'body',
       trigger: frameHeader.current,
+      zIndexBoost: false,
+      allowEventDefault: true,
     })
   })
 
   const onClose = contextSafe(() => {
+    dispatch(setActiveApp(null))
     timeline.current.reverse()
     timeline.current.eventCallback('onReverseComplete', () => {
       dispatch(closeFolder(frame_id))
@@ -79,13 +87,29 @@ export function CalculatorFrame({
     })
   })
 
+  const handleZIndex = () => {
+    if (frame.current) {
+      dispatch(setZIndex(zIndex + 1))
+      frame.current.style.zIndex = `${zIndex + 1}`
+    }
+  }
+
+  useClickOutside(() => {
+    setIsFocused(false)
+  }, frame)
+
   return (
     <div
       onContextMenu={(e) => {
         e.stopPropagation()
       }}
+      onMouseDown={() => {
+        dispatch(setActiveApp({ name: frameName }))
+        handleZIndex()
+        setIsFocused(true)
+      }}
       ref={frame}
-      className={`dark:bg-dark-foreground bg-light-background absolute rounded-md shadow-2xl ${status === 'minimize' ? 'hidden' : ''}`}
+      className={`absolute rounded-md bg-light-background shadow-2xl dark:bg-dark-foreground ${isFocused ? 'brightness-100' : 'brightness-90'} ${status === 'minimize' ? 'hidden' : ''}`}
     >
       <div className="relative h-full">
         <div ref={frameHeader} className="!cursor-custom-auto">

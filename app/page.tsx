@@ -178,6 +178,7 @@ export default function Home() {
                     key={frame.id}
                     frame_id={frame.id}
                     status={frame.status}
+                    frameName={frame.name}
                   />
                 )
               }
@@ -187,11 +188,17 @@ export default function Home() {
                     key={frame.id}
                     frame_id={frame.id}
                     status={frame.status}
+                    frameName={frame.name}
                   />
                 )
               }
               return (
                 <WindowFrame
+                  enableSidebar={
+                    frame.id !== 'terminal' &&
+                    frame.id !== 'projects' &&
+                    frame.type !== 'pdf'
+                  }
                   frame_id={frame.id}
                   status={frame.status}
                   frameName={frame.name}

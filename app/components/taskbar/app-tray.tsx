@@ -127,7 +127,7 @@ export default function AppTray() {
               {folder.name}
             </span>
             {(folder.status === 'open' || folder.status === 'minimize') && (
-              <span className="absolute -bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-green-400"></span>
+              <span className="absolute -bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-black dark:bg-white"></span>
             )}
           </button>
         ))}
@@ -156,16 +156,15 @@ export default function AppTray() {
             {folder.type === 'pdf' && (
               <Image
                 alt="pdf"
-                // className="p-[4px]"
                 src={acrobat}
                 fill
-                className="object-cover object-center"
+                className="object-cover object-center p-[6px]"
               />
             )}
             <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">
               {folder.name}
             </span>
-            <span className="absolute -bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-green-400"></span>
+            <span className="absolute -bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-black dark:bg-white"></span>
           </button>
         ))}
       </div>

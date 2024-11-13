@@ -57,7 +57,7 @@ export function Tools() {
           <div className="size-[60px]">
             <IconBrandGithub
               stroke={1.5}
-              className="size-full fill-black text-[#dedede]"
+              className="size-full fill-white text-light-text dark:fill-black dark:text-dark-text"
             />
           </div>
         </SkillCard>
@@ -65,7 +65,7 @@ export function Tools() {
           <div className="size-[60px]">
             <IconBrandDocker
               stroke={1.5}
-              className="size-full fill-black text-[#1D63ED]"
+              className="size-full fill-white text-[#1D63ED] dark:fill-black"
             />
           </div>
         </SkillCard>
@@ -73,7 +73,7 @@ export function Tools() {
           <div className="size-[60px]">
             <IconBrandFigma
               stroke={1.5}
-              className="size-full fill-black text-[#dedede]"
+              className="size-full fill-white text-light-text dark:fill-black dark:text-dark-text"
             />
           </div>
         </SkillCard>

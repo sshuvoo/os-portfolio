@@ -89,39 +89,39 @@ export function SoundRange() {
 
   return (
     <>
-      <div className="rounded-2xl bg-white/50 p-3">
-        <h2 className="mb-1 font-medium text-black">Sound</h2>
+      <div className="rounded-2xl bg-white/50 p-3 dark:bg-black/50">
+        <h2 className="mb-1 font-medium">Sound</h2>
         <div
           ref={soundTrack}
-          className="relative h-6 rounded-full border border-[#6f6f6f] bg-black/20"
+          className="relative h-6 rounded-full border border-[#6f6f6f] bg-black/20 dark:bg-white/20"
         >
           {volume > 0 ? (
-            <HiMiniSpeakerWave className="pointer-events-none absolute left-1 top-1/2 size-5 -translate-y-1/2 text-black" />
+            <HiMiniSpeakerWave className="pointer-events-none absolute left-1 top-1/2 size-5 -translate-y-1/2" />
           ) : (
-            <HiMiniSpeakerXMark className="pointer-events-none absolute left-1 top-1/2 size-5 -translate-y-1/2 text-black" />
+            <HiMiniSpeakerXMark className="pointer-events-none absolute left-1 top-1/2 size-5 -translate-y-1/2" />
           )}
           <div
             ref={soundLabel}
             style={{ width: `${volume}%` }}
-            className="box-border flex h-full justify-end rounded-full bg-white"
+            className="box-border flex h-full justify-end rounded-full bg-white dark:bg-black"
           >
             <button
               ref={soundThumb}
-              className="size-[22px] rounded-full border border-[#d2d2d2]"
+              className="size-[22px] rounded-full border border-[#d2d2d2] dark:border-[#6f6f6f]"
             ></button>
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between rounded-2xl bg-white/50 p-3">
+      <div className="flex items-center justify-between rounded-2xl bg-white/50 dark:bg-black/50 p-3">
         <div className="flex items-center gap-2">
-          <div className="flex size-12 items-center justify-center rounded-md bg-black/20">
+          <div className="flex size-12 items-center justify-center rounded-md bg-black/20 dark:bg-white/20">
             <Image alt="" src={musicIcon} width={30} height={30} />
           </div>
-          <h2 className="font-medium text-black">
+          <h2 className="font-medium">
             {music_status === 'playing' ? 'Pehli Bhi Main' : 'Music'}
           </h2>
         </div>
-        <div className="flex items-center gap-2 text-black">
+        <div className="flex items-center gap-2">
           <button onClick={handleStart}>
             {music_status === 'playing' ? <FaPause /> : <FaPlay />}
           </button>
