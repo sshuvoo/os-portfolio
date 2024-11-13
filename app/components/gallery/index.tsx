@@ -2,20 +2,24 @@ import { useState } from 'react'
 import { FiSearch } from 'react-icons/fi'
 import { sidebarData } from './sidebar-data'
 import { ImageGrid } from './image-grid'
+import { useDebounce } from '@/app/hooks/useDebounce'
 
 export function Gallery() {
   const [tab, setTab] = useState<string>('unsplash')
   const [query, setQuery] = useState('')
 
+  const slowDown = useDebounce<string>((value) => {
+    setQuery(value)
+  }, 1)
+
   return (
     <div className="grid h-full grid-cols-[250px,1fr] text-light-text dark:text-dark-text">
-      <div className="h-full bg-light-foreground p-4 dark:bg-dark-foreground">
+      <div className="max-h-full overflow-y-auto bg-light-foreground p-4 dark:bg-dark-foreground">
         <div className="relative mb-2">
           <FiSearch className="absolute left-2 top-1/2 -translate-y-1/2" />
           <input
-            value={query}
             onChange={(e) => {
-              setQuery(e.target.value)
+              slowDown(e.target.value)
             }}
             type="text"
             placeholder="Search"
@@ -39,8 +43,8 @@ export function Gallery() {
           ))}
         </div>
       </div>
-      <div className="p-4">
-        <ImageGrid query={query}/>
+      <div className="max-h-full overflow-y-auto p-4">
+        <ImageGrid query={query} />
       </div>
     </div>
   )

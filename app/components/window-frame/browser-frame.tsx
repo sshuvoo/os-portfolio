@@ -29,13 +29,17 @@ import { Status } from '../folder/folders'
 import Image from 'next/image'
 import googleIcon from '@/public/assets/icons/google_logo.svg'
 import { useTheme } from 'next-themes'
+import { setActiveApp, setZIndex } from '@/app/features/settings'
+import { useClickOutside } from '@/app/hooks/use-click-outside'
 
 const size: Size = { minW: 750, minH: 300 }
 
 export function BrowserFrame({
+  frameName,
   frame_id,
   status,
 }: {
+  frameName: string
   frame_id: string
   status: Status
 }) {
@@ -47,6 +51,8 @@ export function BrowserFrame({
   const fullscreenTL = useRef<gsap.core.Timeline>(gsap.timeline())
   const [isFullscreen, setIsFullscreen] = useState(false)
   const dragRef = useRef<globalThis.Draggable[]>()
+  const { zIndex } = useSelector((state) => state.settings)
+  const [isFocused, setIsFocused] = useState(false)
   const { theme } = useTheme()
 
   const { contextSafe } = useGSAP(() => {
@@ -76,10 +82,42 @@ export function BrowserFrame({
     dragRef.current = Draggable.create(frame.current, {
       // bounds: 'body',
       trigger: frameHeader.current,
+      zIndexBoost: false,
+      allowEventDefault: true,
     })
   })
 
+  const onDragEnable = () => {
+    if (dragRef.current) {
+      dragRef.current[0].enable()
+    }
+  }
+
+  const syncPosition = () => {
+    if (dragRef.current && frame.current) {
+      const rect = frame.current.getBoundingClientRect()
+      const left = rect.left
+      const top = rect.top
+      gsap.set(frame.current, { left, top, x: 0, y: 0 })
+    }
+  }
+
+  const onDragDisable = () => {
+    if (dragRef.current) {
+      syncPosition()
+      dragRef.current[0].kill()
+    }
+  }
+
+  const handleZIndex = () => {
+    if (frame.current) {
+      dispatch(setZIndex(zIndex + 1))
+      frame.current.style.zIndex = `${zIndex + 1}`
+    }
+  }
+
   const onClose = contextSafe(() => {
+    dispatch(setActiveApp(null))
     timeline.current.reverse()
     timeline.current.eventCallback('onReverseComplete', () => {
       dispatch(closeFolder(frame_id))
@@ -139,7 +177,30 @@ export function BrowserFrame({
     }
   })
 
+  const t = useResize({ frame, place: 't', size, onDragEnable, onDragDisable })
+  const tr = useResize({
+    frame,
+    place: 'tr',
+    size,
+    onDragEnable,
+    onDragDisable,
+  })
+  const tl = useResize({
+    frame,
+    place: 'tl',
+    size,
+    onDragEnable,
+    onDragDisable,
+  })
   const r = useResize({ frame, place: 'r', size })
+  const l = useResize({ frame, place: 'l', size, onDragEnable, onDragDisable })
+  const bl = useResize({
+    frame,
+    place: 'bl',
+    size,
+    onDragEnable,
+    onDragDisable,
+  })
   const b = useResize({ frame, place: 'b', size })
   const br = useResize({ frame, place: 'br', size })
 
@@ -159,19 +220,28 @@ export function BrowserFrame({
   const { focusedTab, tabs } = useSelector((state) => state.chrome)
   const activeTab = tabs.find((tab) => tab.id === focusedTab)
 
+  useClickOutside(() => {
+    setIsFocused(false)
+  }, frame)
+
   return (
     <div
       onContextMenu={(e) => {
         e.stopPropagation()
       }}
+      onMouseDown={() => {
+        dispatch(setActiveApp({ name: frameName }))
+        handleZIndex()
+        setIsFocused(true)
+      }}
       ref={frame}
-      className={`absolute h-1/2 min-h-[300px] w-2/4 min-w-[750px] overflow-hidden rounded-md bg-white/20 shadow-xl backdrop-blur-xl ${status === 'minimize' ? 'hidden' : ''}`}
+      className={`absolute h-1/2 min-h-[300px] w-2/4 min-w-[750px] overflow-hidden rounded-md bg-white/20 shadow-xl backdrop-blur-xl ${isFocused ? 'brightness-100' : 'brightness-90'} ${status === 'minimize' ? 'hidden' : ''}`}
     >
       <div className="relative h-full">
-        {/* <div
+        <div
           ref={t}
           className="absolute top-0 z-10 h-1 w-full cursor-ns-resize bg-transparent"
-        /> */}
+        />
         <div
           ref={b}
           className="absolute bottom-0 z-10 h-1 w-full cursor-ns-resize bg-transparent"
@@ -180,22 +250,22 @@ export function BrowserFrame({
           ref={r}
           className="absolute right-0 z-10 h-full w-1 cursor-ew-resize bg-transparent"
         />
-        {/* <div
+        <div
           ref={l}
           className="absolute left-0 z-10 h-full w-1 cursor-ew-resize bg-transparent"
-        /> */}
-        {/* <div
+        />
+        <div
           ref={tl}
           className="absolute left-0 top-0 z-20 size-2 cursor-nwse-resize bg-transparent"
-        /> */}
-        {/* <div
+        />
+        <div
           ref={tr}
           className="absolute right-0 top-0 z-20 size-2 cursor-nesw-resize bg-transparent"
-        /> */}
-        {/* <div
+        />
+        <div
           ref={bl}
           className="absolute bottom-0 left-0 z-20 size-2 cursor-nesw-resize bg-transparent"
-        /> */}
+        />
         <div
           ref={br}
           className="absolute bottom-0 right-0 z-20 size-2 cursor-nwse-resize bg-transparent"
@@ -204,7 +274,7 @@ export function BrowserFrame({
         <div
           ref={frameHeader}
           onDoubleClick={onFullScreen}
-          className="bg-light-background dark:bg-dark-background grid !cursor-custom-auto grid-cols-[auto,1fr] py-2 pb-1"
+          className="grid !cursor-custom-auto grid-cols-[auto,1fr] bg-light-background py-2 pb-1 dark:bg-dark-background"
         >
           <div className="group flex items-center px-2">
             <button
@@ -246,7 +316,7 @@ export function BrowserFrame({
                   setUrl(tab.url)
                 }}
                 key={tab.id}
-                className="bg-light-foreground relative flex w-full max-w-40 items-center justify-between rounded-t-md px-3 py-[6px] dark:bg-[#35363A]"
+                className="relative flex w-full max-w-40 items-center justify-between rounded-t-md bg-light-foreground px-3 py-[6px] dark:bg-[#35363A]"
               >
                 <span className="line-clamp-1">{tab.title}</span>
                 <IconX
@@ -260,7 +330,7 @@ export function BrowserFrame({
                   className="size-4"
                 />
                 {focusedTab === tab.id && (
-                  <span className="bg-light-foreground absolute -bottom-1 left-0 h-1 w-full dark:bg-[#35363A]"></span>
+                  <span className="absolute -bottom-1 left-0 h-1 w-full bg-light-foreground dark:bg-[#35363A]"></span>
                 )}
               </button>
             ))}
@@ -276,8 +346,8 @@ export function BrowserFrame({
             </button>
           </div>
         </div>
-        <div className="bg-light-background dark:bg-dark-background h-full max-h-[calc(100%-40px)] overflow-y-auto">
-          <div className="bg-light-foreground flex items-center gap-3 px-2 py-1 dark:bg-[#35363A]">
+        <div className="h-full max-h-[calc(100%-40px)] overflow-y-auto bg-light-background dark:bg-dark-background">
+          <div className="flex items-center gap-3 bg-light-foreground px-2 py-1 dark:bg-[#35363A]">
             <IconArrowLeft stroke={2} className="text-gray-500" />
             <IconArrowRight stroke={2} className="text-gray-500" />
             <IconReload stroke={2} />
@@ -291,7 +361,7 @@ export function BrowserFrame({
                 }}
                 type="text"
                 placeholder="Search"
-                className="border-light-border bg-light-background w-full rounded-2xl border-2 px-3 py-1 text-sm focus:border-[#858585] focus:outline-none dark:border-[#191919] dark:bg-[#1d1d1d]"
+                className="w-full rounded-2xl border-2 border-light-border bg-light-background px-3 py-1 text-sm focus:border-[#858585] focus:outline-none dark:border-[#191919] dark:bg-[#1d1d1d]"
               />
               <input type="submit" hidden />
             </form>
@@ -303,7 +373,7 @@ export function BrowserFrame({
               src={activeTab.iframe_url}
             />
           ) : (
-            <div className="flex h-[calc(100%-40px)] w-full flex-col items-center  gap-6 justify-center">
+            <div className="flex h-[calc(100%-40px)] w-full flex-col items-center justify-center gap-6">
               {theme === 'dark' ? (
                 <div
                   style={{
@@ -319,7 +389,7 @@ export function BrowserFrame({
               <input
                 type="text"
                 placeholder="Search Google"
-                className="border-light-border bg-light-background h-12 w-full max-w-xl rounded-full border-2 px-3 text-sm focus:border-[#858585] focus:outline-none dark:border-[#858585] dark:bg-[#1d1d1d]"
+                className="h-12 w-full max-w-xl rounded-full border-2 border-light-border bg-light-background px-3 text-sm focus:border-[#858585] focus:outline-none dark:border-[#858585] dark:bg-[#1d1d1d]"
               />
             </div>
           )}

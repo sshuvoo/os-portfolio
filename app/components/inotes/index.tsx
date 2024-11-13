@@ -86,7 +86,7 @@ export function INotes() {
 
   return (
     <div className="grid h-full grid-cols-[250px,1fr]">
-      <div className="dark:bg-dark-foreground bg-light-foreground h-full p-4">
+      <div className="max-h-full overflow-y-auto bg-light-foreground p-4 dark:bg-dark-foreground">
         <div className="mb-3">
           <button
             onClick={onNewNote}
@@ -105,7 +105,7 @@ export function INotes() {
                 setTab(note.id)
                 setMode('readonly')
               }}
-              className={`grid w-full grid-cols-[auto,1fr] gap-2 rounded-md px-2 py-1 ${tab === note.id ? 'dark:bg-dark-hover-bg bg-white' : 'dark:hover:bg-dark-hover-bg hover:bg-white'}`}
+              className={`grid w-full grid-cols-[auto,1fr] gap-2 rounded-md px-2 py-1 ${tab === note.id ? 'bg-white dark:bg-dark-hover-bg' : 'hover:bg-white dark:hover:bg-dark-hover-bg'}`}
             >
               <div className="size-6">
                 <IconNotes
@@ -131,7 +131,7 @@ export function INotes() {
           ))}
         </div>
       </div>
-      <div className="p-4">
+      <div className="max-h-full overflow-y-auto p-4">
         {activeNote ? (
           <>
             <div className="flex items-center justify-end gap-3">
@@ -150,7 +150,7 @@ export function INotes() {
               onDoubleClick={onEdit}
               readOnly={mode === 'readonly'}
               ref={textareaRef}
-              className="h-[calc(100%-16px)] w-full resize-none bg-inherit focus:outline-none"
+              className="h-[calc(100%-22px)] w-full resize-none bg-inherit focus:outline-none"
               value={activeNote.content}
               onChange={handleChange}
             />
@@ -159,7 +159,7 @@ export function INotes() {
           <div className="flex size-full items-center justify-center">
             <button
               onClick={onNewNote}
-              className="bg-light-foreground flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium dark:bg-white/10"
+              className="flex items-center gap-2 rounded-md bg-light-foreground px-4 py-2 text-sm font-medium dark:bg-white/10"
             >
               <IconPlus className="size-4" stroke={2} />
               <span>Write a new note</span>

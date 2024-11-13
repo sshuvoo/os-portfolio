@@ -54,24 +54,24 @@ export function BrightnessRange() {
   }, [dispatch])
 
   return (
-    <div className="rounded-2xl bg-white/50 p-3">
-      <h2 className="mb-1 font-medium text-black">Display</h2>
+    <div className="rounded-2xl bg-white/50 dark:bg-black/50 p-3">
+      <h2 className="mb-1 font-medium">Display</h2>
       <div
         ref={brightnessParentTrack}
-        className="relative h-6 rounded-full border border-[#6f6f6f] bg-black/20"
+        className="relative h-6 rounded-full border border-[#6f6f6f] bg-black/20 dark:bg-white/20"
       >
         <IconSun
           stroke={2}
-          className="pointer-events-none absolute left-1 top-1/2 size-5 -translate-y-1/2 text-black"
+          className="pointer-events-none absolute left-1 top-1/2 size-5 -translate-y-1/2"
         />
         <div
           ref={brightnessTrack}
           style={{ width: `${dbrightness}%` }}
-          className="box-border flex h-full justify-end rounded-full bg-white"
+          className="box-border flex h-full justify-end rounded-full bg-white dark:bg-black"
         >
           <button
             ref={brightnessThumb}
-            className="size-[22px] rounded-full border border-[#d2d2d2]"
+            className="size-[22px] rounded-full border border-[#d2d2d2] dark:border-[#6f6f6f]"
           ></button>
         </div>
       </div>

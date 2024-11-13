@@ -76,8 +76,17 @@ export function Terminal() {
     }
   }
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+    if (textareaRef.current) {
+      textareaRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [terminal])
+
   return (
-    <div className="h-full p-4">
+    <div className="max-h-full overflow-y-auto p-4">
       {terminal.history.map((command) => {
         return command.mode === 'directory' ? (
           <div key={command.id}>
@@ -176,7 +185,7 @@ export function Terminal() {
                 setNodePrompt(e.target.value)
               }}
               onKeyDown={handleNodeSubmit}
-              rows={15}
+              rows={5}
               className="w-full resize-none overflow-hidden whitespace-pre border-none bg-transparent font-mono leading-normal outline-none"
             />
           </form>

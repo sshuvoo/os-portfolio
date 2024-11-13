@@ -12,6 +12,10 @@ interface InitialState {
   brightness: number
   volume: number
   music_status: 'playing' | 'paused'
+  activeApp: {
+    name: string
+  } | null
+  zIndex: number
 }
 
 const initialState: InitialState = {
@@ -20,6 +24,8 @@ const initialState: InitialState = {
   brightness: 100,
   volume: 50,
   music_status: 'paused',
+  activeApp: null,
+  zIndex: 1024,
 }
 
 const settingsSlice = createSlice({
@@ -44,6 +50,14 @@ const settingsSlice = createSlice({
     setMusicStatus: (state, actions: PayloadAction<'playing' | 'paused'>) => {
       state.music_status = actions.payload
     },
+    setActiveApp: (state, actions: PayloadAction<{ name: string } | null>) => {
+      if (actions.payload) {
+        state.activeApp = actions.payload
+      } else state.activeApp = null
+    },
+    setZIndex: (state, actions: PayloadAction<number>) => {
+      state.zIndex = actions.payload
+    },
   },
 })
 
@@ -53,5 +67,7 @@ export const {
   setBrightness,
   setVolume,
   setMusicStatus,
+  setActiveApp,
+  setZIndex
 } = settingsSlice.actions
 export const settingsReducer = settingsSlice.reducer

@@ -58,7 +58,7 @@ export function Frontend() {
         <SkillCard title="Next.js" className="nextjs">
           <div className="size-[60px]">
             <IconBrandNextjs
-              className="size-full text-[#d9d9d9]"
+              className="size-full text-light-text dark:text-dark-text"
               stroke={1.5}
             />
           </div>
@@ -79,7 +79,7 @@ export function Frontend() {
         <SkillCard title="Socket.Io" className="socketio">
           <div className="size-[60px]">
             <IconBrandSocketIo
-              className="size-full text-[#d9d9d9]"
+              className="size-full text-light-text dark:text-dark-text"
               stroke={1.5}
             />
           </div>

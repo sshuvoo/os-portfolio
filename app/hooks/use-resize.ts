@@ -1,6 +1,5 @@
 import gsap from 'gsap'
 import { useEffect, useRef } from 'react'
-
 export type Place = 't' | 'b' | 'l' | 'r' | 'tl' | 'tr' | 'bl' | 'br'
 export type Frame = { current: HTMLDivElement | null }
 export type Size = {
@@ -14,10 +13,14 @@ export const useResize = ({
   place,
   frame,
   size: { minW = 300, minH = 250, maxW, maxH },
+  onDragEnable,
+  onDragDisable,
 }: {
   place: Place
   frame: Frame
   size: Size
+  onDragEnable?: () => void
+  onDragDisable?: () => void
 }) => {
   const triggerPanel = useRef<HTMLDivElement>(null)
   const timeline = useRef(gsap.timeline({ defaults: { duration: 0 } }))
@@ -343,13 +346,19 @@ export const useResize = ({
     }
 
     const onClear = () => {
-      document.removeEventListener('mousemove', onResize)
-      document.removeEventListener('mouseup', onClear)
+      if (onDragEnable) {
+        onDragEnable()
+      }
+      window.removeEventListener('mousemove', onResize)
+      window.removeEventListener('mouseup', onClear)
     }
 
     const onWatch = () => {
-      document.addEventListener('mousemove', onResize)
-      document.addEventListener('mouseup', onClear)
+      if (onDragDisable) {
+        onDragDisable()
+      }
+      window.addEventListener('mousemove', onResize)
+      window.addEventListener('mouseup', onClear)
     }
 
     if (panel instanceof HTMLDivElement) {
@@ -361,7 +370,7 @@ export const useResize = ({
         panel.removeEventListener('mousedown', onWatch)
       }
     }
-  }, [frame, place, maxW, minW, maxH, minH])
+  }, [frame, place, maxW, minW, maxH, minH, onDragEnable, onDragDisable])
 
   return triggerPanel
 }

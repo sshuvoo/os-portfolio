@@ -21,11 +21,10 @@ export function ProjectCard({ project }: { project: Projects }) {
   const { contextSafe } = useGSAP()
 
   const onHoverActions = contextSafe(() => {
-    timeline.current = gsap.timeline()
     timeline.current.to(initialRef.current, {
       scale: 0.5,
       ease: 'circ',
-      duration: 0.4,
+      duration: 0.1,
     })
 
     timeline.current.to(
@@ -36,7 +35,7 @@ export function ProjectCard({ project }: { project: Projects }) {
         duration: 0.5,
         height: '100%',
       },
-      '-=0.2'
+      '-=0.1'
     )
 
     timeline.current.fromTo(
@@ -44,11 +43,11 @@ export function ProjectCard({ project }: { project: Projects }) {
       {
         y: 50,
         opacity: 0,
-        duration: 0.4,
-        stagger: 0.2,
+        duration: 0.1,
+        stagger: 0.1,
         ease: 'circ.out',
       },
-      { opacity: 1, y: 0, stagger: 0.2 }
+      { opacity: 1, y: 0, stagger: 0.1 }
     )
   })
 
@@ -67,10 +66,10 @@ export function ProjectCard({ project }: { project: Projects }) {
         })
       }}
       key={project.id}
-      className="relative h-fit overflow-y-hidden rounded-md bg-[#252525] p-4 shadow-2xl"
+      className="relative h-fit w-72 overflow-y-hidden rounded-md bg-light-foreground p-4 shadow-md dark:bg-dark-foreground"
     >
       <div ref={initialRef} className="h-full">
-        <div className="relative h-60 rounded-md">
+        <div className="relative h-40 rounded-md">
           <Image
             alt="thumb-project"
             fill
@@ -79,12 +78,12 @@ export function ProjectCard({ project }: { project: Projects }) {
           />
         </div>
         <div className="mt-2">
-          <h2 className="line-clamp-1 text-[#e7e7e7]">{project.title}</h2>
+          <h2 className="line-clamp-1">{project.title}</h2>
         </div>
       </div>
       <div
         ref={overlapRef}
-        className="absolute bottom-0 left-0 flex h-full w-full translate-y-full flex-col justify-between overflow-hidden rounded-md bg-[#212121] p-4 text-[#d9d9d9]"
+        className="absolute bottom-0 left-0 flex h-full w-full translate-y-full flex-col justify-between overflow-hidden rounded-md bg-white p-4 dark:bg-[#464646]"
       >
         <h2 ref={headingRef} className="my-2 text-center text-xl font-medium">
           {project.title}
@@ -96,14 +95,14 @@ export function ProjectCard({ project }: { project: Projects }) {
           <Link
             target="_blank"
             href={project.github}
-            className="flex items-center gap-1 bg-black px-4 py-1 text-sm font-medium"
+            className="flex items-center gap-1 rounded bg-black px-3 py-1 text-xs font-medium text-white"
           >
             <IconBrandGithub stroke={2} className="size-4" />
             <span>Code</span>
           </Link>
           <button
             onClick={handleOpen}
-            className="flex items-center gap-1 bg-orange-500 px-4 py-1 text-xs font-medium text-black"
+            className="flex items-center gap-1 rounded bg-primary px-3 py-1 text-xs font-medium text-white"
           >
             <IconBrandChrome stroke={2} className="size-4" />
             <span>Open</span>

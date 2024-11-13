@@ -43,6 +43,7 @@ export function Folder({
       bounds: 'body',
       allowContextMenu: true,
       dragClickables: false,
+      zIndexBoost: false,
     })
   })
 
@@ -128,7 +129,7 @@ export function Folder({
                 setMode('rename')
               }
             }}
-            className="line-clamp-2 w-full text-center dark:text-light"
+            className="dark:text-light line-clamp-2 w-full text-center"
           >
             {name}
           </p>
