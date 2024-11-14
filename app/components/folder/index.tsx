@@ -1,7 +1,7 @@
 'use client'
 
 import { deleteFolder, openFolder } from '@/app/features/window-slice'
-import { useDispatch } from '@/app/store'
+import { useDispatch, useSelector } from '@/app/store'
 import { useGSAP } from '@gsap/react'
 import { Draggable } from 'gsap/Draggable'
 import { MouseEvent, useEffect, useRef, useState } from 'react'
@@ -13,6 +13,7 @@ import { Alert } from '../alert'
 import { FolderRename } from './folder-rename'
 import { useClickOutside } from '@/app/hooks/use-click-outside'
 import { addToTrash } from '@/app/features/trash'
+import { setZIndex } from '@/app/features/settings'
 
 export function Folder({
   id,
@@ -37,7 +38,7 @@ export function Folder({
 
   const [mode, setMode] = useState<'rename' | 'idle'>('idle')
   const [isSelected, setIsSelected] = useState(false)
-
+  const { zIndex } = useSelector((state) => state.settings)
   useGSAP(() => {
     dragRef.current = Draggable.create(folderRef.current, {
       bounds: 'body',
@@ -87,6 +88,7 @@ export function Folder({
   }
 
   const onOpenFolder = () => {
+    dispatch(setZIndex(zIndex + 1))
     dispatch(openFolder(id))
     if (status === 'minimize' && onMinimizeRestore) {
       onMinimizeRestore()
@@ -110,7 +112,7 @@ export function Folder({
         ref={folderRef}
         className={`flex w-28 !cursor-custom-auto flex-col items-center border p-4 ${ctxPosition || mode === 'rename' || isSelected ? 'border-[#18779fe0] bg-[#18779f63]' : 'border-transparent'}`}
       >
-        <RandomFolder type={type} />
+        <RandomFolder type={type} id={id}/>
         {mode === 'rename' ? (
           <FolderRename
             name={name}

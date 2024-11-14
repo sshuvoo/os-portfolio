@@ -24,7 +24,7 @@ import {
 } from '@tabler/icons-react'
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Status } from '../folder/folders'
 import Image from 'next/image'
 import googleIcon from '@/public/assets/icons/google_logo.svg'
@@ -52,7 +52,7 @@ export function BrowserFrame({
   const [isFullscreen, setIsFullscreen] = useState(false)
   const dragRef = useRef<globalThis.Draggable[]>()
   const { zIndex } = useSelector((state) => state.settings)
-  const [isFocused, setIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(true)
   const { theme } = useTheme()
 
   const { contextSafe } = useGSAP(() => {
@@ -223,6 +223,13 @@ export function BrowserFrame({
   useClickOutside(() => {
     setIsFocused(false)
   }, frame)
+
+  useEffect(() => {
+    if (frame.current) {
+      frame.current.style.zIndex = `${zIndex}`
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div

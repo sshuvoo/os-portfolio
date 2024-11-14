@@ -4,7 +4,7 @@ import { useGSAP } from '@gsap/react'
 import { IconMinus, IconX } from '@tabler/icons-react'
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Status } from '../folder/folders'
 import { useDispatch, useSelector } from '@/app/store'
 import { closeFolder, minimizeFolder } from '@/app/features/window-slice'
@@ -27,7 +27,7 @@ export function CalculatorFrame({
   const dispatch = useDispatch()
   const minimizeTL = useRef<gsap.core.Timeline>(gsap.timeline())
   const { zIndex } = useSelector((state) => state.settings)
-  const [isFocused, setIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(true)
 
   const { contextSafe } = useGSAP(() => {
     const position_x = Math.floor(Math.random() * (innerWidth - 300))
@@ -97,6 +97,13 @@ export function CalculatorFrame({
   useClickOutside(() => {
     setIsFocused(false)
   }, frame)
+
+  useEffect(() => {
+    if (frame.current) {
+      frame.current.style.zIndex = `${zIndex}`
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div
