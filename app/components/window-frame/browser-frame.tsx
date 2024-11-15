@@ -228,6 +228,9 @@ export function BrowserFrame({
     if (frame.current) {
       frame.current.style.zIndex = `${zIndex}`
     }
+    if (activeTab) {
+      setUrl(activeTab.url)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -1,6 +1,6 @@
 import { openUrlTab } from '@/app/features/chrome'
 import { openFolder } from '@/app/features/window-slice'
-import { useDispatch } from '@/app/store'
+import { useDispatch, useSelector } from '@/app/store'
 import { useGSAP } from '@gsap/react'
 import { IconBrandChrome, IconBrandGithub } from '@tabler/icons-react'
 import gsap from 'gsap'
@@ -8,6 +8,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 import { Projects } from './projects'
+import { setZIndex } from '@/app/features/settings'
 
 export function ProjectCard({ project }: { project: Projects }) {
   const timeline = useRef(gsap.timeline())
@@ -17,7 +18,7 @@ export function ProjectCard({ project }: { project: Projects }) {
   const paraRef = useRef<HTMLParagraphElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch()
-
+  const { zIndex } = useSelector((state) => state.settings)
   const { contextSafe } = useGSAP()
 
   const onHoverActions = contextSafe(() => {
@@ -52,6 +53,7 @@ export function ProjectCard({ project }: { project: Projects }) {
   })
 
   const handleOpen = () => {
+    dispatch(setZIndex(zIndex + 1))
     dispatch(openFolder('chrome'))
     dispatch(openUrlTab({ title: project.title, live_url: project.live_url }))
   }

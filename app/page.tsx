@@ -33,6 +33,7 @@ import { CalculatorFrame } from './components/window-frame/calculator-frame'
 import { setScreenMode, setWallpaper } from './features/settings'
 import { useDispatch, useSelector } from './store'
 import { TypingMaster } from './components/typing-master'
+import { Contact } from './components/contact'
 
 gsap.registerPlugin(
   useGSAP,
@@ -215,6 +216,7 @@ export default function Home() {
                   {frame.id === 'terminal' && <Terminal />}
                   {frame.id === 'projects' && <Projects />}
                   {frame.id === 'typing-master' && <TypingMaster />}
+                  {frame.id === 'contact' && <Contact />}
                   {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
                 </WindowFrame>
               )

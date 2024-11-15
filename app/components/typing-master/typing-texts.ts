@@ -1,52 +1,178 @@
 export const typingTexts = [
-  {
-    id: 1,
-    text: "POV: You wake up and realize you forgot to charge your phone overnight. Now it’s a 10% vs. you race against time. Your whole morning routine is now a speedrun to find a charger before the low-battery anxiety kicks in. Is this adulthood or just a side quest gone wrong? Anyway, it’s giving 'main character' energy, but in a very stressful movie.",
-    difficulty: 'easy',
-  },
+  { id: 1, text: 'BRB, Googling how to Google.', difficulty: 'easy' },
   {
     id: 2,
-    text: "Your friend texts you at 3 AM: 'Are you awake?' and suddenly, you’re wide awake because you know it’s about to get interesting. Either they have a wild idea, or they’re about to drop a life-changing conspiracy theory about why the moon landing was actually just filmed in your neighbor’s backyard. Either way, you grab the popcorn and settle in for the drama.",
+    text: 'Why is Monday so close to Friday, yet Friday so far from Monday?',
     difficulty: 'easy',
   },
   {
     id: 3,
-    text: "If you’ve ever tried explaining what a meme is to your parents, you know true struggle. It’s like trying to explain the plot of a dream you had where everyone was a potato but also somehow a secret agent. 'No mom, it’s not just a picture of a frog, it’s *THE* frog, and he’s vibing!' At this point, I’m just convinced it’s an art form they’ll never understand.",
-    difficulty: 'hard',
-  },
-  {
-    id: 4,
-    text: "I swear, my cat has figured out how to gaslight me. I put down her food, she sniffs it, then looks at me like, 'Um, excuse me, I asked for the expensive kibble, not this peasant food.' Then she goes to sleep in my favorite chair like she owns the place. And honestly? I think she might. This is her house; I’m just the unpaid intern.",
+    text: 'Typing fast feels like casting spells IRL.',
     difficulty: 'easy',
   },
+  { id: 4, text: 'Accidentally adulting. Send help!', difficulty: 'easy' },
   {
     id: 5,
-    text: 'You ever have those days where your brain is just buffering? Like you walk into a room, and it’s just the Windows XP startup sound in your head. You stand there like an NPC, trying to remember why you even came in. At this point, I’m convinced my brain runs on Wi-Fi, and I forgot the password.',
+    text: "Wi-Fi went out. I'm basically camping now.",
     difficulty: 'easy',
   },
-  {
-    id: 6,
-    text: "The awkward moment when your phone autocorrects 'haha' to 'hahaha,' and suddenly you’re overcommitting to a joke that wasn’t even that funny. Now they think you’re on the floor laughing when in reality, you’re just staring blankly at the screen, questioning all your life choices. Thanks, autocorrect, for making me seem like a comedy enthusiast.",
-    difficulty: 'easy',
-  },
-  {
-    id: 7,
-    text: 'Gen Z life hack: If you ever want to feel like an old-timey explorer, just try finding a TV remote that’s lost in your couch. It’s like a treasure hunt, except the prize is getting to skip an ad on Netflix before it starts autoplaying. And the real plot twist? It’s always in the last place you’d look, wedged right between the cushions and the remnants of yesterday’s snacks.',
-    difficulty: 'hard',
-  },
+  { id: 6, text: "Who put 's' in 'lisp'? Cruel.", difficulty: 'easy' },
+  { id: 7, text: 'Ctrl+Z is my real-life undo button.', difficulty: 'easy' },
   {
     id: 8,
-    text: "Group chats are wild because you’ll be talking about weekend plans, and then suddenly someone drops a picture of a raccoon in a sombrero with no explanation. And instead of asking why, everyone just rolls with it. Welcome to 2024, where the only rule is 'go with the meme flow.' It’s chaotic, but we wouldn’t have it any other way.",
+    text: "My car's fuel light is just a suggestion, right?",
     difficulty: 'easy',
   },
   {
     id: 9,
-    text: 'You ever accidentally open the front camera on your phone and suddenly question every decision you’ve ever made? It’s like, who gave you the right to look like this? I was living peacefully in ignorance until my own reflection jump-scared me. Thanks, front camera, for being the most honest mirror I never asked for.',
+    text: 'Why do we hit the remote harder when batteries die?',
     difficulty: 'easy',
   },
   {
     id: 10,
-    text: "If you don’t have at least one friend who sends you TikToks at 2 AM with no context, are you even living in the digital age? You wake up to 17 messages, each one more unhinged than the last. The best part? Half of them are of raccoons doing people things, and the other half are 'life hacks' that make you question if they’re real or just part of an elaborate joke.",
-    difficulty: 'hard',
+    text: 'Autocorrect is out here ruining lives daily.',
+    difficulty: 'easy',
   },
+  {
+    id: 11,
+    text: "Me? Procrastinating? Nah, I'm just preplanning tomorrow.",
+    difficulty: 'easy',
+  },
+  {
+    id: 12,
+    text: 'People who clap when planes land scare me.',
+    difficulty: 'easy',
+  },
+  {
+    id: 13,
+    text: "Shower thoughts: Why don't we call it a hot rainstorm?",
+    difficulty: 'easy',
+  },
+  {
+    id: 14,
+    text: 'Liking my own post because someone has to.',
+    difficulty: 'easy',
+  },
+  {
+    id: 15,
+    text: "Every day is 'delete 1 app' to free space day.",
+    difficulty: 'easy',
+  },
+  {
+    id: 16,
+    text: 'Does anyone even read terms and conditions?',
+    difficulty: 'easy',
+  },
+  {
+    id: 17,
+    text: 'Why is pizza delivery faster than an ambulance?',
+    difficulty: 'easy',
+  },
+  {
+    id: 18,
+    text: "Accidentally typed 'LOL' on a work email. Send help.",
+    difficulty: 'easy',
+  },
+  {
+    id: 19,
+    text: 'Why is the microwave always so dramatic at 1 second?',
+    difficulty: 'easy',
+  },
+  {
+    id: 20,
+    text: 'I speak fluent emoji now. Modern problems.',
+    difficulty: 'easy',
+  },
+  {
+    id: 21,
+    text: 'Waiting for the Wi-Fi to connect is a personality trait.',
+    difficulty: 'easy',
+  },
+  {
+    id: 22,
+    text: 'This sentence is brought to you by caffeine.',
+    difficulty: 'easy',
+  },
+  {
+    id: 23,
+    text: 'Trying to remember a password is modern brain training.',
+    difficulty: 'easy',
+  },
+  {
+    id: 24,
+    text: "If Google goes down, I'm out of business.",
+    difficulty: 'easy',
+  },
+  {
+    id: 25,
+    text: 'Online shopping is cardio if you scroll fast.',
+    difficulty: 'easy',
+  },
+  {
+    id: 26,
+    text: "Me: 'I'll sleep early.' Also me: 3AM on TikTok.",
+    difficulty: 'easy',
+  },
+  {
+    id: 27,
+    text: 'Sometimes my alarm clock scares me more than life itself.',
+    difficulty: 'easy',
+  },
+  {
+    id: 28,
+    text: "If my dog could text, he'd probably leave me on read.",
+    difficulty: 'easy',
+  },
+  {
+    id: 29,
+    text: "Some days I'm the drama. And that's okay.",
+    difficulty: 'easy',
+  },
+  {
+    id: 30,
+    text: 'Multitasking? More like multi-procrastinating.',
+    difficulty: 'easy',
+  },
+  {
+    id: 31,
+    text: 'Is butter a carb? Asking for a friend.',
+    difficulty: 'easy',
+  },
+  {
+    id: 32,
+    text: "Don't trust people who eat pizza with a fork.",
+    difficulty: 'easy',
+  },
+  {
+    id: 33,
+    text: 'Typing test pro: 100% accuracy, 0% life balance.',
+    difficulty: 'easy',
+  },
+  {
+    id: 34,
+    text: "When autocorrect turns 'duck' into something else…",
+    difficulty: 'easy',
+  },
+  {
+    id: 35,
+    text: 'Why is there always one sock missing from laundry?',
+    difficulty: 'easy',
+  },
+  {
+    id: 36,
+    text: "I'm not addicted to coffee; we're in a relationship.",
+    difficulty: 'easy',
+  },
+  {
+    id: 37,
+    text: "The floor is lava. Except now it's just adulting.",
+    difficulty: 'easy',
+  },
+  {
+    id: 38,
+    text: 'I wish my thoughts had a Ctrl+F feature.',
+    difficulty: 'easy',
+  },
+  { id: 39, text: "'Reply all' is how enemies are made.", difficulty: 'easy' },
+  { id: 40, text: 'Typing speed = flex. Fight me.', difficulty: 'easy' },
 ]
