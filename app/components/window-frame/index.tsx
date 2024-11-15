@@ -12,7 +12,7 @@ import {
 } from '@tabler/icons-react'
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
-import { ReactNode, useRef, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 import { Status } from '../folder/folders'
 import { useDispatch, useSelector } from '@/app/store'
 import { closeFolder, minimizeFolder } from '@/app/features/window-slice'
@@ -43,8 +43,7 @@ export function WindowFrame({
   const [isFullscreen, setIsFullscreen] = useState(false)
   const dragRef = useRef<globalThis.Draggable[]>()
   const { zIndex } = useSelector((state) => state.settings)
-  const [isFocused, setIsFocused] = useState(false)
-
+  const [isFocused, setIsFocused] = useState(true)
   const { contextSafe } = useGSAP(() => {
     const position_x = Math.floor(
       Math.random() * (innerWidth - innerWidth / 2 - 50)
@@ -197,6 +196,13 @@ export function WindowFrame({
     setIsFocused(false)
   }, frame)
 
+  useEffect(() => {
+    if (frame.current) {
+      frame.current.style.zIndex = `${zIndex}`
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div
       onContextMenu={(e) => {
@@ -211,38 +217,42 @@ export function WindowFrame({
       className={`absolute h-1/2 min-h-[300px] w-2/4 min-w-[750px] overflow-hidden rounded-md bg-white/20 shadow-2xl backdrop-blur-xl ${isFocused ? 'brightness-100' : 'brightness-90'} ${status === 'minimize' ? 'hidden' : ''}`}
     >
       <div className="relative h-full">
-        <div
-          ref={t}
-          className="absolute top-0 z-10 h-1 w-full cursor-ns-resize bg-transparent"
-        />
-        <div
-          ref={b}
-          className="absolute bottom-0 z-10 h-1 w-full cursor-ns-resize bg-transparent"
-        />
-        <div
-          ref={r}
-          className="absolute right-0 z-10 h-full w-1 cursor-ew-resize bg-transparent"
-        />
-        <div
-          ref={l}
-          className="absolute left-0 z-10 h-full w-1 cursor-ew-resize bg-transparent"
-        />
-        <div
-          ref={tl}
-          className="absolute left-0 top-0 z-20 size-2 cursor-nwse-resize bg-transparent"
-        />
-        <div
-          ref={tr}
-          className="absolute right-0 top-0 z-20 size-2 cursor-nesw-resize bg-transparent"
-        />
-        <div
-          ref={bl}
-          className="absolute bottom-0 left-0 z-20 size-2 cursor-nesw-resize bg-transparent"
-        />
-        <div
-          ref={br}
-          className="absolute bottom-0 right-0 z-20 size-2 cursor-nwse-resize bg-transparent"
-        />
+        {!isFullscreen && (
+          <>
+            <div
+              ref={t}
+              className="absolute top-0 z-10 h-1 w-full cursor-ns-resize bg-transparent"
+            />
+            <div
+              ref={b}
+              className="absolute bottom-0 z-10 h-1 w-full cursor-ns-resize bg-transparent"
+            />
+            <div
+              ref={r}
+              className="absolute right-0 z-10 h-full w-1 cursor-ew-resize bg-transparent"
+            />
+            <div
+              ref={l}
+              className="absolute left-0 z-10 h-full w-1 cursor-ew-resize bg-transparent"
+            />
+            <div
+              ref={tl}
+              className="absolute left-0 top-0 z-20 size-2 cursor-nwse-resize bg-transparent"
+            />
+            <div
+              ref={tr}
+              className="absolute right-0 top-0 z-20 size-2 cursor-nesw-resize bg-transparent"
+            />
+            <div
+              ref={bl}
+              className="absolute bottom-0 left-0 z-20 size-2 cursor-nesw-resize bg-transparent"
+            />
+            <div
+              ref={br}
+              className="absolute bottom-0 right-0 z-20 size-2 cursor-nwse-resize bg-transparent"
+            />
+          </>
+        )}
         <div
           ref={frameHeader}
           onDoubleClick={onFullScreen}

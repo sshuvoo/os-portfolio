@@ -1,5 +1,6 @@
 'use client'
 
+import { setZIndex } from '@/app/features/settings'
 import { minimizeFolder, openFolder } from '@/app/features/window-slice'
 import { useDispatch, useSelector } from '@/app/store'
 import acrobat from '@/public/assets/icons/Acrobat.png'
@@ -15,7 +16,9 @@ import settings from '@/public/assets/icons/Settings.png'
 import terminalIcon from '@/public/assets/icons/Terminal.png'
 import trashEmpty from '@/public/assets/icons/TrashEmpty.png'
 import trashFull from '@/public/assets/icons/TrashFull.png'
+import { IconBrandGithub } from '@tabler/icons-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function AppTray() {
   const folders = useSelector((state) => state.windowFrame)
@@ -25,6 +28,7 @@ export default function AppTray() {
   const dispatch = useDispatch()
   const taskbarApps = folders.filter((f) => f.placement === 'taskbar')
   const trashItems = useSelector((state) => state.trash.items).length
+  const { zIndex } = useSelector((state) => state.settings)
 
   return (
     <div className="pointer-events-auto rounded-xl bg-white/20 p-1 px-2 backdrop-blur">
@@ -34,6 +38,7 @@ export default function AppTray() {
             alt=""
             src={finder}
             fill
+            sizes="56px"
             className="object-cover object-center"
           />
         </button>
@@ -42,6 +47,7 @@ export default function AppTray() {
             alt=""
             src={messageIcon}
             fill
+            sizes="56px"
             className="object-cover object-center"
           />
         </button>
@@ -50,6 +56,7 @@ export default function AppTray() {
             alt=""
             src={contactIcon}
             fill
+            sizes="56px"
             className="object-cover object-center"
           />
         </button>
@@ -59,6 +66,7 @@ export default function AppTray() {
             onClick={() => {
               if (folder.status === 'open') dispatch(minimizeFolder(folder.id))
               else {
+                dispatch(setZIndex(zIndex + 1))
                 dispatch(openFolder(folder.id))
                 if (folder.onMinimizeRestore) {
                   folder.onMinimizeRestore()
@@ -72,6 +80,7 @@ export default function AppTray() {
                 alt=""
                 src={settings}
                 fill
+                sizes="56px"
                 className="object-cover object-center"
               />
             )}
@@ -80,6 +89,7 @@ export default function AppTray() {
                 alt=""
                 src={photoIcon}
                 fill
+                sizes="56px"
                 className="object-cover object-center"
               />
             )}
@@ -88,6 +98,7 @@ export default function AppTray() {
                 alt=""
                 src={trashItems > 0 ? trashFull : trashEmpty}
                 fill
+                sizes="56px"
                 className="object-cover object-center"
               />
             )}
@@ -96,6 +107,7 @@ export default function AppTray() {
                 alt=""
                 src={notes}
                 fill
+                sizes="56px"
                 className="object-cover object-center"
               />
             )}
@@ -104,6 +116,7 @@ export default function AppTray() {
                 alt=""
                 src={terminalIcon}
                 fill
+                sizes="56px"
                 className="object-cover object-center"
               />
             )}
@@ -112,6 +125,7 @@ export default function AppTray() {
                 alt=""
                 src={safari}
                 fill
+                sizes="56px"
                 className="object-cover object-center"
               />
             )}
@@ -120,6 +134,7 @@ export default function AppTray() {
                 alt="calculator"
                 src={calculator}
                 fill
+                sizes="56px"
                 className="object-cover object-center"
               />
             )}
@@ -150,6 +165,7 @@ export default function AppTray() {
                 alt=""
                 src={folderIcon}
                 fill
+                sizes="56px"
                 className="object-cover object-center"
               />
             )}
@@ -158,6 +174,7 @@ export default function AppTray() {
                 alt="pdf"
                 src={acrobat}
                 fill
+                sizes="56px"
                 className="object-cover object-center p-[6px]"
               />
             )}
@@ -167,6 +184,16 @@ export default function AppTray() {
             <span className="absolute -bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-black dark:bg-white"></span>
           </button>
         ))}
+        <Link
+          target="_blank"
+          href="https://github.com/sshuvoo/os-portfolio"
+          className="group relative flex size-[45px] items-center justify-center rounded-md bg-dark-background"
+        >
+          <IconBrandGithub stroke={1} className="size-10 text-dark-text" />
+          <span className="absolute -top-9 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">
+            ⭐Please
+          </span>
+        </Link>
       </div>
     </div>
   )

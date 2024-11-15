@@ -3,17 +3,22 @@ import { searchPhotos } from '@/app/actions/search-photos'
 import { IPhoto } from '@/app/types/unsplash.type'
 import { useEffect, useRef, useState } from 'react'
 import { ImageCard } from './image-card'
+import { IconPhoto } from '@tabler/icons-react'
 
 export function ImageGrid({ query }: { query: string }) {
   const [photos, setPhotos] = useState<IPhoto[]>([])
   const [windowSize, setWindowSize] = useState<number | null>(null)
   const windowRef = useRef<HTMLDivElement>(null)
+  const [status, setStatus] = useState<'pending' | 'success' | 'error'>(
+    'pending'
+  )
 
   useEffect(() => {
     let ignore = false
+    setStatus('pending')
     async function startFetching() {
       try {
-        if (query.length >= 3) {
+        if (query.length >= 2) {
           const photos = await searchPhotos(query)
           if (!ignore) setPhotos(photos?.results || [])
         } else {
@@ -21,12 +26,15 @@ export function ImageGrid({ query }: { query: string }) {
           console.log(photos)
           if (!ignore) setPhotos(photos || [])
         }
+        setStatus('success')
       } catch (error) {
+        setStatus('error')
         console.log(error)
       }
     }
     startFetching()
     return () => {
+      setStatus('pending')
       ignore = true
     }
   }, [query])
@@ -67,9 +75,22 @@ export function ImageGrid({ query }: { query: string }) {
               : 'columns-2 gap-4'
       }
     >
-      {photos.map((photo) => (
-        <ImageCard key={photo.id} photo={photo} />
-      ))}
+      {status === 'pending' &&
+        Array(20)
+          .fill(null)
+          .map((_, i) => (
+            <div
+              key={i}
+              className="mb-4 flex h-44 animate-pulse items-center justify-center bg-[#d8d8d8] dark:bg-[#4e4e4e] rounded-md"
+            >
+              <IconPhoto
+                stroke={1}
+                className="size-20 stroke-[#9b9b9b] dark:stroke-[#272727]"
+              />
+            </div>
+          ))}
+      {status === 'success' &&
+        photos.map((photo) => <ImageCard key={photo.id} photo={photo} />)}
     </div>
   )
 }

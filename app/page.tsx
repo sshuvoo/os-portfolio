@@ -1,5 +1,7 @@
 'use client'
 
+import md from '@/public/assets/background/monterey-dark.jpg'
+import ml from '@/public/assets/background/monterey-light.jpg'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/Draggable'
@@ -12,26 +14,25 @@ import { PixiPlugin } from 'gsap/PixiPlugin'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TextPlugin } from 'gsap/TextPlugin'
+import { MouseEvent, useEffect, useRef, useState } from 'react'
+import { FaApple } from 'react-icons/fa'
+import { ContextMenu } from './components/context-menu'
 import { Folder } from './components/folder'
+import { Gallery } from './components/gallery'
+import { INotes } from './components/inotes'
+import { LockScreen } from './components/lock-screen'
 import { PDFViewer } from './components/pdf-viewer'
+import { Projects } from './components/projects'
+import { Settings } from './components/settings'
 import { Skill } from './components/skill'
 import { Terminal } from './components/terminal'
+import { TrashBin } from './components/trash-bin'
 import { WindowFrame } from './components/window-frame'
-import { useDispatch, useSelector } from './store'
-import { Projects } from './components/projects'
 import { BrowserFrame } from './components/window-frame/browser-frame'
 import { CalculatorFrame } from './components/window-frame/calculator-frame'
-import { Settings } from './components/settings'
-import { INotes } from './components/inotes'
-import { MouseEvent, useEffect, useRef, useState } from 'react'
-import { ContextMenu } from './components/context-menu'
-import { FaApple } from 'react-icons/fa'
-import { LockScreen } from './components/lock-screen'
 import { setScreenMode, setWallpaper } from './features/settings'
-import { TrashBin } from './components/trash-bin'
-import md from '@/public/assets/background/monterey-dark.jpg'
-import ml from '@/public/assets/background/monterey-light.jpg'
-import { Gallery } from './components/gallery'
+import { useDispatch, useSelector } from './store'
+import { TypingMaster } from './components/typing-master'
 
 gsap.registerPlugin(
   useGSAP,
@@ -195,9 +196,11 @@ export default function Home() {
               return (
                 <WindowFrame
                   enableSidebar={
-                    frame.id !== 'terminal' &&
-                    frame.id !== 'projects' &&
-                    frame.type !== 'pdf'
+                    frame.id === 'skills' ||
+                    frame.id === 'trash' ||
+                    frame.id === 'inotes' ||
+                    frame.id === 'settings' ||
+                    frame.id === 'gallery'
                   }
                   frame_id={frame.id}
                   status={frame.status}
@@ -211,6 +214,7 @@ export default function Home() {
                   {frame.id === 'gallery' && <Gallery />}
                   {frame.id === 'terminal' && <Terminal />}
                   {frame.id === 'projects' && <Projects />}
+                  {frame.id === 'typing-master' && <TypingMaster />}
                   {frame.type === 'pdf' && <PDFViewer id={frame.id} />}
                 </WindowFrame>
               )
