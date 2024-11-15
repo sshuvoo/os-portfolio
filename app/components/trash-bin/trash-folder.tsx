@@ -8,6 +8,7 @@ import { MouseEvent, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { TrashContextMenu } from '../context-menu/trash-menu'
 import { Folder } from '../folder/folders'
+import typingMaterIcon from '@/public/assets/icons/typing-master.png'
 
 export function TrashFolder({ item }: { item: Folder }) {
   const folderRef = useRef<HTMLButtonElement>(null)
@@ -68,12 +69,31 @@ export function TrashFolder({ item }: { item: Folder }) {
         className={`flex size-16 flex-col items-center ${ctxPosition || isSelected ? 'border-[#18779fe0] bg-[#18779f63]' : 'border-transparent'}`}
         type="button"
       >
-        <Image
-          alt="folder"
-          src={item.type === 'pdf' ? acrobat : folderBlue}
-          width={45}
-          height={45}
-        />
+        {item.type === 'folder' && item.id === 'typing-master' ? (
+          <Image
+            alt=""
+            src={typingMaterIcon}
+            width={45}
+            height={45}
+            className="object-cover object-center p-1"
+          />
+        ) : item.type === 'pdf' ? (
+          <Image
+            alt="pdf"
+            src={acrobat}
+            width={45}
+            height={45}
+            className="object-cover object-center p-1"
+          />
+        ) : (
+          <Image
+            alt=""
+            src={folderBlue}
+            width={45}
+            height={45}
+            className="object-cover object-center"
+          />
+        )}
         <h2 className="line-clamp-1 text-xs">{item.name}</h2>
       </button>
       {ctxPosition &&

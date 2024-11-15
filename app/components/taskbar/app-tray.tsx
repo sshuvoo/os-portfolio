@@ -19,6 +19,7 @@ import trashFull from '@/public/assets/icons/TrashFull.png'
 import { IconBrandGithub } from '@tabler/icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import typingMaterIcon from '@/public/assets/icons/typing-master.png'
 
 export default function AppTray() {
   const folders = useSelector((state) => state.windowFrame)
@@ -51,15 +52,6 @@ export default function AppTray() {
             className="object-cover object-center"
           />
         </button>
-        <button className="relative size-14">
-          <Image
-            alt=""
-            src={contactIcon}
-            fill
-            sizes="56px"
-            className="object-cover object-center"
-          />
-        </button>
         {taskbarApps.map((folder) => (
           <button
             className="group relative size-14"
@@ -79,6 +71,15 @@ export default function AppTray() {
               <Image
                 alt=""
                 src={settings}
+                fill
+                sizes="56px"
+                className="object-cover object-center"
+              />
+            )}
+            {folder.type === 'folder' && folder.id === 'contact' && (
+              <Image
+                alt=""
+                src={contactIcon}
                 fill
                 sizes="56px"
                 className="object-cover object-center"
@@ -160,22 +161,29 @@ export default function AppTray() {
             }}
             key={folder.id}
           >
-            {folder.type === 'folder' && (
+            {folder.type === 'folder' && folder.id === 'typing-master' ? (
               <Image
                 alt=""
-                src={folderIcon}
+                src={typingMaterIcon}
                 fill
                 sizes="56px"
-                className="object-cover object-center"
+                className="object-cover object-center p-[6px]"
               />
-            )}
-            {folder.type === 'pdf' && (
+            ) : folder.type === 'pdf' ? (
               <Image
                 alt="pdf"
                 src={acrobat}
                 fill
                 sizes="56px"
                 className="object-cover object-center p-[6px]"
+              />
+            ) : (
+              <Image
+                alt=""
+                src={folderIcon}
+                fill
+                sizes="56px"
+                className="object-cover object-center"
               />
             )}
             <span className="absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">

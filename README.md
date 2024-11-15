@@ -1,1 +1,1 @@
-Combination of Mac/Windows/Linux
+Inspired By macOS 15

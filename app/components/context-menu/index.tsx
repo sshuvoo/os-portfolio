@@ -1,3 +1,4 @@
+import { setZIndex } from '@/app/features/settings'
 import { addFolder, openFolder } from '@/app/features/window-slice'
 import { useDispatch, useSelector } from '@/app/store'
 import { IoIosArrowForward } from 'react-icons/io'
@@ -8,7 +9,7 @@ export function ContextMenu({
   position: { x: number; y: number }
 }) {
   const dispatch = useDispatch()
-  const screenMode = useSelector((state) => state.settings.screen)
+  const { screen: screenMode, zIndex } = useSelector((state) => state.settings)
 
   return (
     <div
@@ -47,6 +48,7 @@ export function ContextMenu({
         </li>
         <li
           onClick={() => {
+            dispatch(setZIndex(zIndex + 1))
             dispatch(openFolder('settings'))
           }}
         >

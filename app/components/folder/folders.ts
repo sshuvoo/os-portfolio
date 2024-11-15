@@ -10,6 +10,13 @@ export type Folder = {
 
 export const folders: Folder[] = [
   {
+    id: 'contact',
+    name: 'Contact',
+    status: 'close',
+    placement: 'taskbar',
+    type: 'folder',
+  },
+  {
     id: 'gallery',
     name: 'Gallery',
     status: 'close',
