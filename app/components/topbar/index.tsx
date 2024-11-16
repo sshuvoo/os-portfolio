@@ -2,7 +2,7 @@
 
 import notch from '@/public/assets/icons/Сhelka.svg'
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IoIosBatteryFull, IoIosMoon } from 'react-icons/io'
 import { IoSearch } from 'react-icons/io5'
 import { TaskbarClock } from '../taskbar/clock'
@@ -21,7 +21,13 @@ export function Topbar() {
   const [isOpenCC, setIsOpenCC] = useState(false)
   const ccRef = useRef<HTMLDivElement>(null)
   const { activeApp } = useSelector((state) => state.settings)
-  const audio = useRef(new Audio('/assets/music/pehle_bhi_main.mp3'))
+  const audio = useRef<HTMLAudioElement>()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      audio.current = new Audio('/assets/music/pehle_bhi_main.mp3')
+    }
+  }, [])
 
   useClickOutside(() => {
     setIsOpenCC(false)
@@ -126,7 +132,7 @@ export function Topbar() {
             </div>
           </div>
           <BrightnessRange />
-          <SoundRange audio={audio.current}/>
+          <SoundRange audio={audio.current} />
         </div>
       )}
     </div>

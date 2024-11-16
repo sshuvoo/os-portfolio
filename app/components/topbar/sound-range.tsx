@@ -6,7 +6,7 @@ import musicIcon from '@/public/assets/icons/Music.png'
 import Image from 'next/image'
 import { FaForward, FaPause, FaPlay } from 'react-icons/fa'
 
-export function SoundRange({ audio }: { audio: HTMLAudioElement }) {
+export function SoundRange({ audio }: { audio?: HTMLAudioElement }) {
   const soundThumb = useRef<HTMLButtonElement>(null)
   const soundLabel = useRef<HTMLDivElement>(null)
   const soundTrack = useRef<HTMLDivElement>(null)
@@ -29,7 +29,10 @@ export function SoundRange({ audio }: { audio: HTMLAudioElement }) {
             : 70
         const sound = ((range - 25) / (rect.width - 27)) * 100
         dispatch(setVolume(sound))
-        audio.volume = sound / 100 >= 1 ? 1 : sound / 100 <= 0 ? 0 : sound / 100
+        if (audio instanceof HTMLAudioElement) {
+          audio.volume =
+            sound / 100 >= 1 ? 1 : sound / 100 <= 0 ? 0 : sound / 100
+        }
       }
     }
 
@@ -58,10 +61,12 @@ export function SoundRange({ audio }: { audio: HTMLAudioElement }) {
   }, [dispatch, audio])
 
   const handleStart = () => {
-    if (music_status === 'playing') audio.pause()
-    else {
-      audio.volume = volume / 100
-      audio.play()
+    if (audio instanceof HTMLAudioElement) {
+      if (music_status === 'playing') audio.pause()
+      else {
+        audio.volume = volume / 100
+        audio.play()
+      }
     }
   }
 
@@ -73,13 +78,17 @@ export function SoundRange({ audio }: { audio: HTMLAudioElement }) {
     const handlePause = () => {
       dispatch(setMusicStatus('paused'))
     }
-    music.addEventListener('play', handlePlay)
-    music.addEventListener('pause', handlePause)
-    music.addEventListener('ended', handlePause)
+    if (music instanceof HTMLAudioElement) {
+      music.addEventListener('play', handlePlay)
+      music.addEventListener('pause', handlePause)
+      music.addEventListener('ended', handlePause)
+    }
     return () => {
-      music.removeEventListener('play', handlePlay)
-      music.removeEventListener('pause', handlePause)
-      music.removeEventListener('ended', handlePause)
+      if (music instanceof HTMLAudioElement) {
+        music.removeEventListener('play', handlePlay)
+        music.removeEventListener('pause', handlePause)
+        music.removeEventListener('ended', handlePause)
+      }
     }
   }, [dispatch, audio])
 
