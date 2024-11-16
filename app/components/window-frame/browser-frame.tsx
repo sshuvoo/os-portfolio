@@ -15,6 +15,7 @@ import {
   IconArrowLeft,
   IconArrowRight,
   IconBracketsAngle,
+  IconChevronRight,
   IconDotsVertical,
   IconHome,
   IconMinus,
@@ -125,11 +126,13 @@ export function BrowserFrame({
   })
 
   const onMinimize = contextSafe(() => {
+    syncPosition()
     minimizeTL.current.to(frame.current, {
       yPercent: 100,
       scale: 0.3,
       xPercent: -50,
       left: '50%',
+      duration: 0.5,
       ease: 'expo.in',
     })
     minimizeTL.current.eventCallback('onComplete', () => {
@@ -174,6 +177,74 @@ export function BrowserFrame({
         }
         setIsFullscreen(true)
       }
+    }
+  })
+
+  const onLeftScreen = contextSafe(() => {
+    setIsFullscreen(false)
+    if (frame.current instanceof HTMLDivElement) {
+      fullscreenTL.current.clear()
+      gsap.to(frame.current, {
+        width: '50vw',
+        height: `${innerHeight - 28}px`,
+        x: 0,
+        y: 0,
+        left: '0px',
+        top: '28px',
+        duration: 0.5,
+        ease: 'expo.inOut',
+      })
+    }
+  })
+
+  const onRightScreen = contextSafe(() => {
+    setIsFullscreen(false)
+    if (frame.current instanceof HTMLDivElement) {
+      fullscreenTL.current.clear()
+      gsap.to(frame.current, {
+        width: '50vw',
+        height: `${innerHeight - 28}px`,
+        x: 0,
+        y: 0,
+        left: '50%',
+        top: '28px',
+        duration: 0.5,
+        ease: 'expo.inOut',
+      })
+    }
+  })
+
+  const onTopScreen = contextSafe(() => {
+    setIsFullscreen(false)
+    if (frame.current instanceof HTMLDivElement) {
+      fullscreenTL.current.clear()
+      gsap.to(frame.current, {
+        width: '100vw',
+        height: `${(innerHeight - 28) / 2}px`,
+        x: 0,
+        y: 0,
+        left: '0px',
+        top: '28px',
+        duration: 0.5,
+        ease: 'expo.inOut',
+      })
+    }
+  })
+
+  const onBottomScreen = contextSafe(() => {
+    setIsFullscreen(false)
+    if (frame.current instanceof HTMLDivElement) {
+      fullscreenTL.current.clear()
+      gsap.to(frame.current, {
+        width: '100vw',
+        height: `${(innerHeight - 28) / 2}px`,
+        x: 0,
+        y: 0,
+        left: '0px',
+        top: `${(innerHeight - 28) / 2 + 28}px`,
+        duration: 0.5,
+        ease: 'expo.inOut',
+      })
     }
   })
 
@@ -310,11 +381,62 @@ export function BrowserFrame({
             </button>
             <button
               onClick={onFullScreen}
-              className="!cursor-custom-auto p-1"
+              className="!cursor-custom-auto p-1 group/fullscreen relative"
               type="button"
             >
               <div className="size-3 rounded-full bg-[#27CA40]">
                 <IconBracketsAngle className="size-full -rotate-45 text-black opacity-0 group-hover:opacity-100" />
+              </div>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation()
+                }}
+                className="invisible absolute -left-5 top-7 z-[1000] transition-all delay-200 group-hover/fullscreen:visible"
+              >
+                <div className="relative w-56 rounded-md border-2 border-[#e1e1e1] bg-[#f3f3f3] p-2 shadow-xl dark:border-[#3e3e3e] dark:bg-[#181818]">
+                  <span className="absolute -top-[9px] left-5 block size-4 rotate-45 rounded-tl border-l-2 border-t-2 border-[#e1e1e1] bg-[#f3f3f3] dark:border-[#3e3e3e] dark:bg-[#181818]" />
+                  <h2 className="text-start text-sm font-medium text-[#afafaf]">
+                    Move & Resize
+                  </h2>
+                  <div className="grid grid-cols-4 items-center gap-5 p-4">
+                    <div
+                      onClick={onLeftScreen}
+                      className="flex h-5 justify-start rounded border-2 border-dark-background p-[1px] dark:border-light-background/80"
+                    >
+                      <div className="h-full w-1/2 rounded-sm bg-dark-background dark:bg-light-background/80"></div>
+                    </div>
+                    <div
+                      onClick={onRightScreen}
+                      className="flex h-5 justify-end rounded border-2 border-dark-background p-[1px] dark:border-light-background/80"
+                    >
+                      <div className="h-full w-1/2 rounded-sm bg-dark-background dark:bg-light-background/80"></div>
+                    </div>
+                    <div
+                      onClick={onTopScreen}
+                      className="flex h-5 items-start rounded border-2 border-dark-background p-[1px] dark:border-light-background/80"
+                    >
+                      <div className="h-1/2 w-full rounded-sm bg-dark-background dark:bg-light-background/80"></div>
+                    </div>
+                    <div
+                      onClick={onBottomScreen}
+                      className="flex h-5 items-end rounded border-2 border-dark-background p-[1px] dark:border-light-background/80"
+                    >
+                      <div className="h-1/2 w-full rounded-sm bg-dark-background dark:bg-light-background/80"></div>
+                    </div>
+                  </div>
+                  <div className="mb-1 h-[1px] bg-[#bbb] dark:bg-[#5b5b5b]" />
+                  <div>
+                    <div
+                      onClick={onFullScreen}
+                      className="flex w-full items-center justify-between rounded-md bg-primary px-2 py-[2px] text-sm text-white"
+                    >
+                      <span>
+                        {isFullscreen ? 'Exit Full Screen' : 'Full Screen'}
+                      </span>
+                      <IconChevronRight stroke={2} className="size-5" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </button>
           </div>

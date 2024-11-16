@@ -44,6 +44,7 @@ export function WindowFrame({
   const dragRef = useRef<globalThis.Draggable[]>()
   const { zIndex } = useSelector((state) => state.settings)
   const [isFocused, setIsFocused] = useState(true)
+
   const { contextSafe } = useGSAP(() => {
     const position_x = Math.floor(
       Math.random() * (innerWidth - innerWidth / 2 - 50)
@@ -113,11 +114,13 @@ export function WindowFrame({
   })
 
   const onMinimize = contextSafe(() => {
+    syncPosition()
     minimizeTL.current.to(frame.current, {
       yPercent: 100,
       scale: 0.3,
       xPercent: -50,
       left: '50%',
+      duration: 0.5,
       ease: 'expo.in',
     })
     minimizeTL.current.eventCallback('onComplete', () => {
@@ -166,7 +169,9 @@ export function WindowFrame({
   })
 
   const onLeftScreen = contextSafe(() => {
+    setIsFullscreen(false)
     if (frame.current instanceof HTMLDivElement) {
+      fullscreenTL.current.clear()
       gsap.to(frame.current, {
         width: '50vw',
         height: `${innerHeight - 28}px`,
@@ -181,7 +186,9 @@ export function WindowFrame({
   })
 
   const onRightScreen = contextSafe(() => {
+    setIsFullscreen(false)
     if (frame.current instanceof HTMLDivElement) {
+      fullscreenTL.current.clear()
       gsap.to(frame.current, {
         width: '50vw',
         height: `${innerHeight - 28}px`,
@@ -196,7 +203,9 @@ export function WindowFrame({
   })
 
   const onTopScreen = contextSafe(() => {
+    setIsFullscreen(false)
     if (frame.current instanceof HTMLDivElement) {
+      fullscreenTL.current.clear()
       gsap.to(frame.current, {
         width: '100vw',
         height: `${(innerHeight - 28) / 2}px`,
@@ -211,7 +220,9 @@ export function WindowFrame({
   })
 
   const onBottomScreen = contextSafe(() => {
+    setIsFullscreen(false)
     if (frame.current instanceof HTMLDivElement) {
+      fullscreenTL.current.clear()
       gsap.to(frame.current, {
         width: '100vw',
         height: `${(innerHeight - 28) / 2}px`,
@@ -240,7 +251,7 @@ export function WindowFrame({
     onDragEnable,
     onDragDisable,
   })
-  const r = useResize({ frame, place: 'r', size })
+  const r = useResize({ frame, place: 'r', size, onDragEnable, onDragDisable })
   const l = useResize({ frame, place: 'l', size, onDragEnable, onDragDisable })
   const bl = useResize({
     frame,
@@ -249,8 +260,14 @@ export function WindowFrame({
     onDragEnable,
     onDragDisable,
   })
-  const b = useResize({ frame, place: 'b', size })
-  const br = useResize({ frame, place: 'br', size })
+  const b = useResize({ frame, place: 'b', size, onDragEnable, onDragDisable })
+  const br = useResize({
+    frame,
+    place: 'br',
+    size,
+    onDragEnable,
+    onDragDisable,
+  })
 
   useClickOutside(() => {
     setIsFocused(false)
@@ -386,7 +403,7 @@ export function WindowFrame({
                   </div>
                   <div className="mb-1 h-[1px] bg-[#bbb] dark:bg-[#5b5b5b]" />
                   <div>
-                    <button
+                    <div
                       onClick={onFullScreen}
                       className="flex w-full items-center justify-between rounded-md bg-primary px-2 py-[2px] text-sm text-white"
                     >
@@ -394,7 +411,7 @@ export function WindowFrame({
                         {isFullscreen ? 'Exit Full Screen' : 'Full Screen'}
                       </span>
                       <IconChevronRight stroke={2} className="size-5" />
-                    </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -428,11 +445,6 @@ export function WindowFrame({
               <button>
                 <IconLayoutBoard stroke={2} />
               </button>
-              {/* <input
-                type="text"
-                placeholder="Search"
-                className="dark:bg-dark-input-bg bg-light-input-bg dark:border-dark-border border-light-border rounded-2xl border-2 px-3 py-1 text-sm focus:border-[#858585] focus:outline-none"
-              /> */}
             </div>
           </div>
         </div>

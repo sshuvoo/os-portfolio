@@ -6,13 +6,10 @@ import musicIcon from '@/public/assets/icons/Music.png'
 import Image from 'next/image'
 import { FaForward, FaPause, FaPlay } from 'react-icons/fa'
 
-export function SoundRange() {
+export function SoundRange({ audio }: { audio?: HTMLAudioElement }) {
   const soundThumb = useRef<HTMLButtonElement>(null)
   const soundLabel = useRef<HTMLDivElement>(null)
   const soundTrack = useRef<HTMLDivElement>(null)
-  const audio = useRef<HTMLAudioElement>(
-    new Audio('/assets/music/pehle_bhi_main.mp3')
-  )
 
   const dispatch = useDispatch()
   const { volume, music_status } = useSelector((state) => state.settings)
@@ -32,8 +29,10 @@ export function SoundRange() {
             : 70
         const sound = ((range - 25) / (rect.width - 27)) * 100
         dispatch(setVolume(sound))
-        audio.current.volume =
-          sound / 100 >= 1 ? 1 : sound / 100 <= 0 ? 0 : sound / 100
+        if (audio instanceof HTMLAudioElement) {
+          audio.volume =
+            sound / 100 >= 1 ? 1 : sound / 100 <= 0 ? 0 : sound / 100
+        }
       }
     }
 
@@ -59,41 +58,47 @@ export function SoundRange() {
         window.removeEventListener('mouseup', deactiveMouseMove)
       }
     }
-  }, [dispatch])
+  }, [dispatch, audio])
 
   const handleStart = () => {
-    if (music_status === 'playing') audio.current.pause()
-    else {
-      audio.current.volume = volume / 100
-      audio.current.play()
+    if (audio instanceof HTMLAudioElement) {
+      if (music_status === 'playing') audio.pause()
+      else {
+        audio.volume = volume / 100
+        audio.play()
+      }
     }
   }
 
   useEffect(() => {
-    const music = audio.current
+    const music = audio
     const handlePlay = () => {
       dispatch(setMusicStatus('playing'))
     }
     const handlePause = () => {
       dispatch(setMusicStatus('paused'))
     }
-    music.addEventListener('play', handlePlay)
-    music.addEventListener('pause', handlePause)
-    music.addEventListener('ended', handlePause)
-    return () => {
-      music.removeEventListener('play', handlePlay)
-      music.removeEventListener('pause', handlePause)
-      music.removeEventListener('ended', handlePause)
+    if (music instanceof HTMLAudioElement) {
+      music.addEventListener('play', handlePlay)
+      music.addEventListener('pause', handlePause)
+      music.addEventListener('ended', handlePause)
     }
-  }, [dispatch])
+    return () => {
+      if (music instanceof HTMLAudioElement) {
+        music.removeEventListener('play', handlePlay)
+        music.removeEventListener('pause', handlePause)
+        music.removeEventListener('ended', handlePause)
+      }
+    }
+  }, [dispatch, audio])
 
   return (
     <>
-      <div className="rounded-2xl bg-white/50 p-3 dark:bg-black/50">
+      <div className="rounded-2xl bg-white/50 p-3">
         <h2 className="mb-1 font-medium">Sound</h2>
         <div
           ref={soundTrack}
-          className="relative h-6 rounded-full border border-[#6f6f6f] bg-black/20 dark:bg-white/20"
+          className="relative h-6 rounded-full border border-[#6f6f6f] bg-black/20"
         >
           {volume > 0 ? (
             <HiMiniSpeakerWave className="pointer-events-none absolute left-1 top-1/2 size-5 -translate-y-1/2" />
@@ -103,18 +108,18 @@ export function SoundRange() {
           <div
             ref={soundLabel}
             style={{ width: `${volume}%` }}
-            className="box-border flex h-full justify-end rounded-full bg-white dark:bg-black"
+            className="box-border flex h-full justify-end rounded-full bg-white"
           >
             <button
               ref={soundThumb}
-              className="size-[22px] rounded-full border border-[#d2d2d2] dark:border-[#6f6f6f]"
+              className="size-[22px] rounded-full border border-[#d2d2d2]"
             ></button>
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between rounded-2xl bg-white/50 dark:bg-black/50 p-3">
+      <div className="flex items-center justify-between rounded-2xl bg-white/50 p-3">
         <div className="flex items-center gap-2">
-          <div className="flex size-12 items-center justify-center rounded-md bg-black/20 dark:bg-white/20">
+          <div className="flex size-12 items-center justify-center rounded-md bg-black/20">
             <Image alt="" src={musicIcon} width={30} height={30} />
           </div>
           <h2 className="font-medium">
