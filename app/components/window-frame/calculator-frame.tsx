@@ -28,6 +28,7 @@ export function CalculatorFrame({
   const minimizeTL = useRef<gsap.core.Timeline>(gsap.timeline())
   const { zIndex } = useSelector((state) => state.settings)
   const [isFocused, setIsFocused] = useState(true)
+  const dragRef = useRef<globalThis.Draggable[]>()
 
   const { contextSafe } = useGSAP(() => {
     const position_x = Math.floor(Math.random() * (innerWidth - 300))
@@ -49,7 +50,7 @@ export function CalculatorFrame({
         ease: 'back.inOut(1.7)',
       }
     )
-    Draggable.create(frame.current, {
+    dragRef.current = Draggable.create(frame.current, {
       trigger: frameHeader.current,
       zIndexBoost: false,
       allowEventDefault: true,
@@ -64,12 +65,23 @@ export function CalculatorFrame({
     })
   })
 
+  const syncPosition = () => {
+    if (dragRef.current && frame.current) {
+      const rect = frame.current.getBoundingClientRect()
+      const left = rect.left
+      const top = rect.top
+      gsap.set(frame.current, { left, top, x: 0, y: 0 })
+    }
+  }
+
   const onMinimize = contextSafe(() => {
+    syncPosition()
     minimizeTL.current.to(frame.current, {
       yPercent: 100,
       scale: 0.3,
       xPercent: -50,
       left: '50%',
+      duration: 0.5,
       ease: 'expo.in',
     })
     minimizeTL.current.eventCallback('onComplete', () => {

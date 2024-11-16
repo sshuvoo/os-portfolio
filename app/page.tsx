@@ -58,6 +58,8 @@ export default function Home() {
   const [screenSize, setScreenSize] = useState<{ w: number; h: number } | null>(
     null
   )
+  const { desktop } = useSelector((state) => state.settings)
+
   const [ctxPosition, setCtxPosition] = useState<{
     x: number
     y: number
@@ -160,17 +162,30 @@ export default function Home() {
             onContextMenu={handleContextMenu}
             className="h-[calc(100vh-28px)]"
           >
-            <div className="flex h-full w-fit flex-col flex-wrap pb-10">
-              {destopFolders.map((folder) => (
-                <Folder
-                  status={folder.status}
-                  onMinimizeRestore={folder.onMinimizeRestore}
-                  id={folder.id}
-                  name={folder.name}
-                  key={folder.name}
-                  type={folder.type}
-                />
-              ))}
+            <div
+              className={`flex flex-wrap ${desktop.view === 'vertical' ? 'h-full w-fit flex-col pb-10' : 'h-fit w-full'}`}
+            >
+              {destopFolders
+                .slice()
+                .sort((a, b) => {
+                  if (desktop.sort === 'name') {
+                    const name1 = a.name.toLowerCase()
+                    const name2 = b.name.toLowerCase()
+                    if (name1 < name2) return -1
+                    else if (name1 > name2) return 1
+                    return 0
+                  } else return 0
+                })
+                .map((folder) => (
+                  <Folder
+                    status={folder.status}
+                    onMinimizeRestore={folder.onMinimizeRestore}
+                    id={folder.id}
+                    name={folder.name}
+                    key={folder.name}
+                    type={folder.type}
+                  />
+                ))}
             </div>
             {ctxPosition && <ContextMenu position={ctxPosition} />}
             {frames.map((frame) => {

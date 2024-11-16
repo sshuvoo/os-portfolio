@@ -184,6 +184,7 @@ export function Calculator() {
           onPress={() => {
             if (expression) {
               const last = expression[expression.length - 1]
+              if (last === '.') return
               if (
                 last === '+' ||
                 last === '-' ||

@@ -45,6 +45,8 @@ export function Folder({
       allowContextMenu: true,
       dragClickables: false,
       zIndexBoost: false,
+      force3D: false,
+      type: 'x,y',
     })
   })
 
@@ -112,7 +114,7 @@ export function Folder({
         ref={folderRef}
         className={`flex w-28 !cursor-custom-auto flex-col items-center border p-4 ${ctxPosition || mode === 'rename' || isSelected ? 'border-[#18779fe0] bg-[#18779f63]' : 'border-transparent'}`}
       >
-        <RandomFolder type={type} id={id}/>
+        <RandomFolder type={type} id={id} />
         {mode === 'rename' ? (
           <FolderRename
             name={name}

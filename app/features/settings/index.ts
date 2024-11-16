@@ -16,6 +16,10 @@ interface InitialState {
     name: string
   } | null
   zIndex: number
+  desktop: {
+    view: 'vertical' | 'horizontal'
+    sort: 'date' | 'name'
+  }
 }
 
 const initialState: InitialState = {
@@ -26,6 +30,10 @@ const initialState: InitialState = {
   music_status: 'paused',
   activeApp: null,
   zIndex: 1024,
+  desktop: {
+    view: 'vertical',
+    sort: 'date',
+  },
 }
 
 const settingsSlice = createSlice({
@@ -58,6 +66,15 @@ const settingsSlice = createSlice({
     setZIndex: (state, actions: PayloadAction<number>) => {
       state.zIndex = actions.payload
     },
+    setViewOption: (
+      state,
+      actions: PayloadAction<'vertical' | 'horizontal'>
+    ) => {
+      state.desktop.view = actions.payload
+    },
+    setSortOption: (state, actions: PayloadAction<'date' | 'name'>) => {
+      state.desktop.sort = actions.payload
+    },
   },
 })
 
@@ -68,6 +85,8 @@ export const {
   setVolume,
   setMusicStatus,
   setActiveApp,
-  setZIndex
+  setZIndex,
+  setViewOption,
+  setSortOption,
 } = settingsSlice.actions
 export const settingsReducer = settingsSlice.reducer
