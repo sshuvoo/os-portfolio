@@ -21,6 +21,7 @@ export function Topbar() {
   const [isOpenCC, setIsOpenCC] = useState(false)
   const ccRef = useRef<HTMLDivElement>(null)
   const { activeApp } = useSelector((state) => state.settings)
+  const audio = useRef(new Audio('/assets/music/pehle_bhi_main.mp3'))
 
   useClickOutside(() => {
     setIsOpenCC(false)
@@ -125,7 +126,7 @@ export function Topbar() {
             </div>
           </div>
           <BrightnessRange />
-          <SoundRange />
+          <SoundRange audio={audio.current}/>
         </div>
       )}
     </div>

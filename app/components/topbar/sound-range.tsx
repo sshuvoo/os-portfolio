@@ -5,9 +5,8 @@ import { HiMiniSpeakerWave, HiMiniSpeakerXMark } from 'react-icons/hi2'
 import musicIcon from '@/public/assets/icons/Music.png'
 import Image from 'next/image'
 import { FaForward, FaPause, FaPlay } from 'react-icons/fa'
-const audio = new Audio('/assets/music/pehle_bhi_main.mp3')
 
-export function SoundRange() {
+export function SoundRange({ audio }: { audio: HTMLAudioElement }) {
   const soundThumb = useRef<HTMLButtonElement>(null)
   const soundLabel = useRef<HTMLDivElement>(null)
   const soundTrack = useRef<HTMLDivElement>(null)
@@ -56,7 +55,7 @@ export function SoundRange() {
         window.removeEventListener('mouseup', deactiveMouseMove)
       }
     }
-  }, [dispatch])
+  }, [dispatch, audio])
 
   const handleStart = () => {
     if (music_status === 'playing') audio.pause()
@@ -82,7 +81,7 @@ export function SoundRange() {
       music.removeEventListener('pause', handlePause)
       music.removeEventListener('ended', handlePause)
     }
-  }, [dispatch])
+  }, [dispatch, audio])
 
   return (
     <>
