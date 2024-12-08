@@ -199,7 +199,7 @@ export default function AppTray() {
         >
           <IconBrandGithub stroke={1} className="size-10 text-dark-text" />
           <span className="absolute -top-9 left-1/2 hidden -translate-x-1/2 rounded bg-[#3e3e3e] px-3 py-1 text-xs shadow-md group-hover:inline-block">
-            ⭐Please
+            Github
           </span>
         </Link>
       </div>

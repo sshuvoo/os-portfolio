@@ -27,20 +27,18 @@ export function LockScreen({ next }: { next: () => void }) {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (password === '1234') {
-      const timeLine = gsap.timeline()
-      timeLine.to(bodyRef.current, {
-        xPercent: 100,
-        duration: 0.5,
-        ease: 'expo.in',
-      })
-      timeLine.to(blankRef.current, {
-        xPercent: 100,
-        duration: 0.5,
-        ease: 'expo.in',
-        onComplete: next,
-      })
-    } else setPassword('')
+    const timeLine = gsap.timeline()
+    timeLine.to(bodyRef.current, {
+      xPercent: 100,
+      duration: 0.5,
+      ease: 'expo.in',
+    })
+    timeLine.to(blankRef.current, {
+      xPercent: 100,
+      duration: 0.5,
+      ease: 'expo.in',
+      onComplete: next,
+    })
   }
 
   return (
@@ -63,17 +61,14 @@ export function LockScreen({ next }: { next: () => void }) {
             height={40}
             className="rounded-full"
           />
-          <form onSubmit={handleSubmit} className="group relative">
+          <form onSubmit={handleSubmit}>
             <input
               className="w-36 rounded-full bg-white/35 px-2 py-1 text-xs placeholder:text-gray-500 focus:outline-none"
-              placeholder="Enter Password"
+              placeholder="Enter Any Password"
               value={password}
               type="password"
               onChange={(e) => void setPassword(e.target.value)}
             />
-            <span className="absolute -right-8 top-1/2 hidden -translate-y-1/2 rounded-md bg-black/50 p-[2px] px-1 text-xs text-white/80 group-hover:inline-block">
-              1234
-            </span>
             <input type="submit" hidden />
           </form>
           <p className="text-xs text-white/45">Touch ID or Enter Password</p>
