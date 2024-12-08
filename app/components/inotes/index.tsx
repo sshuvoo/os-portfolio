@@ -116,7 +116,9 @@ export function INotes() {
               <div className="flex flex-col text-start">
                 <h2 className="line-clamp-1 text-sm font-medium">
                   {note.content.trim().length > 2
-                    ? note.content.trim()
+                    ? note.content.trim().length <= 40
+                      ? note.content.trim()
+                      : note.content.trim().slice(0, 37) + '...'
                     : 'My New Note'}
                 </h2>
                 <h2 className="text-[10px]">

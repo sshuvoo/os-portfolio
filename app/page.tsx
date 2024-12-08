@@ -5,17 +5,18 @@ import ml from '@/public/assets/background/monterey-light.jpg'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/Draggable'
-import { EaselPlugin } from 'gsap/EaselPlugin'
-import { ExpoScaleEase, RoughEase, SlowMo } from 'gsap/EasePack'
-import { Flip } from 'gsap/Flip'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import { Observer } from 'gsap/Observer'
-import { PixiPlugin } from 'gsap/PixiPlugin'
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { TextPlugin } from 'gsap/TextPlugin'
+// import { EaselPlugin } from 'gsap/EaselPlugin'
+// import { ExpoScaleEase, RoughEase, SlowMo } from 'gsap/EasePack'
+// import { Flip } from 'gsap/Flip'
+// import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
+// import { Observer } from 'gsap/Observer'
+// import { PixiPlugin } from 'gsap/PixiPlugin'
+// import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+// import { ScrollTrigger } from 'gsap/ScrollTrigger'
+// import { TextPlugin } from 'gsap/TextPlugin'
 import { MouseEvent, useEffect, useRef, useState } from 'react'
 import { FaApple } from 'react-icons/fa'
+import { Contact } from './components/contact'
 import { ContextMenu } from './components/context-menu'
 import { Folder } from './components/folder'
 import { Gallery } from './components/gallery'
@@ -27,29 +28,14 @@ import { Settings } from './components/settings'
 import { Skill } from './components/skill'
 import { Terminal } from './components/terminal'
 import { TrashBin } from './components/trash-bin'
+import { TypingMaster } from './components/typing-master'
 import { WindowFrame } from './components/window-frame'
 import { BrowserFrame } from './components/window-frame/browser-frame'
 import { CalculatorFrame } from './components/window-frame/calculator-frame'
 import { setScreenMode, setWallpaper } from './features/settings'
 import { useDispatch, useSelector } from './store'
-import { TypingMaster } from './components/typing-master'
-import { Contact } from './components/contact'
 
-gsap.registerPlugin(
-  useGSAP,
-  Flip,
-  ScrollTrigger,
-  Observer,
-  ScrollToPlugin,
-  Draggable,
-  MotionPathPlugin,
-  EaselPlugin,
-  PixiPlugin,
-  TextPlugin,
-  RoughEase,
-  ExpoScaleEase,
-  SlowMo
-)
+gsap.registerPlugin(useGSAP, Draggable)
 
 export default function Home() {
   const folders = useSelector((state) => state.windowFrame)
